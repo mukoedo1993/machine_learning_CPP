@@ -1,3 +1,0 @@
-/home/zcw/machine_learning_CPP/Chapter1/Dlib/build/dlib_build/test_for_libjpeg_build/CMakeFiles/rebuild_cache.dir
-/home/zcw/machine_learning_CPP/Chapter1/Dlib/build/dlib_build/test_for_libjpeg_build/CMakeFiles/edit_cache.dir
-/home/zcw/machine_learning_CPP/Chapter1/Dlib/build/dlib_build/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir
