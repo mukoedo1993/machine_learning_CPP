@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/zcw/C++_machine_learning_clone/machine_learning_C-/Chapter1/Eigen/algorithm_eigen.cpp
+Eigen/Dense
+-
+iostream
+-
+vector
+-
+

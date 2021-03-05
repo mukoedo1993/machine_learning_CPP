@@ -1,0 +1,3 @@
+/home/zcw/Dlib_clone/dlib-19.21/examples/build/dlib_build/test_for_libpng_build/CMakeFiles/rebuild_cache.dir
+/home/zcw/Dlib_clone/dlib-19.21/examples/build/dlib_build/test_for_libpng_build/CMakeFiles/edit_cache.dir
+/home/zcw/Dlib_clone/dlib-19.21/examples/build/dlib_build/test_for_libpng_build/CMakeFiles/libpng_test.dir
