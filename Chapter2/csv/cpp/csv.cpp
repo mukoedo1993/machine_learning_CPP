@@ -37,7 +37,7 @@ int main(int argc, char** argv){
 
 
     std::ofstream ob1;
-    ob1.open("output.txt",  std::ofstream::binary | std::ofstream::in);
+    ob1.open("output.txt",  std::ofstream::binary | std::ofstream::out);
     if(argc > 1){//To make sure that there is a directory to the file
         auto file_path = fs::path(argv[1]);//To make sure that the file's location address is valid
         if(fs::exists(file_path)){
