@@ -70,10 +70,12 @@ int main(){
         {
             dlib::matrix<float, 4, 4>m;
             m = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16;
-            auto sm =
+            dlib::matrix<float, 2, 2> sm =
                 dlib::subm(m, dlib::range(1, 2),
                           dlib::range(1, 2)); //original matrix can't be updated
-                cout <<"Sub matrix \n" << static_cast<dlib::matrix<float,2,2>>(sm) << endl;
+                cout <<"Sub matrix \n" << 
+                //static_cast<dlib::matrix<float,2,2>>
+                (sm) << endl;
 
                 dlib::set_subm(m, dlib::range(1, 2), dlib::range(1, 2)) = 100;
                 cout << "Updated sub matrix \n" << m << endl;
@@ -145,8 +147,8 @@ transposed matrix a
 6 6 
 
 Sub matrix 
--9.30856e-29   4.5723e-41 
--8.59256e-29   4.5723e-41 
+ 6  7 
+10 11 
 
 Updated sub matrix 
   1   2   3   4 
@@ -157,5 +159,4 @@ Updated sub matrix
 Matrix with updated columns 
 11 12 13 
 14 15 16 
-
 */
