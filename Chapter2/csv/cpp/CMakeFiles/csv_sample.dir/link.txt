@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++17 -msse3 -fopenmp -Wall -Wextra   -rdynamic CMakeFiles/csv_sample.dir/csv.cpp.o  -o csv_sample  -lstdc++fs -lstdc++ 

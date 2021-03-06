@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/zcw/machine_learning_CPP/Chapter2/csv/cpp/csv.cpp
+csv_clone/csv.h
+-
+Eigen/Dense
+-
+experimental/filesystem
+-
+iostream
+-
+string
+-
+fstream
+-
+
