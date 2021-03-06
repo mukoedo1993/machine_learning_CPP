@@ -2,7 +2,8 @@
 #include<Eigen/Dense>
 
 
-#include<experimental/filesystem>
+#include<experimental/filesystem>//Include the header <filesystem> for access to classes and 
+//functions that manipulate and retrieve information about paths, files, and directories.
 #include<iostream>
 #include<string>
 #include<fstream>
@@ -34,7 +35,7 @@ void fill_values(std::index_sequence<Idx...>,
 
 int main(int argc, char** argv){
 
-    
+
     std::ofstream ob1;
     ob1.open("output.txt",  std::ofstream::binary | std::ofstream::in);
     if(argc > 1){//To make sure that there is a directory to the file
