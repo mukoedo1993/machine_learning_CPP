@@ -35,8 +35,8 @@ void fill_values(std::index_sequence<Idx...>,
 int main(int argc, char** argv){
     std::ofstream ob1;
     ob1.open("output.txt",  std::ofstream::binary | std::ofstream::in);
-    if(argc > 1){
-        auto file_path = fs::path(argv[1]);
+    if(argc > 1){//To make sure that there is a directory to the file
+        auto file_path = fs::path(argv[1]);//To make sure that the file's location address is valid
         if(fs::exists(file_path)){
             const uint32_t columns_num = 5;
             io::CSVReader<columns_num> csv_reader(file_path);
