@@ -34,7 +34,7 @@ void fill_values(std::index_sequence<Idx...>,
 
 int main(int argc, char** argv){
     std::ofstream ob1;
-    ob1.open("output.txt");
+    ob1.open("output.txt",  std::ofstream::binary | std::ofstream::in);
     if(argc > 1){
         auto file_path = fs::path(argv[1]);
         if(fs::exists(file_path)){
@@ -119,5 +119,7 @@ int main(int argc, char** argv){
         std::cerr << "Please provide a path to a dataset file!" << std::endl;
     }
 
+        //close the file if it is still open
+        if(ob1.is_open())ob1.close();
 }
 

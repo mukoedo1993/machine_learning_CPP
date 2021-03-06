@@ -7,4 +7,4 @@ RUN:
 
 cmake .
 make
-./csv_sample output.txt
+./csv_sample price.csv

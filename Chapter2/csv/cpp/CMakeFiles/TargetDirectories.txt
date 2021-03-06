@@ -1,3 +1,0 @@
-/home/zcw/machine_learning_CPP/Chapter2/csv/cpp/CMakeFiles/rebuild_cache.dir
-/home/zcw/machine_learning_CPP/Chapter2/csv/cpp/CMakeFiles/edit_cache.dir
-/home/zcw/machine_learning_CPP/Chapter2/csv/cpp/CMakeFiles/csv_sample.dir
