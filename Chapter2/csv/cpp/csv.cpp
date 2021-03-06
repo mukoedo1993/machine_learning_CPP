@@ -46,6 +46,13 @@ int main(int argc, char** argv){
             using RowType = std::tuple<double, double, double, double, std::string>;
             RowType row;
 
+
+//Now, we can put all the parts together. We define a loop where we continuously read row values
+//and move them to our containers. After we read a row, we check the return value of return value of 
+//the read_row() method, which tells us if the read was successful or not. A false value means that we
+//have reached the end of the file. In the case of a parsing error, we catch an exception from the io::error
+//namespace. There are exception tyoes for different parsing fails. In the following example, we handle number
+//parsing errors:
             uint32_t rows_num = 0;
             try{
              bool done = false;
@@ -64,6 +71,10 @@ int main(int argc, char** argv){
                    // ignore bad formatted samples
                    std::cerr<< err.what() << std::endl;
                }
+//Also, notice that we moved only four values to our vector of doubles because the last column
+//contains string objects that we put to another vector of categorial values.
+
+
 
         auto x_data = Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic,
                                 Eigen::Dynamic, Eigen::RowMajor>>(
