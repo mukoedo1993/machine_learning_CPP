@@ -1,0 +1,1387 @@
+1 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 1
+		 orientation: 1
+	 review: 3
+		 evaluation: 1
+		 orientation: 1
+10 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 2
+		 orientation: 0
+100 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 0
+	 review: 2
+		 evaluation: 1
+		 orientation: 0
+	 review: 3
+		 evaluation: 2
+		 orientation: 1
+101 reject
+	 review: 1
+		 evaluation: 2
+		 orientation: -1
+	 review: 2
+		 evaluation: -2
+		 orientation: -2
+	 review: 3
+		 evaluation: -2
+		 orientation: -1
+102 accept
+	 review: 1
+		 evaluation: 0
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+	 review: 3
+		 evaluation: -2
+		 orientation: -1
+	 review: 4
+		 evaluation: 0
+		 orientation: 0
+103 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: 2
+		 orientation: 0
+	 review: 3
+		 evaluation: -2
+		 orientation: -1
+104 accept
+	 review: 1
+		 evaluation: 0
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+	 review: 3
+		 evaluation: 1
+		 orientation: -1
+105 no decision
+106 accept
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: 1
+		 orientation: 1
+	 review: 3
+		 evaluation: 1
+		 orientation: 0
+107 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: -2
+		 orientation: 0
+	 review: 3
+		 evaluation: -1
+		 orientation: -1
+108 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+	 review: 3
+		 evaluation: -2
+		 orientation: -1
+109 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: -1
+	 review: 2
+		 evaluation: 0
+		 orientation: 0
+	 review: 3
+		 evaluation: 2
+		 orientation: 1
+11 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: -1
+	 review: 3
+		 evaluation: -1
+		 orientation: -1
+110 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 1
+	 review: 2
+		 evaluation: 1
+		 orientation: 1
+	 review: 3
+		 evaluation: 2
+		 orientation: 1
+111 reject
+	 review: 1
+		 evaluation: -1
+		 orientation: 0
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+	 review: 3
+		 evaluation: 0
+		 orientation: -1
+112 reject
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+	 review: 3
+		 evaluation: -1
+		 orientation: -1
+	 review: 4
+		 evaluation: -1
+		 orientation: -1
+113 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 1
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+	 review: 3
+		 evaluation: 1
+		 orientation: -1
+114 accept
+	 review: 1
+		 evaluation: 0
+		 orientation: 0
+	 review: 2
+		 evaluation: 1
+		 orientation: 1
+	 review: 3
+		 evaluation: 1
+		 orientation: 1
+115 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+	 review: 2
+		 evaluation: -2
+		 orientation: -2
+116 reject
+	 review: 1
+		 evaluation: 0
+		 orientation: 0
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+	 review: 3
+		 evaluation: -1
+		 orientation: -1
+117 reject
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: -2
+		 orientation: -2
+	 review: 3
+		 evaluation: 0
+		 orientation: 0
+118 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 1
+		 orientation: 0
+	 review: 3
+		 evaluation: 0
+		 orientation: -1
+119 accept
+	 review: 1
+		 evaluation: 0
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 2
+12 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 2
+	 review: 2
+		 evaluation: 2
+		 orientation: 0
+	 review: 3
+		 evaluation: 2
+		 orientation: 2
+120 reject
+	 review: 1
+		 evaluation: -1
+		 orientation: -1
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+	 review: 3
+		 evaluation: -1
+		 orientation: -1
+121 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 0
+		 orientation: -1
+122 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 1
+		 orientation: 0
+	 review: 3
+		 evaluation: 2
+		 orientation: 1
+123 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+	 review: 3
+		 evaluation: -1
+		 orientation: -1
+124 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+	 review: 3
+		 evaluation: 2
+		 orientation: 0
+125 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+	 review: 2
+		 evaluation: -2
+		 orientation: -2
+	 review: 3
+		 evaluation: 0
+		 orientation: -1
+126 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+	 review: 3
+		 evaluation: 1
+		 orientation: 1
+127 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 1
+		 orientation: -1
+	 review: 3
+		 evaluation: 2
+		 orientation: 1
+128 accept
+	 review: 1
+		 evaluation: 0
+		 orientation: -1
+	 review: 2
+		 evaluation: 0
+		 orientation: 0
+	 review: 3
+		 evaluation: 1
+		 orientation: 0
+	 review: 4
+		 evaluation: 1
+		 orientation: 0
+129 accept
+	 review: 1
+		 evaluation: -1
+		 orientation: -1
+	 review: 2
+		 evaluation: 0
+		 orientation: -1
+	 review: 3
+		 evaluation: 0
+		 orientation: -1
+	 review: 4
+		 evaluation: -1
+		 orientation: -1
+13 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 2
+	 review: 2
+		 evaluation: 2
+		 orientation: 0
+130 accept
+	 review: 1
+		 evaluation: -1
+		 orientation: -1
+	 review: 2
+		 evaluation: 1
+		 orientation: 1
+	 review: 3
+		 evaluation: 0
+		 orientation: 0
+	 review: 4
+		 evaluation: 1
+		 orientation: 0
+131 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+	 review: 2
+		 evaluation: -1
+		 orientation: 0
+	 review: 3
+		 evaluation: -2
+		 orientation: -1
+132 accept
+	 review: 1
+		 evaluation: -1
+		 orientation: -1
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+	 review: 3
+		 evaluation: 2
+		 orientation: 1
+133 reject
+	 review: 1
+		 evaluation: -1
+		 orientation: 0
+	 review: 2
+		 evaluation: 0
+		 orientation: 0
+134 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+135 reject
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+136 reject
+	 review: 1
+		 evaluation: -1
+		 orientation: 0
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+137 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+138 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: -1
+		 orientation: 0
+139 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 0
+		 orientation: -1
+14 reject
+	 review: 1
+		 evaluation: -1
+		 orientation: -1
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+	 review: 3
+		 evaluation: -2
+		 orientation: -1
+140 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+	 review: 2
+		 evaluation: 0
+		 orientation: -1
+141 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+142 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+	 review: 2
+		 evaluation: 0
+		 orientation: -2
+143 reject
+	 review: 1
+		 evaluation: -1
+		 orientation: -1
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+144 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+	 review: 2
+		 evaluation: 1
+		 orientation: -1
+145 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: 0
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+146 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: 0
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+147 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+148 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+149 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 0
+		 orientation: 1
+15 accept
+	 review: 1
+		 evaluation: -1
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: -1
+	 review: 3
+		 evaluation: 0
+		 orientation: -1
+150 accept
+	 review: 1
+		 evaluation: 0
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 0
+151 reject
+	 review: 1
+		 evaluation: -1
+		 orientation: 0
+	 review: 2
+		 evaluation: 0
+		 orientation: 0
+152 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: 0
+	 review: 2
+		 evaluation: 1
+		 orientation: 1
+153 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 1
+		 orientation: 0
+154 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+155 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+156 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 0
+157 accept
+	 review: 1
+		 evaluation: -1
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+158 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 2
+	 review: 2
+		 evaluation: 0
+		 orientation: 1
+159 accept
+	 review: 1
+		 evaluation: 0
+		 orientation: 0
+	 review: 2
+		 evaluation: 1
+		 orientation: 1
+16 accept
+	 review: 1
+		 evaluation: 0
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 0
+160 accept
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+161 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 0
+		 orientation: 1
+162 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 0
+		 orientation: 0
+163 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 1
+	 review: 2
+		 evaluation: 2
+		 orientation: 0
+164 accept
+	 review: 1
+		 evaluation: 0
+		 orientation: 0
+	 review: 2
+		 evaluation: 1
+		 orientation: 1
+165 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 0
+	 review: 2
+		 evaluation: 0
+		 orientation: -2
+166 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 1
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+167 reject
+	 review: 1
+		 evaluation: 0
+		 orientation: -1
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+	 review: 3
+		 evaluation: -2
+		 orientation: -2
+168 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: -2
+		 orientation: 0
+169 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 1
+		 orientation: 0
+17 accept
+	 review: 1
+		 evaluation: -1
+		 orientation: -1
+	 review: 2
+		 evaluation: 1
+		 orientation: 0
+	 review: 3
+		 evaluation: 0
+		 orientation: -1
+170 reject
+	 review: 1
+		 evaluation: -1
+		 orientation: -2
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+171 accept
+	 review: 1
+		 evaluation: -1
+		 orientation: 0
+	 review: 2
+		 evaluation: 1
+		 orientation: -1
+172 no decision
+	 review: 1
+		 evaluation: 1
+		 orientation: -1
+18 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 0
+	 review: 2
+		 evaluation: 0
+		 orientation: -1
+	 review: 3
+		 evaluation: -2
+		 orientation: -1
+19 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 2
+		 orientation: 2
+	 review: 3
+		 evaluation: 0
+		 orientation: -1
+2 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 2
+		 orientation: 0
+	 review: 3
+		 evaluation: 2
+		 orientation: 0
+20 probably reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+	 review: 3
+		 evaluation: 1
+		 orientation: 0
+21 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 0
+		 orientation: -1
+	 review: 3
+		 evaluation: 0
+		 orientation: 1
+22 probably reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+	 review: 3
+		 evaluation: 1
+		 orientation: -1
+23 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 0
+24 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 2
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+25 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 0
+		 orientation: -1
+	 review: 3
+		 evaluation: 0
+		 orientation: 0
+26 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+	 review: 3
+		 evaluation: 1
+		 orientation: 0
+27 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 2
+28 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+	 review: 2
+		 evaluation: -1
+		 orientation: 0
+	 review: 3
+		 evaluation: -2
+		 orientation: -1
+29 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+	 review: 3
+		 evaluation: 0
+		 orientation: -1
+3 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+	 review: 3
+		 evaluation: 0
+		 orientation: -1
+30 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+	 review: 3
+		 evaluation: -2
+		 orientation: -1
+31 accept
+	 review: 1
+		 evaluation: -1
+		 orientation: -1
+	 review: 2
+		 evaluation: 2
+		 orientation: 2
+	 review: 3
+		 evaluation: 1
+		 orientation: 1
+32 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 2
+	 review: 2
+		 evaluation: 2
+		 orientation: 2
+	 review: 3
+		 evaluation: 0
+		 orientation: 1
+33 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+34 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 1
+		 orientation: 0
+35 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+	 review: 3
+		 evaluation: 2
+		 orientation: 1
+36 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 0
+		 orientation: -1
+37 probably reject
+	 review: 1
+		 evaluation: 0
+		 orientation: -1
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+	 review: 3
+		 evaluation: -1
+		 orientation: -1
+38 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+	 review: 3
+		 evaluation: 1
+		 orientation: -1
+39 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+	 review: 3
+		 evaluation: 1
+		 orientation: 0
+4 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 2
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+40 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 2
+		 orientation: -1
+	 review: 3
+		 evaluation: 0
+		 orientation: 0
+41 probably reject
+	 review: 1
+		 evaluation: 0
+		 orientation: 0
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+	 review: 3
+		 evaluation: 1
+		 orientation: 0
+42 probably reject
+	 review: 1
+		 evaluation: -1
+		 orientation: -1
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+	 review: 3
+		 evaluation: 0
+		 orientation: -1
+43 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 0
+		 orientation: -1
+	 review: 3
+		 evaluation: 1
+		 orientation: 0
+44 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 0
+		 orientation: -1
+45 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+46 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 1
+47 accept
+	 review: 1
+		 evaluation: -1
+		 orientation: -1
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+	 review: 3
+		 evaluation: 1
+		 orientation: 1
+48 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 1
+49 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+5 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 2
+		 orientation: 0
+	 review: 3
+		 evaluation: 2
+		 orientation: 1
+50 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 1
+	 review: 2
+		 evaluation: -2
+		 orientation: -2
+	 review: 3
+		 evaluation: -1
+		 orientation: -1
+	 review: 4
+		 evaluation: 1
+		 orientation: 1
+51 accept
+52 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+53 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: -1
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+	 review: 3
+		 evaluation: -2
+		 orientation: -2
+54 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 0
+55 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: -2
+		 orientation: -2
+	 review: 3
+		 evaluation: -1
+		 orientation: -1
+	 review: 4
+		 evaluation: 1
+		 orientation: 1
+56 accept
+	 review: 1
+		 evaluation: 0
+		 orientation: -1
+	 review: 2
+		 evaluation: 1
+		 orientation: 0
+57 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 1
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+	 review: 3
+		 evaluation: 2
+		 orientation: 1
+58 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+59 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+6 probably reject
+	 review: 1
+		 evaluation: -1
+		 orientation: 0
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+	 review: 3
+		 evaluation: 1
+		 orientation: -1
+60 accept
+	 review: 1
+		 evaluation: 0
+		 orientation: -1
+61 accept
+62 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+63 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 0
+64 accept
+	 review: 1
+		 evaluation: 0
+		 orientation: 0
+65 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 1
+66 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+67 accept
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+	 review: 3
+		 evaluation: -2
+		 orientation: -1
+68 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+69 accept
+	 review: 1
+		 evaluation: 0
+		 orientation: -1
+	 review: 2
+		 evaluation: 0
+		 orientation: -1
+7 probably reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: 2
+		 orientation: 0
+70 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 2
+71 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+72 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+73 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 2
+		 orientation: 2
+	 review: 3
+		 evaluation: 2
+		 orientation: 2
+74 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+75 accept
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+76 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 1
+		 orientation: 0
+	 review: 3
+		 evaluation: -2
+		 orientation: -2
+77 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+78 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 0
+79 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 1
+	 review: 2
+		 evaluation: 0
+		 orientation: 0
+8 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+	 review: 3
+		 evaluation: 1
+		 orientation: 0
+80 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+	 review: 2
+		 evaluation: 1
+		 orientation: 0
+	 review: 3
+		 evaluation: -1
+		 orientation: -1
+	 review: 4
+		 evaluation: -2
+		 orientation: -2
+81 accept
+	 review: 1
+		 evaluation: 0
+		 orientation: -1
+	 review: 2
+		 evaluation: 2
+		 orientation: -1
+82 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+83 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+84 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 1
+85 reject
+	 review: 1
+		 evaluation: -1
+		 orientation: -2
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+	 review: 3
+		 evaluation: -1
+		 orientation: -1
+86 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+87 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+88 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 1
+	 review: 2
+		 evaluation: 1
+		 orientation: 0
+89 accept
+	 review: 1
+		 evaluation: -1
+		 orientation: -1
+	 review: 2
+		 evaluation: 2
+		 orientation: 1
+9 accept
+	 review: 1
+		 evaluation: 2
+		 orientation: 1
+	 review: 2
+		 evaluation: 1
+		 orientation: 0
+90 accept
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: 2
+		 orientation: 0
+91 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+	 review: 3
+		 evaluation: 0
+		 orientation: 0
+92 accept
+	 review: 1
+		 evaluation: -1
+		 orientation: -2
+	 review: 2
+		 evaluation: 1
+		 orientation: 0
+	 review: 3
+		 evaluation: -1
+		 orientation: -1
+	 review: 4
+		 evaluation: 1
+		 orientation: 1
+93 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -2
+	 review: 2
+		 evaluation: -2
+		 orientation: -1
+	 review: 3
+		 evaluation: -2
+		 orientation: -1
+94 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: 0
+		 orientation: 0
+	 review: 3
+		 evaluation: -2
+		 orientation: -1
+95 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: 0
+	 review: 2
+		 evaluation: -1
+		 orientation: -1
+	 review: 3
+		 evaluation: 1
+		 orientation: 1
+96 reject
+	 review: 1
+		 evaluation: -2
+		 orientation: -1
+	 review: 2
+		 evaluation: 0
+		 orientation: 0
+	 review: 3
+		 evaluation: 0
+		 orientation: 0
+97 accept
+	 review: 1
+		 evaluation: -1
+		 orientation: -1
+	 review: 2
+		 evaluation: 0
+		 orientation: -1
+	 review: 3
+		 evaluation: 2
+		 orientation: 0
+98 reject
+	 review: 1
+		 evaluation: 1
+		 orientation: 0
+	 review: 2
+		 evaluation: -2
+		 orientation: -2
+	 review: 3
+		 evaluation: -1
+		 orientation: -1
+99 reject
+	 review: 1
+		 evaluation: 0
+		 orientation: -1
+	 review: 2
+		 evaluation: 0
+		 orientation: -1
+	 review: 3
+		 evaluation: -2
+		 orientation: -2
