@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG  -rdynamic CMakeFiles/dnn_mmod_dog_hipsterizer.dir/dnn_mmod_dog_hipsterizer.cpp.o  -o dnn_mmod_dog_hipsterizer  dlib_build/libdlib.a -lpthread -lSM -lICE -lX11 -lXext -lpng -lz -ljpeg -latlas -lcblas -llapack 

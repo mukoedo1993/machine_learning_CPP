@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG  -rdynamic CMakeFiles/rvm_ex.dir/rvm_ex.cpp.o  -o rvm_ex  dlib_build/libdlib.a -lpthread -lSM -lICE -lX11 -lXext -lpng -lz -ljpeg -latlas -lcblas -llapack 

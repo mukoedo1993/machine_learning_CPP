@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG  -rdynamic CMakeFiles/threaded_object_ex.dir/threaded_object_ex.cpp.o  -o threaded_object_ex  dlib_build/libdlib.a -lpthread -lSM -lICE -lX11 -lXext -lpng -lz -ljpeg -latlas -lcblas -llapack 

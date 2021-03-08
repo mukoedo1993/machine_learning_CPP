@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG  -rdynamic CMakeFiles/member_function_pointer_ex.dir/member_function_pointer_ex.cpp.o  -o member_function_pointer_ex  dlib_build/libdlib.a -lpthread -lSM -lICE -lX11 -lXext -lpng -lz -ljpeg -latlas -lcblas -llapack 

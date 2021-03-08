@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG  -rdynamic CMakeFiles/krr_classification_ex.dir/krr_classification_ex.cpp.o  -o krr_classification_ex  dlib_build/libdlib.a -lpthread -lSM -lICE -lX11 -lXext -lpng -lz -ljpeg -latlas -lcblas -llapack 
