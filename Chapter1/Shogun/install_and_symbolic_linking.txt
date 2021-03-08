@@ -1,0 +1,15 @@
+At Mar. 8th, 2021, the only way to successfully install shogun
+is:  
+
+conda create -n shogun -c conda-forge shogun
+
+
+(base) zcw@mukoedo1993:~/machine_learning_CPP/Chapter1/Shogun$ ls /usr/local/include
+csv_clone  dlib  Eigen  highfive  opencv2  opencv4  rapidjson  shark  tgbot
+(base) zcw@mukoedo1993:~/machine_learning_CPP/Chapter1/Shogun$ sudo ln -s /home/zcw/anaconda3/pkgs/shogun-cpp-6.1.3-blas_openblash9eb233f_1002/include/shogun /usr/local/include
+(base) zcw@mukoedo1993:~/machine_learning_CPP/Chapter1/Shogun$ ls /usr/local/include
+csv_clone  dlib  Eigen  highfive  opencv2  opencv4  rapidjson  shark  shogun  tgbot
+(base) zcw@mukoedo1993:~/machine_learning_CPP/Chapter1/Shogun$ 
+
+
+IT IS TOTALLY A FAILURE!
