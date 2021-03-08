@@ -6,6 +6,11 @@
 
 #include <memory>
 
+
+//When there are no parsing errors, we will have an initialized array of Paper type
+//objects. Consider, more precisely, the event handlers's implementation details. Our
+//event handler works as a state machine. In one state, we populate it with the Review objects, and in
+//another one, with the Parser objects, and there are states for other events:
 enum class HandlerState {
     None,
     Global,
@@ -165,6 +170,12 @@ struct ReviewsHandler
         HandlerState state_{HandlerState::None};
     };
 
+
+    //Notice that we made handlers only for objects and arrays parsing events, and events
+    //for parsing unsigned int/string values. Now, we can create the
+    //rapidjson::FileReadStream object as the argument to the Parse() method of the 
+    //rapidjosn::Reader type object. The second agrument is the object of the type we derived from
+    //rapidjson::BaseReaderHandler, as illustrated in the following code block:
     Papers ReadPapersReviews(const std::string& filename) {
         auto file = std::unique_ptr<FILE, void(*)(FILE*)>(
             fopen(filename.c_str(), "r"), [](FILE* f){
