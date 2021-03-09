@@ -1,0 +1,6 @@
+/home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/rebuild_cache.dir
+/home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/edit_cache.dir
+/home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/linalg_dlib.dir
+/home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/dlib_build/CMakeFiles/edit_cache.dir
+/home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/dlib_build/CMakeFiles/rebuild_cache.dir
+/home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/dlib_build/CMakeFiles/dlib.dir
