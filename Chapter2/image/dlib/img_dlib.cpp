@@ -11,10 +11,22 @@ namespace fs = std::experimental::filesystem;
 
 int main(int argc, char** argv){
     using namespace dlib;
+
+
+
+    /*
+    The dlib::array2d type is a template type that has to be parameterized with a 
+    pixel type.
+    Pixel types in the dlib library are defined with pixel-type traits. There are following
+    predefined pixel types:
+    rgb_pixel, bgr_pixel, rgb_alpha_pixel, hsi_pixel, lab_pixel, and any scalar type can be used
+    for the grayscaled pixels' representation.
+    */
     array2d<rgb_pixel> img;
     try {
        if (argc > 1){
            if (fs::exists(argv[1])){
+               //Use load_image(...,...) fcn. to load an image from disk, as follows:
                load_image(img, argv[1]);
            } else {
                std::cerr << "Invalid file path " << argv[1] << std::endl;
@@ -39,7 +51,15 @@ int main(int argc, char** argv){
     array2d<rgb_pixel> img2(img.nr() / 2, img.nc() / 2);
     // there are also other interpolation methods interpolate_quadratic() and 
     // interpolate_bilinear
-    resize_image(img, img2, interpolate_nearest_neighbor());
+    /*
+    For a scaling operation, there is the dlib::resize_image() fcn. . This function has
+    two different overloads. One takes a single scale factor and a reference to an image object.
+    The second one takes an input image, an output image, the desired size, and an interpolation type.
+    To speicify the interpolation type in the dlib library, we should call special functions:
+    the interpolate_nearest_neighbor(), the interpolate_quadratic(), and the interpolate_bilinear() fcn.
+    
+    */
+    resize_image(img, img2, interpolate_nearest_neighbor()/*ctor. to make a temp. object here*/);
     std::swap(img, img2);
     window.set_image(img);
     window.get_next_keypress(key, is_printable);
@@ -71,6 +91,14 @@ int main(int argc, char** argv){
         array2d<float> img_float;
         assign_image(img_float, img);
 
+
+        save_jpeg(img, "../resources/img.jpeg");
+        save_jpeg(img2, "../resources/img2.jpeg");
+        save_jpeg(img_bgr, "../resources/img_bgr.jpeg");
+        save_jpeg(img_gray, "../resources/img_gray.jpeg");
+        save_jpeg(img, "../resources/img_float.jpeg");
+    
+
         // Mix layers
         // There are no special functions in dlib to manipulate channels
         // but we can access raw data with image_data function and get row padding
@@ -96,6 +124,5 @@ int main(int argc, char** argv){
     }
 
 
-    
     return 0;
 }

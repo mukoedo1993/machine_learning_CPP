@@ -1,21 +1,21 @@
 Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
 Change Dir: /home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_ea323/fast && /usr/bin/make -f CMakeFiles/cmTC_ea323.dir/build.make CMakeFiles/cmTC_ea323.dir/build
+Run Build Command(s):/usr/bin/make cmTC_677a8/fast && /usr/bin/make -f CMakeFiles/cmTC_677a8.dir/build.make CMakeFiles/cmTC_677a8.dir/build
 make[1]: Entering directory '/home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_ea323.dir/src.c.o
-/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_ea323.dir/src.c.o   -c /home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_ea323
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ea323.dir/link.txt --verbose=1
-/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    -rdynamic CMakeFiles/cmTC_ea323.dir/src.c.o  -o cmTC_ea323 
-/usr/bin/ld: CMakeFiles/cmTC_ea323.dir/src.c.o: in function `main':
+Building C object CMakeFiles/cmTC_677a8.dir/src.c.o
+/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_677a8.dir/src.c.o   -c /home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_677a8
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_677a8.dir/link.txt --verbose=1
+/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    -rdynamic CMakeFiles/cmTC_677a8.dir/src.c.o  -o cmTC_677a8 
+/usr/bin/ld: CMakeFiles/cmTC_677a8.dir/src.c.o: in function `main':
 src.c:(.text+0x46): undefined reference to `pthread_create'
 /usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
 /usr/bin/ld: src.c:(.text+0x63): undefined reference to `pthread_join'
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_ea323.dir/build.make:87: cmTC_ea323] Error 1
+make[1]: *** [CMakeFiles/cmTC_677a8.dir/build.make:87: cmTC_677a8] Error 1
 make[1]: Leaving directory '/home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/CMakeTmp'
-make: *** [Makefile:121: cmTC_ea323/fast] Error 2
+make: *** [Makefile:121: cmTC_677a8/fast] Error 2
 
 
 Source file was:
@@ -41,56 +41,56 @@ int main(void)
 Determining if the function pthread_create exists in the pthreads failed with the following output:
 Change Dir: /home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_c271c/fast && /usr/bin/make -f CMakeFiles/cmTC_c271c.dir/build.make CMakeFiles/cmTC_c271c.dir/build
+Run Build Command(s):/usr/bin/make cmTC_5d9c0/fast && /usr/bin/make -f CMakeFiles/cmTC_5d9c0.dir/build.make CMakeFiles/cmTC_5d9c0.dir/build
 make[1]: Entering directory '/home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_c271c.dir/CheckFunctionExists.c.o
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_c271c.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
-Linking C executable cmTC_c271c
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c271c.dir/link.txt --verbose=1
-/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_c271c.dir/CheckFunctionExists.c.o  -o cmTC_c271c  -lpthreads 
+Building C object CMakeFiles/cmTC_5d9c0.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_5d9c0.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_5d9c0
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5d9c0.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_5d9c0.dir/CheckFunctionExists.c.o  -o cmTC_5d9c0  -lpthreads 
 /usr/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_c271c.dir/build.make:87: cmTC_c271c] Error 1
+make[1]: *** [CMakeFiles/cmTC_5d9c0.dir/build.make:87: cmTC_5d9c0] Error 1
 make[1]: Leaving directory '/home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/CMakeTmp'
-make: *** [Makefile:121: cmTC_c271c/fast] Error 2
+make: *** [Makefile:121: cmTC_5d9c0/fast] Error 2
 
 
 
 Determining if the function sgesv exists failed with the following output:
 Change Dir: /home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_90181/fast && /usr/bin/make -f CMakeFiles/cmTC_90181.dir/build.make CMakeFiles/cmTC_90181.dir/build
+Run Build Command(s):/usr/bin/make cmTC_376f2/fast && /usr/bin/make -f CMakeFiles/cmTC_376f2.dir/build.make CMakeFiles/cmTC_376f2.dir/build
 make[1]: Entering directory '/home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_90181.dir/CheckFunctionExists.c.o
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=sgesv   -o CMakeFiles/cmTC_90181.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
-Linking C executable cmTC_90181
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_90181.dir/link.txt --verbose=1
-/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=sgesv    -rdynamic CMakeFiles/cmTC_90181.dir/CheckFunctionExists.c.o  -o cmTC_90181 
-/usr/bin/ld: CMakeFiles/cmTC_90181.dir/CheckFunctionExists.c.o: in function `main':
+Building C object CMakeFiles/cmTC_376f2.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=sgesv   -o CMakeFiles/cmTC_376f2.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_376f2
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_376f2.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=sgesv    -rdynamic CMakeFiles/cmTC_376f2.dir/CheckFunctionExists.c.o  -o cmTC_376f2 
+/usr/bin/ld: CMakeFiles/cmTC_376f2.dir/CheckFunctionExists.c.o: in function `main':
 CheckFunctionExists.c:(.text+0x14): undefined reference to `sgesv'
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_90181.dir/build.make:87: cmTC_90181] Error 1
+make[1]: *** [CMakeFiles/cmTC_376f2.dir/build.make:87: cmTC_376f2] Error 1
 make[1]: Leaving directory '/home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/CMakeTmp'
-make: *** [Makefile:121: cmTC_90181/fast] Error 2
+make: *** [Makefile:121: cmTC_376f2/fast] Error 2
 
 
 
 Determining if the function sgesv_ exists failed with the following output:
 Change Dir: /home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_28334/fast && /usr/bin/make -f CMakeFiles/cmTC_28334.dir/build.make CMakeFiles/cmTC_28334.dir/build
+Run Build Command(s):/usr/bin/make cmTC_c91ef/fast && /usr/bin/make -f CMakeFiles/cmTC_c91ef.dir/build.make CMakeFiles/cmTC_c91ef.dir/build
 make[1]: Entering directory '/home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_28334.dir/CheckFunctionExists.c.o
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=sgesv_   -o CMakeFiles/cmTC_28334.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
-Linking C executable cmTC_28334
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_28334.dir/link.txt --verbose=1
-/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=sgesv_    -rdynamic CMakeFiles/cmTC_28334.dir/CheckFunctionExists.c.o  -o cmTC_28334 
-/usr/bin/ld: CMakeFiles/cmTC_28334.dir/CheckFunctionExists.c.o: in function `main':
+Building C object CMakeFiles/cmTC_c91ef.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=sgesv_   -o CMakeFiles/cmTC_c91ef.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_c91ef
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c91ef.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=sgesv_    -rdynamic CMakeFiles/cmTC_c91ef.dir/CheckFunctionExists.c.o  -o cmTC_c91ef 
+/usr/bin/ld: CMakeFiles/cmTC_c91ef.dir/CheckFunctionExists.c.o: in function `main':
 CheckFunctionExists.c:(.text+0x14): undefined reference to `sgesv_'
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_28334.dir/build.make:87: cmTC_28334] Error 1
+make[1]: *** [CMakeFiles/cmTC_c91ef.dir/build.make:87: cmTC_c91ef] Error 1
 make[1]: Leaving directory '/home/zcw/machine_learning_CPP/Chapter2/image/dlib/build/CMakeFiles/CMakeTmp'
-make: *** [Makefile:121: cmTC_28334/fast] Error 2
+make: *** [Makefile:121: cmTC_c91ef/fast] Error 2
 
 
 
