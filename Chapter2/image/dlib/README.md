@@ -1,5 +1,5 @@
 # TARGET:
-Use Dlib library to read the image file.
+Use Dlib library to read, edit and write image.
 
 ```
 #Ubuntu terminal:
