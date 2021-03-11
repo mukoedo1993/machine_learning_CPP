@@ -8,6 +8,18 @@
 namespace fs = std::experimental::filesystem;
 
 
+/*
+In the OpenCV library, an image is treated as a multidimensional matrix of values.
+There is special cv::Mat type for this purpose. There are two base functions:
+cv::imread() 
+cv::imwrite()
+*/
+
+/*
+Also, there are functions to manage images located in a memory buffer. The cv::imdecode()
+function loads an image from the memory buffer, and the cv::imencode() function writes an image to
+the memory buffer.
+*/
 int main(int argc, char** argv){
     cv::Mat img;
     if(argc > 1){
@@ -34,9 +46,11 @@ int main(int argc, char** argv){
      //               cv::WINDOW_AUTOSIZE);   // Create a window for display
     cv::imshow("Image1", img);   //Show our image inside it.
     cv::waitKey(0);
+    
 
 
     // scaling
+    /*Interpolation arguments*/
     // use cv::INTER_AREA for shrinking and
     // cv::INTER_CUBIC (slow) or cv::INTER_LINEAR for zooming. By default,
     //  cv::INTER_LINEAR is used for all resizing purposes.
@@ -52,12 +66,31 @@ int main(int argc, char** argv){
     cv::imshow("Image3", img);
     cv::waitKey(0);
 
-    //cropping
+    //cropping: Cropping is the removal of unwanted outer areas from a photographic or illustrated image.
+    /*
+    There is no special function for image cropping in the opencv library, but the cv::Mat overides
+    the operator() method, which takes a cropping rectangle as an argument and returns a new cv::Mat
+    object with part of the image surrounded by the specified rectangle. Also, note that this object will
+    share the same memory with the original image, so its modification will share the same memory with the
+    original image, so its modification will change the original image too. To make a deep copy cv::Mat
+    object, we need to use the clone() method, as follows:
+
+    */
+    auto img1 = img.clone();
     img = img(cv::Rect(0, 0, img.cols /2, img.rows /2));
+    
     cv::imshow("Image4", img);
+    cv::imshow("Image4_1", img1);
     cv::waitKey(0);
 
-    //translation
+    /*
+    Sometimes, we need to move or rotate an image. The opencv library supports translation 
+    and rotation operations for images through affine transformationa. We have to manually --
+    or with helper functions -- create a matrix of 2D affine transformations and  then apply it
+    to our image. For the move(the translation), we can create such a matrix manually, and then 
+    apply it to an image with the cv::wrapAffine() function:
+    */
+    //translation (the move):
     cv::Mat trm = (cv::Mat_<double>(2, 3) << 1, 0, -50, 0, 1, -50);
     cv::warpAffine(img, img, trm, {img.cols, img.rows});
     cv::imshow("Image5", img);
@@ -65,6 +98,9 @@ int main(int argc, char** argv){
 
 
     // rotations
+    /*We can create a rotation matrix with the cv::getRotationMatrix2D() function. This
+    takes a point of origin and the rotation angle in degreesm as illustrated in the following code 
+    snippet: */
     auto rotm = cv::getRotationMatrix2D({img.cols / 2, img.rows /2}, 45, 1);
     cv::warpAffine(img, img, rotm, {img.cols, img.rows});
     cv::imshow("Image6", img);
@@ -78,6 +114,15 @@ center – Center of the rotation in the source image.
 angle – Rotation angle in degrees. Positive values mean counter-clockwise rotation (the coordinate origin is assumed to be the top-left corner).
 scale – Isotropic scale factor.
     */
+
+
+
+
+
+
+
+
+
 
 
     // padding
@@ -103,6 +148,7 @@ scale – Isotropic scale factor.
 
 
     // Make grayscale
+    //convert the RGB image to grayscaled one:
     cv::cvtColor (img, img,
                   cv::COLOR_RGB2GRAY);      // now pixels values are in range 0-1
 
@@ -123,6 +169,8 @@ scale – Isotropic scale factor.
 
     img = cv::Mat(512, 512, CV_32FC3);
     img = cv::Scalar(255, 255, 255);
+
+    // To deinterleave channels, we need to split them with cv::split() function, like this:
     cv::Mat bgr[3];
     cv::split(img, bgr);
  /*
@@ -133,6 +181,12 @@ Parameters:
 src – input multi-channel array.
 mvbegin – output array; the number of arrays must match src.channels(); the arrays themselves are reallocated, if needed.
  */
+
+
+
+
+ //It will place channel back to the cv::Mat object in the order we need with the cv::vconcat () function,
+ // which concatenates matrices vertically, as follows:
     cv::Mat ordered_channels;
     cv::vconcat(bgr[2], bgr[1], ordered_channels);
     cv::vconcat(ordered_channels, bgr[0], ordered_channels);
