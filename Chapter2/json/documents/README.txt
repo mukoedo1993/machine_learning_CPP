@@ -13,3 +13,5 @@ Booleans true false
 null null
 Arrays [1, 2, 3] ["hello", "world"]
 Objects {"key": "value"} {"age":30}
+
+3: Run index.html on the terminal, you could see the arrays.
