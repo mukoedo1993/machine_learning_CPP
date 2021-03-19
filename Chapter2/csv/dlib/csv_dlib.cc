@@ -8,7 +8,9 @@
 #include <sstream>
 
 namespace fs = std::experimental::filesystem;
-
+/*
+The dlib library can load CSV files directly to its matrix type .
+*/
 int main(int argc, char** argv){
     using namespace dlib;
     if(argc > 1){
@@ -36,6 +38,9 @@ int main(int argc, char** argv){
             str_stream << data_string;
        }
 
+      // We define the matrix object and load data from the file, like this:
+      //In the dlib library, matrix objects are used for training machine learning algorithms
+      //directly, without the need to transform them into intermediate dataset type.
        matrix<double> data;
        str_stream >> data;
 
