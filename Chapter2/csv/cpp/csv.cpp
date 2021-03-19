@@ -16,8 +16,11 @@ namespace fs = std::experimental::filesystem;
 One is for reading a row from a file, and it uses the read_row()
 method of parameters of different types. 
 */
+//The reason for using a tuple is that we can easily iterate it with metaprogramming techniques.
+//Then, we define two helper functions. One is for reading a row from a file, below. 
 template<std::size_t... Idx, typename T, typename R>
-bool read_row_help(std::index_sequence<Idx...>, T& row, R& r){
+bool read_row_help(std::index_sequence<Idx...>, T& row, R& r){  //Here, T is a tuple type which contains types of values of rows in sequence.
+// R is the io::CSVReader<columns_num>(file_path), which contains the data of file.
     return r.read_row(std::get<Idx>(row)...);
 }
 
@@ -62,6 +65,7 @@ int main(int argc, char** argv){
              while (!done){
                  done = !read_row_help(
                      std::make_index_sequence<std::tuple_size<RowType>::value>{}, row, 
+                     //See docu.txt for notes on std::make_index_sequence
                      csv_reader);
                  if (!done){
                      categorical_column.push_back(std::get<4>(row));

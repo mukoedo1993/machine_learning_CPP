@@ -1,0 +1,5 @@
+https://stackoverflow.com/questions/49669958/details-of-stdmake-index-sequence-and-stdindex-sequence
+
+The tricky part is the implementation of std::make_index_sequence. That is: the tricky part is 
+pass from std::make_index_sequence<N> to std::index_sequence<0, 1, 2, ..., N-1>.
+
