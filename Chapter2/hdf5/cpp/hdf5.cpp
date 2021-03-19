@@ -1,3 +1,15 @@
+/*
+HDF5 is a highly efficient file format for storing datasets and scientific values. The
+HighFive library provides a higher-level C++ interface for the C library provided by the HDF
+group. In this example, we propose to look at its interface by transforming the dataset used in
+the previous section to HDF5 format.
+The main concepts of HDF5 format are groups and datasets. Each group can contain other groups
+and have attributes of different types. Also, each group can contain a set of dataset entries.
+Each dataset is a multidimensional array of values of the same type, which also can have attributes
+of different types.
+*/
+
+
 #include"../../json/cpp/reviewsreader.h"
 
 
@@ -20,11 +32,23 @@ int main(int argc, char** argv){
 
             //write dataset:
             {
+                //Create a file object where we will write our dataset, as follows:
+                
                 HighFive::File file(file_name, HighFive::File::ReadWrite|
                                     HighFive::File::Create |
                                     HighFive::File::Truncate);
 
+
+
+                //After we have a file object, we can start creating groups. We define a 
+                //group of papers that should hold all paper objects, as follows:
                 auto papers_group = file.createGroup("papers");
+
+
+
+                //Then, we iterate through an array of papers (as shown in the previous section) and
+                //create a group for each paper object with two attributes: the numerical id attribute and the
+                //preliminary_decision attribute of the string type, as illustrated in the following code block:
                 for (const auto& paper : papers) {
                     auto paper_group = 
                        papers_group.createGroup("paper_" + std::to_string(paper.id));
@@ -36,12 +60,24 @@ int main(int argc, char** argv){
                 auto dec_attr = paper_group.createAttribute<std::string>(
                     "preliminary_decision",
                     HighFive::DataSpace::From(paper.preliminary_decision));
+                //After we have created an attribute, we have to put in its value with
+                // the write() method. Note that the HighFive::DataSpace::From function automatically
+                // detects the size of the attribute value. The size is the amount of memory required to hold
+                // the attribute's value. 
                 dec_attr.write(paper.preliminary_decision);
+
+
+                // Then, for each paper_group, we create a corresponding group of reviews, as follows:
                 auto reviews_group = paper_group.createGroup("reviews");
 
 
+
+                //We insert 
                 std::vector<size_t> dims = {3};
                 std::vector<int32_t> values(3);
+
+
+                
                 for (const auto& r: paper.reviews){
                     auto dataset = reviews_group.createDataSet<int32_t>(
                         std::to_string(r.id), HighFive::DataSpace(dims));
