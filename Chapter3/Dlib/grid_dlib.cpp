@@ -80,7 +80,31 @@ int main(int /*argc*/, char** /*argv*/){
     //Randomize data
     randomize_samples(samples, raw_labels);
 
+
+    /*
+    The dlib library also contains all the necessary functionality for the 
+    grid search algorithm. However, we should use functions instead of classes. 
+    The following code snippet shows the CorssValidationScore function's definition.
+    This function performs cross-validation and returns the value of the performance
+    metric:
+    */
     // Define cross validation function
+    /*
+    The CrossValidationScore function takes the hyperparameters that were set as
+    arguments. Inside this function, we defined a trainer for a model with the svr_trainer
+    class, which implements kernel ridge regression based on the SVM algorithm. We used the
+    polynomial kernel. 
+     
+    This function splits our data into folds
+    automatically, with its last argument being the number of folds. 
+    The cross_validate_regression_trainer() function results the matrix, along with the
+    values of different performance metrics. Notice that we do not to define them because
+    they are predefined in the library's implementation. The first value in this matrix is the 
+    average MSE value. We used this value as a function result. However, there is no strong requirement
+    for what value this function should return; the requirement is that the return value should be 
+    numeric and comparable. Also, notice that we defined the CrossValidationScore function as a lambda
+    to simplify access to the training data container defined in the outer scope.
+    */
     auto CrossValidationScore = [&] (const double gamma, const double c,
                                     const double degree_in) {
          auto degree = std::floor(degree_in);
@@ -101,16 +125,33 @@ int main(int /*argc*/, char** /*argv*/){
 
 
          return result(0, 0);
-         };
+         };//end of the lambda, CrossValidationScore
 
 
          /*search for the best parameters*/
+         /*
+         Next, we can search for the best parameters that were set with the find_min_global
+         function:
+         */
          auto result = find_min_global(
+             /*
+             After we defined the model(CVM), we used the cross_validate_regression_trainer()
+              function to train the model with the cross_validation approach.
+             */
              CrossValidationScore,
              {0.01, 1e-8, 5},   //minimum values for gamma, c, and degree
              {0.1, 1, 15},      // maximum values for gamma, c, and degree
               max_function_calls(50));
 
+
+
+        /*
+        This function takes the cross-validation function, the container with minimum values for 
+        parameter ranges, the container with maximum values for parameter ranges, and the number of
+        cross-validation repeats. Notice that the initialization values for parameter ranges should
+        go in the same order as arguments that were defined in the CrossValidationScore function.
+        Then, we can extract best hyperparameters and train our model with them:
+        */
         double gamma = result.x(0);
         double c = result.x(1);
         double degree = result.x(2);
@@ -123,6 +164,12 @@ int main(int /*argc*/, char** /*argv*/){
         // Train model
         using KernelType = dlib::polynomial_kernel<SampleType>;
         dlib::svr_trainer<KernelType> trainer;
+        /*
+        We used the same model definition as  in the CrossValidationScore function. For the
+        training process, we used all of our training data. The train method of the trainer process
+        was used to complete the training process. The training result is a function that takes a single
+        sample as an argument and returns a prediction value.
+        */
         trainer.set_kernel(KernelType(gamma, c, degree));
         auto decision_func = trainer.train(samples, raw_labels);
 
