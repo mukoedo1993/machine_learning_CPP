@@ -16,7 +16,8 @@ add_executable(grid_dlib grid_dlib.cpp)
 
 
 target_link_libraries(grid_dlib dlib::dlib)
-target_link_libraries(grid_dlib stdc++fs)
+#target_link_libraries(grid_dlib stdc++fs) # We don't need here as soon as we don't need an input file
+#for this chapter.
 
 
 #Read the README.txt
