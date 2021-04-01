@@ -78,7 +78,6 @@ int main(int /*argc*/, char** /*argv*/){
     }
 
     //Randomize data
-    /***************************    LINE 72********************888*/
     randomize_samples(samples, raw_labels);
 
     // Define cross validation function
