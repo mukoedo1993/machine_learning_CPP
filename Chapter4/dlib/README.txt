@@ -1,3 +1,4 @@
+#Several methods of clustering:
 #Ubuntu terminal:
 rm -r build
 mkdir build && cd build && cmake ..; cmake --build . --config Release
