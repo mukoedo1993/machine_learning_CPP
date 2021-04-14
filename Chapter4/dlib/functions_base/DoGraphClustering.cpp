@@ -5,7 +5,7 @@
 #include <experimental/filesystem>
 #include <iostream>
 #include <unordered_map>
-
+#include "PlotClusters.h"
 
 const std::vector<std::string> data_names{
     "dataset0.csv", "dataset1.csv",

@@ -5,6 +5,7 @@
 #include <experimental/filesystem>
 #include <iostream>
 #include <unordered_map>
+#include "PlotClusters.h"
 //This object is intended to represent an edge in an undirected graph which has data samples at its vertices.
 // Therefore, it is the undirected version of ordered_sample_pair.
 

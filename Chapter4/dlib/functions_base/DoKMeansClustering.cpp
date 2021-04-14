@@ -5,7 +5,7 @@
 #include <experimental/filesystem>
 #include <iostream>
 #include <unordered_map>
-
+#include "PlotClusters.h"
 
 const std::vector<std::string> data_names{
     "dataset0.csv", "dataset1.csv",
@@ -21,14 +21,22 @@ using Coords = std::vector<DataType>;
 using PointCoords = std::pair<Coords, Coords>;
 using Clusters = std::unordered_map<size_t, PointCoords>;
 
-
+/*
+The Dlib library uses kernel functions as the distance functions for the k-means 
+algorithm. An example of such a function is the radial function. As an initial step,  we define the required
+types, as follows:
+*/
 template <typename I>
 void DoKMeansClustering(const I& inputs,
                         size_t num_clusters,
                         const std::string& name){
-      typedef matrix<double, 2, 1>sample_type;
+      typedef matrix<double, 2, 1> sample_type;
       typedef radial_basis_kernel<sample_type> kernel_type;
     kcentroid<kernel_type> kc(kernel_type(0.1), 0.01, 8);
+    /*
+    Then, we initialize an object of the kkmeans type. Its constructor takes 
+    
+    */
     kkmeans<kernel_type> kmeans(kc);
 
     std::vector<sample_type> samples;
