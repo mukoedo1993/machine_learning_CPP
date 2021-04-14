@@ -5,7 +5,8 @@
 #include <experimental/filesystem>
 #include <iostream>
 #include <unordered_map>
-
+//This object is intended to represent an edge in an undirected graph which has data samples at its vertices.
+// Therefore, it is the undirected version of ordered_sample_pair.
 
 using namespace dlib;
 namespace fs = std::experimental::filesystem;
@@ -79,9 +80,66 @@ for (long r = 0; r < dists.nr(); ++r){
   PlotClusters(plot_clusters, "Agglomerative clustering", name + "-aggl.png");
 }
 
-/*line 76*/
-/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1To be continued!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+template <typename I>
+void DoGraphClustering(const I& inputs, const std::string& name){
+  //chinese whispers algorithm
+  std::vector<sample_pair> edges;
+  for (long i = 0; i < inputs.nr(); ++i){
+    for (long j = 0; j<inputs.nr(); ++j){
+      auto dist = length(subm(inputs, i, 0, 1, 2) - subm(inputs, j, 0, 1, 2));
+      if (dist < 1)
+        edges.push_back(sample_pair(i, j, dist));
+    }
+  }
+  std::vector<unsigned long> clusters;
+  const auto num_clusters = chinese_whispers(edges, clusters);
+  std::cout << "Num clusters detected: " << num_clusters << std::endl;
+  Clusters plot_clusters;
+  for (long i = 0; i != inputs.nr(); i++){
+    auto cluster_idx = clusters[i];
+    plot_clusters[cluster_idx].first.push_back(inputs(i, 0));
+    plot_clusters[cluster_idx].second.push_back(inputs(i, 1));
+  }
 
+  PlotClusters(plot_clusters, "Agglomerative clustering", name + "-aggl.png");
+}
+
+template <typename I>
+void DoGraphNewmanClustering(const I& inputs, const std::string& name) {
+  std::vector<sample_pair> edges;
+  for ( long i = 0; i < inputs.nr(); ++i){
+    for (long j = 0; j < inputs.nr(); ++j){
+      auto dist = length(subm(inputs, i, 0, 1, 2) - subm(inputs, j, 0, 1, 2));
+      if (dist < 0.5)
+       edges.push_back(sample_pair(i, j, dist));
+    }
+  }
+  remove_duplicate_edges(edges);
+
+  std::vector<unsigned long>clusters;
+  const auto num_clusters = newman_cluster(edges,clusters);
+  std::cout << "Num clusters detected" << num_clusters << std::endl;
+  Clusters plot_clusters;
+  for( long i = 0; i != inputs.nr(); i++){
+    auto cluster_idx = clusters[i];
+    plot_clusters[cluster_idx].first.push_back(inputs(i, 0));
+    plot_clusters[cluster_idx].second.push_back(inputs(i, 1));
+  }
+
+  PlotClusters(plot_clusters, "Graph Newman clustering",
+               name + "-graph-newman.png");
+
+}
+
+
+template <typename I>
+void DoKMeansClustering(const I& inputs,
+                        size_t num_clusters,
+                        const std::string& name){
+      typedef matrix<double, 2, 1>sample_type;
+      typedef radial_basis_kernel<sample_type> kernel_type;
+    //line 131!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1//
+}
 
 
 
