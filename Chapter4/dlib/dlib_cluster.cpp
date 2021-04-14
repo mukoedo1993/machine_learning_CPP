@@ -8,13 +8,14 @@
 //This object is intended to represent an edge in an undirected graph which has data samples at its vertices.
 // Therefore, it is the undirected version of ordered_sample_pair.
 
+
 using namespace dlib;
 namespace fs = std::experimental::filesystem;
 using SampleType = dlib::matrix<double, 1, 1>;
 using Samples = std::vector<SampleType>;
 
 const std::vector<std::string> data_names{
-    "dataset0.csv", "dataset1/csv",
+    "dataset0.csv", "dataset1.csv",
     "dataset2.csv", "dataset3.csv",
     "dataset4.csv", "dataset5.csv"
 };
@@ -52,23 +53,23 @@ void PlotClusters(const Clusters& clusters,
                         
     }
     
-  plt.EndDraw2D(draw_state);
-  plt.Flush();
+    plt.EndDraw2D(draw_state);
+    plt.Flush();
 }
 
 
 template <typename I>
-void DoHierarchicalClustering (const I& inputs,
+void DoHierarhicalClustering (const I& inputs,
                                size_t num_clusters,
                                const std::string& name) {
 // agglomerative clustering algorithm
 matrix<double> dists(inputs.nr(), inputs.nr());
-for (long r = 0; r < dists.nr(); ++r){
-    for (long c = 0; c < dists.nc(); ++c){
+for ( long r = 0; r < dists.nr(); ++r){
+    for ( long c = 0; c < dists.nc(); ++c){
         dists(r, c) = length(subm(inputs, r, 0, 1, 2) - subm(inputs, c, 0, 1, 2));
     }
   }
-  std::vector<unsigned long>clusters;
+  std::vector<unsigned long> clusters;
   bottom_up_cluster(dists, clusters, num_clusters);
   Clusters plot_clusters;
   for (long i = 0; i != inputs.nr(); i++){
@@ -158,7 +159,7 @@ void DoKMeansClustering(const I& inputs,
 
     std::vector<unsigned long> clusters;
     Clusters plot_clusters;
-    for( long i = 0; i != inputs.nr(); i++){
+    for( long i = 0; i != inputs.nr(); i++) {
       auto cluster_idx = kmeans(samples[i]);
       plot_clusters[cluster_idx].first.push_back(inputs(i, 0));
       plot_clusters[cluster_idx].second.push_back(inputs(i, 1));
@@ -168,9 +169,127 @@ void DoKMeansClustering(const I& inputs,
 }
 
 
+template <typename T>
+struct knn_kernel {
+  knn_kernel(const std::vector<T>& samples, unsigned long k)
+    : samples_(&samples){
+      find_k_nearest_neighbors(
+        samples, [](const T& a, const T& b){ return dlib::length(a - b);}, k,
+        edges_);
+      std::sort(edges_.begin(), edges_.end(), order_by_index<sample_pair>);   
+    }
+    DataType/*using DataType = double*/ 
+    operator() (const T& a, const T& b) const {
+      auto idx1 = std::distance(samples_->begin(),
+                               std::find(samples_->begin(), samples_->end(), a));
+      auto idx2 = std::distance(samples->begin(),
+                                std::find(samples_->begin(), samples_->end(), b));
+      sample_pair value{idx1, idx2};
+      auto edge = std::lower_bound(edges_.begin(), edges_.end(), value,
+                                  order_by_index<sample_pair>);  
+
+      if (edge != edges_.end() && !order_by_index<sample_pair>(value, *edge))
+        return 1;
+      else
+        return 0;                      
+    }
+    std::vector<sample_pair> edges_;
+    const std::vector<T>* samples_;
+};
+
+template <typename I>
+void DoSpectralClustering(const I& inputs,
+                          size_t num_clusters,
+                          const std::string& name){
+
+typedef matrix<double, 2, 1> sample_type;
+typedef knn_kernel<sample_type> kernel_type;
 
 
+std::vector<sample_type> samples;
+samples.reserve(inputs.nr());
+for ( long i = 0; i != inputs.nr(); ++i){
+ samples.push_back(dlib::trans(dlib::subm(inputs, i, 0, 1, 2)));
+ }
 
+
+ std::vector<unsigned long> clusters = 
+  spectral_cluster(kernel_type(samples, 15), samples, num_clusters );
+
+
+  Clusters plot_clusters;
+  for ( long i = 0; i != inputs.nr(); i++){
+    auto cluster_idx = clusters[i];
+    plot_clusters[cluster_idx].first.push_back(inputs(i, 0));
+    plot_clusters[cluster_idx].second.push_back(inputs(i, 1));
+  }
+
+
+  PlotClusters(plot_clusters, "Spectral clustering", name + "-spectral.png");
+}
+
+
+int main(int argc, char** argv){
+  if (argc > 1) {
+    auto base_dir = fs::path(argv[1]);
+    for (auto& dataset : data_names) {
+      auto dataset_name = base_dir / dataset;
+      if (fs::exists(dataset_name)){
+        std::ifstream file(dataset_name);
+        matrix<DataType> data;
+        file >> data;
+
+        auto inputs = dlib::subm(data, 0, 1, data.nr(), 2);
+        auto labels = dlib::subm(data, 0, 3, data.nr(), 1);
+
+        auto num_samples = inputs.nr();
+        auto num_features = inputs.nc();
+        std::size_t num_clusters = 
+            std::set<double>( labels.begin(), labels.end()).size();
+        if (num_clusters < 2)
+            num_clusters = 3;
+        std::cout << "Please input the model: Enter 1, 2, 3 or 4: \n ";
+        std::cout<< "case(1):DoHierarhicalClustering(inputs, num_clusters, dataset)\n";
+        std::cout << "case(2):DoGraphClustering(inputs, dataset)\n";
+        std::cout << "case(3):DoKMeansClustering(inputs, num_clusters, dataset)\n";
+        std::cout << "case(4):DoGraphNewmanClustering(inputs, dataset)\n";
+        std::cout << " case(5):DoSpectralClustering(inputs, num_clusters, dataset)";
+        int option;
+        std::cin >> option;
+        std::cout << dataset << "\n"
+                  << "Num samples: " << num_samples 
+                  << " num features: " << num_features
+                  << " num clusters: " << num_clusters << std::endl;
+                  switch(option)
+                  {
+                      case(1):
+                      DoHierarhicalClustering(inputs, num_clusters, dataset);
+                      case(2):
+                      DoGraphClustering(inputs, dataset);
+                      case(3):
+                      DoKMeansClustering(inputs, num_clusters, dataset);
+                      case(4):
+                      DoGraphNewmanClustering(inputs, dataset);
+                      case(5):
+                      DoSpectralClustering(inputs, num_clusters, dataset);
+                      default:
+                      throw std::invalid_argument("error! please give a correct option here!\n");
+                  };
+
+        
+      }
+      else{
+        std::cerr << "Dataset file " << dataset_name << "missed\n";
+    }
+  }
+ }
+  else {
+    std::cerr << "Please provide path to the datasets folder\n";
+  }
+
+
+  return 0;
+}
 
 
 
