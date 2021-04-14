@@ -138,7 +138,33 @@ void DoKMeansClustering(const I& inputs,
                         const std::string& name){
       typedef matrix<double, 2, 1>sample_type;
       typedef radial_basis_kernel<sample_type> kernel_type;
-    //line 131!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1//
+    kcentroid<kernel_type> kc(kernel_type(0.1), 0.01, 8);
+    kkmeans<kernel_type> kmeans(kc);
+
+    std::vector<sample_type> samples;
+    samples.reserve(inputs.nr());
+    for( long i = 0; i !=inputs.nr(); i++){
+      samples.push_back(dlib::trans(dlib::subm(inputs, i, 0, 1, 2)));
+    }
+
+
+    std::vector<sample_type> initial_centers;
+    pick_initial_centers(num_clusters, initial_centers, samples,
+                        kmeans.get_kernel());
+
+    kmeans.set_number_of_centers(num_clusters);
+    kmeans.train(samples, initial_centers);
+
+
+    std::vector<unsigned long> clusters;
+    Clusters plot_clusters;
+    for( long i = 0; i != inputs.nr(); i++){
+      auto cluster_idx = kmeans(samples[i]);
+      plot_clusters[cluster_idx].first.push_back(inputs(i, 0));
+      plot_clusters[cluster_idx].second.push_back(inputs(i, 1));
+    }
+
+    PlotClusters(plot_clusters, "K-Means", name + "-kmeans.png");
 }
 
 
