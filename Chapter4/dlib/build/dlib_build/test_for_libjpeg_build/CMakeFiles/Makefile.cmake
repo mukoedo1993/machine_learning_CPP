@@ -8,9 +8,9 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
   "/home/zcw/C++_MUKOEDO_LIB/Dlib_clone/dlib-19.21/dlib/cmake_utils/test_for_libjpeg/CMakeLists.txt"
-  "/home/zcw/machine_learning_CPP/Chapter3/Dlib/build/CMakeFiles/3.16.3/CMakeCCompiler.cmake"
-  "/home/zcw/machine_learning_CPP/Chapter3/Dlib/build/CMakeFiles/3.16.3/CMakeCXXCompiler.cmake"
-  "/home/zcw/machine_learning_CPP/Chapter3/Dlib/build/CMakeFiles/3.16.3/CMakeSystem.cmake"
+  "/home/zcw/machine_learning_CPP/Chapter4/dlib/build/CMakeFiles/3.16.3/CMakeCCompiler.cmake"
+  "/home/zcw/machine_learning_CPP/Chapter4/dlib/build/CMakeFiles/3.16.3/CMakeCXXCompiler.cmake"
+  "/home/zcw/machine_learning_CPP/Chapter4/dlib/build/CMakeFiles/3.16.3/CMakeSystem.cmake"
   "/usr/share/cmake-3.16/Modules/CMakeCInformation.cmake"
   "/usr/share/cmake-3.16/Modules/CMakeCXXInformation.cmake"
   "/usr/share/cmake-3.16/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake"

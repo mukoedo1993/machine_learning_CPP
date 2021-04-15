@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/zcw/machine_learning_CPP/Chapter3/Dlib/build/dlib_build/test_for_libjpeg_build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/zcw/machine_learning_CPP/Chapter4/dlib/build/dlib_build/test_for_libjpeg_build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

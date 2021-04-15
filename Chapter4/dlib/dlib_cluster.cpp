@@ -75,10 +75,10 @@ for ( long r = 0; r < dists.nr(); ++r){
   for (long i = 0; i != inputs.nr(); i++){
       auto cluster_idx = clusters[i];
       plot_clusters[cluster_idx].first.push_back(inputs(i, 0));
-      plot_clusters[cluster_idx].second.push_back(input(i, 1));
+      plot_clusters[cluster_idx].second.push_back(inputs(i, 1));
   }
 
-  PlotClusters(plot_clusters, "Agglomerative clustering", name + "-aggl.png");
+  PlotClusters(plot_clusters, "Agglomerative clustering", "../results/" + name + "-aggl.png");
 }
 
 template <typename I>
@@ -102,7 +102,7 @@ void DoGraphClustering(const I& inputs, const std::string& name){
     plot_clusters[cluster_idx].second.push_back(inputs(i, 1));
   }
 
-  PlotClusters(plot_clusters, "Agglomerative clustering", name + "-aggl.png");
+  PlotClusters(plot_clusters, "Graph clustering", "../results/" + name + "-aggl.png");
 }
 
 template <typename I>
@@ -128,7 +128,7 @@ void DoGraphNewmanClustering(const I& inputs, const std::string& name) {
   }
 
   PlotClusters(plot_clusters, "Graph Newman clustering",
-               name + "-graph-newman.png");
+              "../results/" +  name + "-graph-newman.png");
 
 }
 
@@ -165,7 +165,7 @@ void DoKMeansClustering(const I& inputs,
       plot_clusters[cluster_idx].second.push_back(inputs(i, 1));
     }
 
-    PlotClusters(plot_clusters, "K-Means", name + "-kmeans.png");
+    PlotClusters(plot_clusters, "K-Means", "../results/" +  name + "-kmeans.png");
 }
 
 
@@ -180,9 +180,9 @@ struct knn_kernel {
     }
     DataType/*using DataType = double*/ 
     operator() (const T& a, const T& b) const {
-      auto idx1 = std::distance(samples_->begin(),
+      long idx1 = std::distance(samples_->begin(),
                                std::find(samples_->begin(), samples_->end(), a));
-      auto idx2 = std::distance(samples->begin(),
+      long idx2 = std::distance(samples_->begin(),
                                 std::find(samples_->begin(), samples_->end(), b));
       sample_pair value{idx1, idx2};
       auto edge = std::lower_bound(edges_.begin(), edges_.end(), value,
@@ -225,11 +225,23 @@ for ( long i = 0; i != inputs.nr(); ++i){
   }
 
 
-  PlotClusters(plot_clusters, "Spectral clustering", name + "-spectral.png");
+  PlotClusters(plot_clusters, "Spectral clustering", "../results/" +  name + "-spectral.png");
 }
 
 
 int main(int argc, char** argv){
+
+//Let the client choose the model:
+std::cout << "Please input the model: Enter 1, 2, 3, 4 or 5: \n ";
+std::cout<< "case(1):DoHierarhicalClustering(inputs, num_clusters, dataset)\n";
+std::cout << "case(2):DoGraphClustering(inputs, dataset)\n";
+std::cout << "case(3):DoKMeansClustering(inputs, num_clusters, dataset)\n";
+std::cout << "case(4):DoGraphNewmanClustering(inputs, dataset)\n";
+std::cout << " case(5):DoSpectralClustering(inputs, num_clusters, dataset)\n";
+int option;
+std::cin >> option;
+std::cout << "\n\n\n";
+
   if (argc > 1) {
     auto base_dir = fs::path(argv[1]);
     for (auto& dataset : data_names) {
@@ -248,14 +260,7 @@ int main(int argc, char** argv){
             std::set<double>( labels.begin(), labels.end()).size();
         if (num_clusters < 2)
             num_clusters = 3;
-        std::cout << "Please input the model: Enter 1, 2, 3 or 4: \n ";
-        std::cout<< "case(1):DoHierarhicalClustering(inputs, num_clusters, dataset)\n";
-        std::cout << "case(2):DoGraphClustering(inputs, dataset)\n";
-        std::cout << "case(3):DoKMeansClustering(inputs, num_clusters, dataset)\n";
-        std::cout << "case(4):DoGraphNewmanClustering(inputs, dataset)\n";
-        std::cout << " case(5):DoSpectralClustering(inputs, num_clusters, dataset)";
-        int option;
-        std::cin >> option;
+
         std::cout << dataset << "\n"
                   << "Num samples: " << num_samples 
                   << " num features: " << num_features
@@ -263,17 +268,17 @@ int main(int argc, char** argv){
                   switch(option)
                   {
                       case(1):
-                      DoHierarhicalClustering(inputs, num_clusters, dataset);
+                      DoHierarhicalClustering(inputs, num_clusters, dataset);break;
                       case(2):
-                      DoGraphClustering(inputs, dataset);
+                      DoGraphClustering(inputs, dataset);break;
                       case(3):
-                      DoKMeansClustering(inputs, num_clusters, dataset);
+                      DoKMeansClustering(inputs, num_clusters, dataset);break;
                       case(4):
-                      DoGraphNewmanClustering(inputs, dataset);
+                      DoGraphNewmanClustering(inputs, dataset);break;
                       case(5):
-                      DoSpectralClustering(inputs, num_clusters, dataset);
+                      DoSpectralClustering(inputs, num_clusters, dataset);break;
                       default:
-                      throw std::invalid_argument("error! please give a correct option here!\n");
+                      throw std::invalid_argument("error! please give a correct option here!\n");break;
                   };
 
         

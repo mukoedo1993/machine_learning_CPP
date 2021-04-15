@@ -150,6 +150,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/grid_dlib.dir/DependInfo.cmake"
+  "CMakeFiles/dlib_cluster.dir/DependInfo.cmake"
   "dlib_build/CMakeFiles/dlib.dir/DependInfo.cmake"
   )

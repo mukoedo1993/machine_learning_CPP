@@ -1,4 +1,4 @@
-# Install script for directory: /home/zcw/machine_learning_CPP/Chapter3/Dlib
+# Install script for directory: /home/zcw/machine_learning_CPP/Chapter4/dlib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/zcw/machine_learning_CPP/Chapter3/Dlib/build/dlib_build/cmake_install.cmake")
+  include("/home/zcw/machine_learning_CPP/Chapter4/dlib/build/dlib_build/cmake_install.cmake")
 
 endif()
 
@@ -51,5 +51,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/zcw/machine_learning_CPP/Chapter3/Dlib/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/zcw/machine_learning_CPP/Chapter4/dlib/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

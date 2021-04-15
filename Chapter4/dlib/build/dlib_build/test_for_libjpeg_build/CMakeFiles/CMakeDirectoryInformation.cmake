@@ -3,7 +3,7 @@
 
 # Relative path conversion top directories.
 set(CMAKE_RELATIVE_PATH_TOP_SOURCE "/home/zcw/C++_MUKOEDO_LIB/Dlib_clone/dlib-19.21/dlib/cmake_utils/test_for_libjpeg")
-set(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/zcw/machine_learning_CPP/Chapter3/Dlib/build/dlib_build/test_for_libjpeg_build")
+set(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/zcw/machine_learning_CPP/Chapter4/dlib/build/dlib_build/test_for_libjpeg_build")
 
 # Force unix paths in dependencies.
 set(CMAKE_FORCE_UNIX_PATHS 1)

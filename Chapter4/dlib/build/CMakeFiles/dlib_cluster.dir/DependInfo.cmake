@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/zcw/machine_learning_CPP/Chapter3/Dlib/grid_dlib.cpp" "/home/zcw/machine_learning_CPP/Chapter3/Dlib/build/CMakeFiles/grid_dlib.dir/grid_dlib.cpp.o"
+  "/home/zcw/machine_learning_CPP/Chapter4/dlib/dlib_cluster.cpp" "/home/zcw/machine_learning_CPP/Chapter4/dlib/build/CMakeFiles/dlib_cluster.dir/dlib_cluster.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -15,7 +15,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/zcw/machine_learning_CPP/Chapter3/Dlib/build/dlib_build/CMakeFiles/dlib.dir/DependInfo.cmake"
+  "/home/zcw/machine_learning_CPP/Chapter4/dlib/build/dlib_build/CMakeFiles/dlib.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

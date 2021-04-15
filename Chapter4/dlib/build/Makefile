@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/zcw/machine_learning_CPP/Chapter3/Dlib
+CMAKE_SOURCE_DIR = /home/zcw/machine_learning_CPP/Chapter4/dlib
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/zcw/machine_learning_CPP/Chapter3/Dlib/build
+CMAKE_BINARY_DIR = /home/zcw/machine_learning_CPP/Chapter4/dlib/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/zcw/machine_learning_CPP/Chapter3/Dlib/build/CMakeFiles /home/zcw/machine_learning_CPP/Chapter3/Dlib/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zcw/machine_learning_CPP/Chapter4/dlib/build/CMakeFiles /home/zcw/machine_learning_CPP/Chapter4/dlib/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/zcw/machine_learning_CPP/Chapter3/Dlib/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zcw/machine_learning_CPP/Chapter4/dlib/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named grid_dlib
+# Target rules for targets named dlib_cluster
 
 # Build rule for target.
-grid_dlib: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 grid_dlib
-.PHONY : grid_dlib
+dlib_cluster: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dlib_cluster
+.PHONY : dlib_cluster
 
 # fast build rule for target.
-grid_dlib/fast:
-	$(MAKE) -f CMakeFiles/grid_dlib.dir/build.make CMakeFiles/grid_dlib.dir/build
-.PHONY : grid_dlib/fast
+dlib_cluster/fast:
+	$(MAKE) -f CMakeFiles/dlib_cluster.dir/build.make CMakeFiles/dlib_cluster.dir/build
+.PHONY : dlib_cluster/fast
 
 #=============================================================================
 # Target rules for targets named dlib
@@ -136,32 +136,32 @@ dlib/fast:
 	$(MAKE) -f dlib_build/CMakeFiles/dlib.dir/build.make dlib_build/CMakeFiles/dlib.dir/build
 .PHONY : dlib/fast
 
-grid_dlib.o: grid_dlib.cpp.o
+dlib_cluster.o: dlib_cluster.cpp.o
 
-.PHONY : grid_dlib.o
+.PHONY : dlib_cluster.o
 
 # target to build an object file
-grid_dlib.cpp.o:
-	$(MAKE) -f CMakeFiles/grid_dlib.dir/build.make CMakeFiles/grid_dlib.dir/grid_dlib.cpp.o
-.PHONY : grid_dlib.cpp.o
+dlib_cluster.cpp.o:
+	$(MAKE) -f CMakeFiles/dlib_cluster.dir/build.make CMakeFiles/dlib_cluster.dir/dlib_cluster.cpp.o
+.PHONY : dlib_cluster.cpp.o
 
-grid_dlib.i: grid_dlib.cpp.i
+dlib_cluster.i: dlib_cluster.cpp.i
 
-.PHONY : grid_dlib.i
+.PHONY : dlib_cluster.i
 
 # target to preprocess a source file
-grid_dlib.cpp.i:
-	$(MAKE) -f CMakeFiles/grid_dlib.dir/build.make CMakeFiles/grid_dlib.dir/grid_dlib.cpp.i
-.PHONY : grid_dlib.cpp.i
+dlib_cluster.cpp.i:
+	$(MAKE) -f CMakeFiles/dlib_cluster.dir/build.make CMakeFiles/dlib_cluster.dir/dlib_cluster.cpp.i
+.PHONY : dlib_cluster.cpp.i
 
-grid_dlib.s: grid_dlib.cpp.s
+dlib_cluster.s: dlib_cluster.cpp.s
 
-.PHONY : grid_dlib.s
+.PHONY : dlib_cluster.s
 
 # target to generate assembly for a file
-grid_dlib.cpp.s:
-	$(MAKE) -f CMakeFiles/grid_dlib.dir/build.make CMakeFiles/grid_dlib.dir/grid_dlib.cpp.s
-.PHONY : grid_dlib.cpp.s
+dlib_cluster.cpp.s:
+	$(MAKE) -f CMakeFiles/dlib_cluster.dir/build.make CMakeFiles/dlib_cluster.dir/dlib_cluster.cpp.s
+.PHONY : dlib_cluster.cpp.s
 
 # Help Target
 help:
@@ -171,11 +171,11 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... grid_dlib"
+	@echo "... dlib_cluster"
 	@echo "... dlib"
-	@echo "... grid_dlib.o"
-	@echo "... grid_dlib.i"
-	@echo "... grid_dlib.s"
+	@echo "... dlib_cluster.o"
+	@echo "... dlib_cluster.i"
+	@echo "... dlib_cluster.s"
 .PHONY : help
 
 

@@ -51,7 +51,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/zcw/C++_MUKOEDO_LIB/Dlib_clone/dlib-19.21/dlib/cmake_utils/test_for_libpng
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/zcw/machine_learning_CPP/Chapter3/Dlib/build/dlib_build/test_for_libpng_build
+CMAKE_BINARY_DIR = /home/zcw/machine_learning_CPP/Chapter4/dlib/build/dlib_build/test_for_libpng_build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/zcw/machine_learning_CPP/Chapter3/Dlib/build/dlib_build/test_for_libpng_build/CMakeFiles /home/zcw/machine_learning_CPP/Chapter3/Dlib/build/dlib_build/test_for_libpng_build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zcw/machine_learning_CPP/Chapter4/dlib/build/dlib_build/test_for_libpng_build/CMakeFiles /home/zcw/machine_learning_CPP/Chapter4/dlib/build/dlib_build/test_for_libpng_build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/zcw/machine_learning_CPP/Chapter3/Dlib/build/dlib_build/test_for_libpng_build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zcw/machine_learning_CPP/Chapter4/dlib/build/dlib_build/test_for_libpng_build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
