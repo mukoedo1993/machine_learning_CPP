@@ -3,6 +3,10 @@
 #include <dlib/matrix.h>
 #include <plotcpp_clone/plotcpp/plot.h>
 
+/*
+We plot with the plotcpp lib., which is a thin wrapper around the gnuplot commandline utility. With this library,
+
+*/
 
 #include <experimental/filesystem>
 #include <iostream>
