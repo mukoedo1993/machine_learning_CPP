@@ -9,7 +9,8 @@ History:
 
 #pragma once
 #include <fstream>
-
+#include <cstring>
+#include <cassert>
 class KMeans
 {
 public:

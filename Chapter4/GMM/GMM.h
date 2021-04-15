@@ -9,7 +9,7 @@ History:
 
 #pragma once
 #include <fstream>
-
+#include <cassert>
 class GMM
 {
 public:

@@ -1,0 +1,9 @@
+(base) zcw@mukoedo1993:~/machine_learning_CPP/Chapter4/GMM$ ./a.out
+
+Test GMM:
+The Probability of 0.100000, 0.200000, 0.300000  is 0.274730 
+The Probability of 0.400000, 0.500000, 0.600000  is 0.215019 
+The Probability of 5.000000, 6.200000, 8.400000  is 0.001126 
+The Probability of 10.300000, 10.400000, 10.500000  is 0.000676 
+(base) zcw@mukoedo1993:~/machine_learning_CPP/Chapter4/GMM$ 
+
