@@ -1,3 +1,4 @@
+
 #include <dlib/clustering.h>
 #include <dlib/matrix.h>
 #include <plotcpp_clone/plotcpp/plot.h>
@@ -7,7 +8,8 @@
 #include <iostream>
 #include <unordered_map>
 
-
+# ifndef PLOT_CLUSTER_H
+# define PLOT_CLUSTER_H
 const std::vector<std::string> data_names{
     "dataset0.csv", "dataset1.csv",
     "dataset2.csv", "dataset3.csv",
@@ -50,3 +52,7 @@ void PlotClusters(const Clusters& clusters,
     plt.EndDraw2D(draw_state);
     plt.Flush();
 }
+
+
+
+#endif
