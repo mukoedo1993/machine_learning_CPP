@@ -1,0 +1,15 @@
+Spectral clustering refers to all methods that divide a set of data into clusters using the eigenvectors of the adjacency matrix of a graph or
+other matrics derived from it. An adjacency matrix describes a complete graph with vertices in obejcts and edges between each pair of objects with a 
+weight corresponding to the degree of similarity between these vertices. Spectral clustering is a transformation of the initial set of objects into a set
+of points in space whose coordinates are elements of eigenvectors. The formal name of such a task is the normalized cuts problem. The resulting set of points is 
+then clustered using standard methods-- e.g., with the k-means algorithm. Changing the representation created by eigenvectors allows us to set the properties of the
+original set of clusters more clearly. Thus, spectral clustering can separate points that cannot be separated by applying k-means -- for example, when the k-means method
+gets a convex set of points.
+
+
+The main disadvantage of spectral clustering is its cubic computational complexity and quadratic memory requirements.
+
+
+Reference:
+adjacency matrix:
+https://en.wikipedia.org/wiki/Adjacency_matrix#:~:text=In%20graph%20theory%20and%20computer,with%20zeros%20on%20its%20diagonal.
