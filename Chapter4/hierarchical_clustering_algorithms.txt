@@ -1,0 +1,36 @@
+two forms: bottom-up algorithms and top-down-based algorithm.
+Bottom-up:
+place each object ina separate cluster at the beginning of the work, and then merge clusters into larger ones
+until all the objects in the dataset are contained in the one cluster, building a system of nested partitions.
+Top-down:
+at the beginning, all objects are placed in one cluster, which is then divided into smalled and smaller clusters.
+result of such algorithm, usu. presented in dendrogram(graph in tree form).
+
+Problems:
+1:determining the stop condition in such a way as to isolate natural clusters and, at the same time, prevent excessive
+clustering.
+
+2:a siginificant computational complexity of the method when applied to large datasets.
+
+
+several metrics or linkage criteria:
+Single linkage: in this method, the distance between the two clusters is determined by the distance between
+the two closest objects (nearest neighbors) in different clusters. The resulting clusters tend to chain together.
+
+Complete linkage(distance between the most distant neighbors): In this method, the distances between clusters are determined by the largest
+distance between any two objects in different clusters (that is, the most distant neighbors). This method usu. works well when objects come from
+separate groups. 
+Good when objects come froms separate groups.
+Bad, if the clusters are elongated or their natural type is chained, then this method is unsuitable.
+
+
+Unweighted pairwise mean linkage: In this method, the distance between two different clusters is calculated as an average distance between all pairs
+of objects in them. This method is useful when objects form different groups, but it works equally well in the case of elongated (chain-type) clusters.
+
+Weighted pairwise mean linkage: This method is identical to the unweighted pairwise mean method, except that the size of the corresponding clusters (the 
+No. of objects conatined in them) is used as a weighting factor in the calculation.
+
+Weighted centroid linkage: In this method, the distance between two clusters is defined as the distance between their centers of mass.
+
+Weighted centroid linkage (median): This method is identical to the previous one, except that the calculations use weights for the distance
+measured between cluster sizes.
