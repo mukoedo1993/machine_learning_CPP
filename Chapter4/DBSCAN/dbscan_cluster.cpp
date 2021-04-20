@@ -177,7 +177,7 @@ std::cout << "\n\n\n";
             DoDBSCANClustering(inputs, epsilon, minPtrs, dataset_name);    
         
          }
-        else{std::cerr << "dataset file " << dataset_name << "missed\n";}
+        else{std::cerr << "dataset file " << dataset_name << "missed. Please enter in the form ./dbscan_cluster <datafile> <epsilon> <minPtrs>\n";}
        }
      }
   }
