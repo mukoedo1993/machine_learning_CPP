@@ -9,8 +9,8 @@
 //This object is intended to represent an edge in an undirected graph which has data samples at its vertices.
 // Therefore, it is the undirected version of ordered_sample_pair.
 
-#define UNVISITED 1
-#define NOISE -1
+#define UNVISITED -1
+#define NOISE -2
 
 using namespace dlib;
 namespace fs = std::experimental::filesystem;
@@ -31,10 +31,11 @@ using Coords = std::vector<DataType>;
 using PointCoords = std::pair<Coords, Coords>;
 using Clusters = std::unordered_map<size_t, PointCoords>;
 
-using Neighbors = std::vector<PointCoords>;
+
 
 
 typedef matrix<double, 2, 1> sample_type;
+using Neighbors = std::unordered_map<sample_type, int>;
 
 void PlotClusters(const Clusters& clusters,
                  const std::string& name,
@@ -71,74 +72,71 @@ DataType disFunc(const sample_type& lhs, const sample_type &rhs)
    return sqrt(pow(lhs(1,0)-rhs(1, 0),2.) + pow(lhs(2 ,0) - rhs(2, 0),2.));
 }
 
-template <typename I>
-Neighbors RangeQuery_DBSCAN(const vector<sample_type>& DB,
+
+
+Neighbors RangeQuery_DBSCAN(const std::unordered_map<sample_type, int>& DB,
                              const std::function<DataType(sample_type, sample_type)> distFunc,
-                             const sample_type& Q,
+                             const std::pair<sample_type, int>& Q,
                              DataType epsilon
                              )
 {
   
-  Neighbors N;
-  for (const auto& P: DB){
-      if(disFunc(P, Q)<epsilon)
-      N.push_back(P);
+  Neighbors N= {Q};
+  for (auto P = DB.begin(); P != DB.end(); P++){
+      if(disFunc(P->first, Q.first) <= epsilon)
+      N.insert(*P);
   }
+
+  return N;
 }
 
 
 template <typename I>
 void DoDBSCANClustering(const I& inputs,
-                        size_t num_clusters,
                         double epsilon,
                         size_t minPts,
                         const std::string& name){
 
-std::vector<std::pair<sample_type,int>> samples;
-samples.reserve(inputs.nr());
-for ( long i = 0; i != inputs.nr(); ++i){samples.push_back({dlib::trans(dlib::subm(inputs, i, 0, 1, 2)), UNVISITED});}
+std::unordered_map<sample_type,int> samples;
+for ( long i = 0; i != inputs.nr(); ++i){samples.insert({dlib::trans(dlib::subm(inputs, i, 0, 1, 2)), UNVISITED});}
 
 
 int C = 0;
 /*To be continued...*/
+for(auto it = samples.begin(); it != samples.end(); ++it ){
+  if(it->second != unvisited)continue;
+  Neighbors N = RangeQueryDBSCAN(samples, disFunc, it->first, epsilon);
+  N.reserve(samples.size());
+  if(N.size() < minPts){
+   it->second = NOISE;
+   continue;
+  }
 
+  C = C + 1;
+  it->second = C;
+  Neighbors S = N; S.erase(it->first);
+  S.reserve(samples.size());
+  for ( auto it1 = S.begin(); it1 != S.end(); it++){
+     if(samples(it1->first) == NOISE )
+      samples(it1->first) = C;
+    if(samples(it1->first)!=UNVISITED)continue;
 
-
-
-
+    samples(it1->first) = C;
+    Neighbors N = RangeQueryDBSCAN(samples, disFunc, it1->first, epsilon); 
+    if(N.size() >= minPts )
+     S.insert(N.begin(),N.end());
+  }
+   Clusters ready_to_plot;
+   for(auto it2 = samples.begin(); it2 != samples.end(); it2++ ){
+     if(it2->second == NOISE)
+     continue;
+     ready_to_plot.insert({it2->second,std::make_pair<double, double>((it2->first)(0, 0),(it2->second)(1, 0));});
+   }
+  PlotClusters(ready_to_plot, "DBSCAN clustering", "../results/" +  name + "-DBSCAN.png");
+}
 
                         }
 
-template <typename I>
-void DoSpectralClustering(const I& inputs,
-                          size_t num_clusters,
-                          const std::string& name){
-
-//typedef matrix<double, 2, 1> sample_type;
-
-
-
-std::vector<sample_type> samples;
-samples.reserve(inputs.nr());
-for ( long i = 0; i != inputs.nr(); ++i){
- samples.push_back(dlib::trans(dlib::subm(inputs, i, 0, 1, 2)));
- }
-
-
- std::vector<unsigned long> clusters = 
-  spectral_cluster(kernel_type(samples, 15), samples, num_clusters );
-
-
-  Clusters plot_clusters;
-  for ( long i = 0; i != inputs.nr(); i++){
-    auto cluster_idx = clusters[i];
-    plot_clusters[cluster_idx].first.push_back(inputs(i, 0));
-    plot_clusters[cluster_idx].second.push_back(inputs(i, 1));
-  }
-
-
-  PlotClusters(plot_clusters, "Spectral clustering", "../results/" +  name + "-spectral.png");
-}
 
 int main(int argc, char** argv){
 
@@ -151,7 +149,7 @@ int option;
 std::cin >> option;
 std::cout << "\n\n\n";
 
-  if (argc > 1) {
+  if (argc > 3) {
     auto base_dir = fs::path(argv[1]);
     for (auto& dataset : data_names) {
       auto dataset_name = base_dir / dataset;
@@ -174,10 +172,12 @@ std::cout << "\n\n\n";
                   << "Num samples: " << num_samples 
                   << " num features: " << num_features
                   << " num clusters: " << num_clusters << std::endl;
-                
+          double epsilon = atof(argv[2]);
+          size_t minPtrs = atoi(argv[3]);
+            DoDBSCANClustering(inputs, epsilon, minPtrs, dataset_name);    
         
          }
-        else{std::cerr << "Dataset file " << dataset_name << "missed\n";}
+        else{std::cerr << "dataset file " << dataset_name << "missed\n";}
        }
      }
   }

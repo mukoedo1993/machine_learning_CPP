@@ -6,3 +6,7 @@ Reference:
 https://en.wikipedia.org/wiki/DBSCAN
 the github lib.
 Hands-on ML with CPP
+
+
+On terminal:
+./dbscan_cluster <data file> <epsilon> <minPtrs>
