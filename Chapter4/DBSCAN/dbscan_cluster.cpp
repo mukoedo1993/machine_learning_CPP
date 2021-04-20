@@ -37,6 +37,17 @@ using Clusters = std::unordered_map<size_t, PointCoords>;
 typedef matrix<double, 2, 1> sample_type;
 using Neighbors = std::unordered_map<sample_type, int>;
 
+namespace std{
+  template<>
+  struct hash<sample_type>{
+    size_t operator()(const sample_type& orig)
+    {
+      return pow(100., orig(0,0)+orig(1,0));
+    }
+  };
+}
+
+/*need to be rewritten*/
 void PlotClusters(const Clusters& clusters,
                  const std::string& name,
                  const std::string& file_name) {
@@ -98,14 +109,15 @@ void DoDBSCANClustering(const I& inputs,
                         const std::string& name){
 
 std::unordered_map<sample_type,int> samples;
+ Clusters ready_to_plot;
 for ( long i = 0; i != inputs.nr(); ++i){samples.insert({dlib::trans(dlib::subm(inputs, i, 0, 1, 2)), UNVISITED});}
 
 
 int C = 0;
 /*To be continued...*/
 for(auto it = samples.begin(); it != samples.end(); ++it ){
-  if(it->second != unvisited)continue;
-  Neighbors N = RangeQueryDBSCAN(samples, disFunc, it->first, epsilon);
+  if(it->second != UNVISITED)continue;
+  Neighbors N = RangeQuery_DBSCAN(samples, disFunc, {it->first, it->second}, epsilon);
   N.reserve(samples.size());
   if(N.size() < minPts){
    it->second = NOISE;
@@ -117,20 +129,20 @@ for(auto it = samples.begin(); it != samples.end(); ++it ){
   Neighbors S = N; S.erase(it->first);
   S.reserve(samples.size());
   for ( auto it1 = S.begin(); it1 != S.end(); it++){
-     if(samples(it1->first) == NOISE )
-      samples(it1->first) = C;
-    if(samples(it1->first)!=UNVISITED)continue;
+     if(samples[it1->first] == NOISE )
+      samples[it1->first] = C;
+    if(samples[it1->first]!=UNVISITED)continue;
 
-    samples(it1->first) = C;
-    Neighbors N = RangeQueryDBSCAN(samples, disFunc, it1->first, epsilon); 
+    samples[it1->first] = C;
+    Neighbors N = RangeQuery_DBSCAN(samples, disFunc, {it1->first, it1->second}, epsilon); 
     if(N.size() >= minPts )
      S.insert(N.begin(),N.end());
   }
-   Clusters ready_to_plot;
+  
    for(auto it2 = samples.begin(); it2 != samples.end(); it2++ ){
      if(it2->second == NOISE)
      continue;
-     ready_to_plot.insert({it2->second,std::make_pair<double, double>((it2->first)(0, 0),(it2->second)(1, 0));});
+     ready_to_plot.insert({it2->second,std::make_pair<double, double>((it2->first)(0, 0),(it2->second)(1, 0))});
    }
   PlotClusters(ready_to_plot, "DBSCAN clustering", "../results/" +  name + "-DBSCAN.png");
 }
