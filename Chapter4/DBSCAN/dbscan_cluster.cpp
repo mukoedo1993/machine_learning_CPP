@@ -6,6 +6,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <utility>
+#include <functional>
 //This object is intended to represent an edge in an undirected graph which has data samples at its vertices.
 // Therefore, it is the undirected version of ordered_sample_pair.
 
@@ -36,7 +37,7 @@ using Clusters = std::unordered_map<size_t, PointCoords>;
 
 typedef matrix<double, 2, 1> sample_type;
 using Neighbors = std::unordered_map<sample_type, int>;
-
+/*
 namespace std{
   template<>
   struct hash<sample_type>{
@@ -46,7 +47,8 @@ namespace std{
     }
   };
 }
-
+*/
+struct pair_hash{};
 /*need to be rewritten*/
 void PlotClusters(const Clusters& clusters,
                  const std::string& name,
@@ -138,13 +140,14 @@ for(auto it = samples.begin(); it != samples.end(); ++it ){
     if(N.size() >= minPts )
      S.insert(N.begin(),N.end());
   }
-  
+  /*
    for(auto it2 = samples.begin(); it2 != samples.end(); it2++ ){
      if(it2->second == NOISE)
      continue;
-     ready_to_plot.insert({it2->second,std::make_pair<double, double>((it2->first)(0, 0),(it2->second)(1, 0))});
+     ready_to_plot [it2->second] = (std::make_pair<double, double>(static_cast<double>((it2->first)(0, 0)),static_cast<double>((it2->first)(1, 0)))) ;
    }
-  PlotClusters(ready_to_plot, "DBSCAN clustering", "../results/" +  name + "-DBSCAN.png");
+   */
+ // PlotClusters(ready_to_plot, "DBSCAN clustering", "../results/" +  name + "-DBSCAN.png");
 }
 
                         }
