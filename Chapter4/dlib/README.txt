@@ -1,11 +1,9 @@
 In total, five methods of clustering.See: 
-std::cout << "Please input the model: Enter 1, 2, 3, 4 or 5: \n ";
-std::cout<< "case(1):DoHierarhicalClustering(inputs, num_clusters, dataset)\n";
-std::cout << "case(2):DoGraphClustering(inputs, dataset)\n";
-std::cout << "case(3):DoKMeansClustering(inputs, num_clusters, dataset)\n";
-std::cout << "case(4):DoGraphNewmanClustering(inputs, dataset)\n";
-std::cout << " case(5):DoSpectralClustering(inputs, num_clusters, dataset)\n";
-
+case 1: Hierarchical Clustering
+case 2: graph clustering
+case 3: K-Means clustering
+case 4: Graph Newman clustering
+case 5: Spectral clustering
 
 ###
 #Ubuntu terminal:
