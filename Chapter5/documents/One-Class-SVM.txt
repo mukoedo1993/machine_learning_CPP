@@ -1,0 +1,11 @@
+The support vector method is a binary classification method based on using a hyperplane to divide objects into classes.
+THe dimensions of the hyperplane are always chosen so that they're less than the dimensions of the original space.
+
+One-Class SVM (OCSVM) is an adaption of the support vector method that focuses on anomaly detection. OSCVM differs from the
+std. version in a way that, the resulting optimization problem includes an improvement for determining a samll percentage of 
+predetermined anomalous values, which allows this method to be used to detect anomalies. These anomalous values lie between 
+the starting point and the optimal separating hyperplane.
+
+OCSVM assigns a label, which is the distance from the test data point to the optimal hyperplane. Positive values in the OCSVM output
+represent normal behavior (with higher values representing greater normality), while negative values represent anomalous behavior
+(the lower the value, the more significant the anomaly).
