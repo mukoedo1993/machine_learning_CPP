@@ -159,9 +159,47 @@ namespace iforest {
          using Data = DatasetRange<Cols>;
 
          IsolationForest(const IsolationForest&) = delete;
-         /*line 150!!!!!!!!!!!!!!!!!*/
+         IsolationForest& operator=(const IsolationForest&) = delete;
+         IsolationForest(const Dataset<Cols>& dataset,
+                         size_t num_trees,
+                         size_t sample_size)
+            : rand_engine(2325) {
+            std::vector<size_t> indices(dataset.size());
+            std::iota(indices.begin(). indices.end(), 0);
+
+
+            size_t hlim = static_cast<size_t>(ceil(log2(sample_size)));
+            for (size_t i = 0; i < num_trees; ++i) {
+                std::vector<size_t> sample_indices;
+                std::sample(indices.begin(), indices.end(),
+                            std::back_insert_iterator(sample_indices), sample_size, 
+                            rand_engine);
+                trees.emplace_back(&rand_engine,
+                                   Data(std::move(sample_indices), &dataset), hlim);
+            }
+
+             double n = dataset.size();
+             c = CalcC(n);
+            }
+
+
+
+            double AnomalyScore(const Sample<Cols>& sample) {
+                double avg_path_length = 0;
+                for (auto& tree : trees) {
+                    avg_path_length += tree.PathLength(sample);
+                }
+                avg_path_length /= trees.size();
+
+                double anomaly_score = pow(2, -avg_path_length / c);
+                return anomaly_score;
+            }
+        private:
+         std::mt19937 rand_engine;
+         std::vector<IsolationTree<Cols>> trees;
+         double c{0};
     };
 
-}
+}   // namespace iforest
 
 #endif //ISOLATION_FOREST_H
