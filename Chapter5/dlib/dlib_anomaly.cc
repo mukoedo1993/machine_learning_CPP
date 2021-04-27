@@ -175,6 +175,7 @@ void OneClassSvm(const Matrix& normal,
     PlotClusters(clusters, "One Class SVM", file_name);
 }
 
+
 void IsolationForest(const Matrix& normal,
                      const Matrix& test,
                      const std::string& file_name) {
@@ -207,6 +208,7 @@ void IsolationForest(const Matrix& normal,
         if (anomaly_score < threshold) {
             clusters[0].first.push_back(s[0]);
             clusters[0].second.push_back(s[1]);
+            //normal
         } else {    // anomaly
             clusters[1].first.push_back(s[0]);
             clusters[1].second.push_back(s[1]);

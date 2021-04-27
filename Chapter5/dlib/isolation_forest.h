@@ -25,7 +25,11 @@ namespace iforest {
     template <size_t Cols>
     using Dataset = std::vector<Sample<Cols>>;
     
-
+    /*
+    The CalcC() function can be implemented in the following way,
+    according to the formula from the original paper, which describes the
+    isolation forest algorithm:
+    */
     double CalcC(size_t n) {
         double c = 0;
         if (n > 1)
@@ -221,6 +225,24 @@ namespace iforest {
     the MakeIsolationTree() method.
     */
 
+
+
+
+   /*
+   The final part of the algorithm's implementation is the creation of the forest. The forest is an array
+   of trees built from a limited number of samples, randomly chosen from the original dataset. The number of samples
+   used to build the tree is a hyperparameter of this algorithm. Furthermore, this implementation uses heuristics as 
+   the stopping criteria, in that, it is a maximum tree height hlim value.
+
+   Let's see how it is used in the tree building procedure. The hlim value is calculated only once, and the following code shows this.
+   Moreover, it is based on the No. of samples that are used to build a single tree:
+
+   The tree forest is built in the ctor. of the IsolationForest type. We also calculated the value of the average path length
+   of the unsuccessful search in a binary search tree for all of the samples in the ctor. We use this forest in the AnomalyScore() method
+   for the actual process of anomaly detection. It implements the formula for the anomaly score value for a given sample. It returns
+   a value that can be interpreted in the following way: If the returned value is close to 1, then the sample has anomalous features,
+   while if the value is less than 0.5, then we can assume that the sample is a normal one.
+   */
     template <size_t Cols>
     class IsolationForest {
         public:
@@ -251,7 +273,11 @@ namespace iforest {
             }
 
 
-
+            /*
+            Finally, we called the AnomalyScore() method for each sample from the dataset in order to detect
+            anomalies with thresholds and return their values. In the following graph, we can see the result of
+            anomaly detection after using the Isolation Forest algorithm. The red points are the anomalies.
+            */
             double AnomalyScore(const Sample<Cols>& sample) {
                 double avg_path_length = 0;
                 for (auto& tree : trees) {
