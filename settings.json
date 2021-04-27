@@ -1,0 +1,21 @@
+{
+    "C_Cpp.updateChannel": "Insiders",
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "java.configuration.checkProjectSettingsExclusions": false,
+    "python.languageServer": "Microsoft",
+    "terminal.integrated.inheritEnv": false,
+    "debug.onTaskErrors": "showErrors",
+    "workbench.editorAssociations": [
+        {
+            "viewType": "jupyter.notebook.ipynb",
+            "filenamePattern": "*.ipynb"
+        }
+    ],
+    "kite.showWelcomeNotificationOnStartup": false,
+    "window.zoomLevel": -1,
+    "breadcrumbs.enabled": false,
+    "explorer.confirmDelete": false,
+    "C_Cpp.default.includePath": ["/home/zcw/C++_MUKOEDO_LIB/asio-1.18.1/include"] //,
+    //"C_Cpp.default.systemIncludePath": ["/home/zcw/C++_MUKOEDO_LIB/asio-1.18.1/include"]
+}

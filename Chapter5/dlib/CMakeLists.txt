@@ -15,8 +15,8 @@ add_subdirectory(/home/zcw/C++_MUKOEDO_LIB/Dlib_clone/dlib-19.21/dlib dlib_build
 add_executable(dlib_anomaly dlib_anomaly.cc isolation_forest.h)
 
 
-target_link_libraries(dlib_cluster dlib::dlib)
-target_link_libraries(dlib_cluster stdc++fs)
+target_link_libraries(dlib_anomaly dlib::dlib)
+target_link_libraries(dlib_anomaly stdc++fs)
  # We don't need here as soon as we don't need an input file
 #for this chapter.
 

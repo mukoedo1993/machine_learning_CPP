@@ -195,7 +195,7 @@ void IsolationForest(const Matrix& normal,
 
     //slightly different from the original code:
     //feed the template parameter as 2 here...
-    iforest::IsolationForest<2> iforest(dataset, 300, 50);
+    iforest::IsolationForest iforest(dataset, 300, 50);
 
     Clusters clusters;
     double threshold = 0.6; // change this value to see isolation boundary
@@ -267,15 +267,15 @@ void IsolationForest(const Matrix& normal,
                 auto dataset_uni = LoadDataset(base_dir / data_name_uni);
 
                 MultivariateGaussianDist(dataset_multi.first, dataset_multi.second,
-                                        "dlib-multi-var.png");
+                                        "../../results/dlib-multi-var.png");
 
-                OneClassSvm(dataset_multi.first, dataset_multi.second, "dlib-ocsvm.png");
+                OneClassSvm(dataset_multi.first, dataset_multi.second, "../../results/dlib-ocsvm.png");
 
                 // make dataset with two clusters
 
                 auto dataset_combi = CombineDatasets(dataset_multi, dataset_uni);
                 OneClassSvm(dataset_combi.first, dataset_combi.second,
-                            "dlib-ocsvm_two.png");
+                            "../../results/dlib-ocsvm_two.png");
             } catch ( const std::exception& err) {
                 std::cerr << err.what();
             }

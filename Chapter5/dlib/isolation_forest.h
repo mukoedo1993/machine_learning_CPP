@@ -31,7 +31,10 @@ namespace iforest {
                     const Dataset<Cols>* dataset_)
                     : indices(std::move(indices_)), dataset(dataset_) {}
    //A move constructor allows the resources owned by an rvalue object to be moved into an lvalue without creating its copy. 
-
+        size_t size() const {return indices.size();}
+        DataType at(size_t row, size_t col) const {
+            return (*dataset)[indices[row]][col];
+        }
         std::vector<size_t> indices;
         const Dataset<Cols>* dataset;
     };
@@ -74,7 +77,7 @@ namespace iforest {
 
          IsolationTree(const IsolationTree&) = delete;
          IsolationTree& operator=(const IsolationTree&) = delete;
-         IsolationTree(std::mit19937* rand_engine, Data data, size_t hlim)
+         IsolationTree(std::mt19937* rand_engine, Data data, size_t hlim)
            : rand_engine(rand_engine) {
                root = MakeIsolationTree(data, 0, hlim);
         }
@@ -165,7 +168,7 @@ namespace iforest {
                          size_t sample_size)
             : rand_engine(2325) {
             std::vector<size_t> indices(dataset.size());
-            std::iota(indices.begin(). indices.end(), 0);
+            std::iota(indices.begin(), indices.end(), 0);
 
 
             size_t hlim = static_cast<size_t>(ceil(log2(sample_size)));
