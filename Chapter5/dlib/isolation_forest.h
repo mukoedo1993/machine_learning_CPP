@@ -16,7 +16,7 @@ namespace iforest {
     using Sample = std::array<DataType, Cols>;
     template <size_t Cols>
     using Dataset = std::vector<Sample<Cols>>;
-
+    
 
     double CalcC(size_t n) {
         double c = 0;
