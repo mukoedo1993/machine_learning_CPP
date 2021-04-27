@@ -124,9 +124,8 @@ namespace iforest {
         private:
         /*
         Another vital method of the IsolationTree type is the PathLength() method.
-        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        !!!!!!!!!!!!!!!!!!
-        PAGE 158
+        We use for anomaly score calculations. It takes the sample as an input parameter
+        and return the amortized path length to the corresponding tree leaf from the root node:
         */
         double PathLength(const Sample<Cols>& sample,
                          const Node* node,
