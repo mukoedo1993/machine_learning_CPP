@@ -12,7 +12,7 @@ add_subdirectory(/home/zcw/C++_MUKOEDO_LIB/Dlib_clone/dlib-19.21/dlib dlib_build
 
 
 
-add_executable(dlib_cluster dlib_cluster.cpp)
+add_executable(dlib_anomaly dlib_anomaly.cc isolation_forest.h)
 
 
 target_link_libraries(dlib_cluster dlib::dlib)
