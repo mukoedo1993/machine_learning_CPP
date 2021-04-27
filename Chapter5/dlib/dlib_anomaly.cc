@@ -1,3 +1,5 @@
+//References:
+//http://dlib.net/matrix_ex.cpp.html
 #include <dlib/matrix.h>
 #include <dlib/svm.h>
 #include <plotcpp_clone/plotcpp/plot.h>
@@ -133,5 +135,156 @@ void PlotClusters(const Clusters& clusters,
 void OneClassSvm(const Matrix& normal,
                 const Matrix& test,
                 const std::string& file_name) {
-                 // line 118   
-                }
+                 // line 118 
+
+     typedef dlib::matrix<double, 0, 1> sample_type;//runtime_sized_column_vector
+     typedef radial_basis_kernel<sample_type> kernel_type;  
+     svm_one_class_trainer<kernel_type> trainer;
+     trainer.set_nu(0.5);                    // control smoothness of the solution
+     trainer.set_kernel(kernel_type(0.5));      // kernel bandwidth
+     std::vector<sample_type> samples;
+     
+     for (long r = 0; r < normal.nr(); ++r) {
+          auto row = rowm(normal, r);
+          samples.push_back(row);
+     }
+     decision_function<kernel_type> df = trainer.train(samples);
+     Clusters clusters;
+     double threshold = -2.0;
+
+
+     auto detect = [&](auto samples) {
+         for ( long r = 0; r < samples.nr(); ++r) {
+             auto row = dlib::rowm(samples, r);
+             double x = row(0, 0);
+             double y = row(0, 1);
+             auto p = df(row);
+             if (p > threshold) {
+                 clusters[0].first.push_back(x);
+                 clusters[0].second.push_back(y);
+             } else {
+                 clusters[1].first.push_back(x);
+                 clusters[1].second.push_back(y);
+             }
+         }
+     };
+
+
+    detect(normal);
+    detect(test);
+    PlotClusters(clusters, "One Class SVM", file_name);
+}
+
+void IsolationForest(const Matrix& normal,
+                     const Matrix& test,
+                     const std::string& file_name) {
+    iforest::Dataset<2> dataset;
+
+    auto put_to_dataset = [&](const Matrix& samples) {
+        for ( long r = 0; r < samples.nr(); ++r) {
+            auto row = dlib::rowm(samples, r);
+            double x = row(0, 0);
+            double y = row(0, 1);
+            dataset.push_back({x, y});
+        }
+    };
+
+
+    put_to_dataset(normal);
+    put_to_dataset(test);
+
+    //slightly different from the original code:
+    //feed the template parameter as 2 here...
+    iforest::IsolationForest<2> iforest(dataset, 300, 50);
+
+    Clusters clusters;
+    double threshold = 0.6; // change this value to see isolation boundary
+    for (auto& s : dataset) {
+        auto anomaly_score = iforest.AnomalyScore(s);
+        // std::cout << anomaly_score << " " << s[0] << " " << s[1] << std::endl;
+
+
+        if (anomaly_score < threshold) {
+            clusters[0].first.push_back(s[0]);
+            clusters[0].second.push_back(s[1]);
+        } else {    // anomaly
+            clusters[1].first.push_back(s[0]);
+            clusters[1].second.push_back(s[1]);
+        }
+    }                 
+                     
+       PlotClusters(clusters, "Isolation Forest", file_name);              
+    }
+
+    using Dataset = std::pair<Matrix, Matrix>;
+
+    Dataset LoadDataset(const fs::path& file_path) {
+        if (fs::exists(file_path)) {
+            std::ifstream file(file_path);
+            matrix<DataType> data;
+            file >> data;
+
+            long n_normal = 50;
+            Matrix normal = 
+                 dlib::subm(data, range(0, n_normal -1), range(0, data.nc() - 1));
+            Matrix test = dlib::subm(data, range(n_normal, data.nr() - 1),
+                                    range(0, data.nc() -1));
+            return {normal, test} ;    
+        } else {
+            std::string msg = "Dataset file " + file_path.string() + " missed\n";
+            throw std::invalid_argument(msg);
+        }
+    }
+
+    Dataset CombineDatasets(const Dataset& a, const Dataset& b) {
+        Matrix normal(a.first.nr() + b.first.nr(), a.first.nc());
+        set_subm(normal, range(0, a.first.nr() - 1), range(0, a.first.nc() -1)) = 
+            a.first;
+        set_subm(normal, range(a.first.nr(), normal.nr() -1),
+                range(0, a.first.nc() -1)) = b.first;
+        
+        Matrix test(a.second.nr() + b.second.nr(), a.second.nc());
+        set_subm(test, range(0, a.second.nr() - 1), range(0, a.second.nc() - 1)) =
+            a.second;
+        set_subm(test, range(a.second.nr(), test.nr() - 1),
+                range(0, a.second.nc() - 1)) = b.second;
+
+        return {normal, test};
+    }
+
+
+
+    int main(int argc, char** argv) {
+        if (argc > 1) {
+            try {
+                auto base_dir = fs::path(argv[1]);
+
+
+                std::string data_name_multi{"multivar.csv"};
+                std::string data_name_uni{"univar.csv"};
+
+                auto dataset_multi = LoadDataset(base_dir / data_name_multi);
+                auto dataset_uni = LoadDataset(base_dir / data_name_uni);
+
+                MultivariateGaussianDist(dataset_multi.first, dataset_multi.second,
+                                        "dlib-multi-var.png");
+
+                OneClassSvm(dataset_multi.first, dataset_multi.second, "dlib-ocsvm.png");
+
+                // make dataset with two clusters
+
+                auto dataset_combi = CombineDatasets(dataset_multi, dataset_uni);
+                OneClassSvm(dataset_combi.first, dataset_combi.second,
+                            "dlib-ocsvm_two.png");
+            } catch ( const std::exception& err) {
+                std::cerr << err.what();
+            }
+        } else {
+            std::cerr << "Please provide path to the datasets folder\n";
+        }
+
+        return 0;
+    }
+
+
+
