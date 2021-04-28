@@ -55,7 +55,14 @@ void PlotClusters(const Clusters& clusters,
    void MultivariateGaussianDist(const Matrix& normal,
                                 const Matrix& test,
                                 const std::string& file_name) {
-   
+   /*
+   Prelude: Using the linear algebra facilities of the dlib library (or any other library, for that matter),
+   we can implement anomaly detection with the multivariate Gaussian distribution approach. The following example
+   shows how to implement this approach with the dlib linear algebra routines:
+   */
+
+
+
    // assume that rows are samples and columns are features
    // calculate per feature mean
    dlib::matrix<double> mu(1, normal.nc());
@@ -128,26 +135,64 @@ void PlotClusters(const Clusters& clusters,
    detect(normal);
    detect(test);       
    PlotClusters(clusters, "Multivariate Gaussian Distribution", file_name);                  
-                                
+   
+   /*
+   The idea of this approach is to define a function that returns the probability of appearing,
+   given a sample in a dataset. To implement such a function, we calculate the statistical characteristics
+   of the training dataset. In the first step, we calculate the mean values of each feature and store them into
+   the one-dimensional matrix. Then, we calculate the covariance matrix for the training samples using the formula
+   for the correlation matrix.
+
+   Next, we determine the correlation matrix determinant and inverse version. We define a lambda function named prob
+   to calculate the probability of a single sample using the formula for the prob. calculation that was given in a previous
+   section. We also define a probability threshold to separate anomalies.
+   Then, we iterate over all he examples (including the training, and testing datasets) to find out how the algorithm
+   separates regular samples from anomalies. In the following graph, we can see the result of this separation. The dots marked
+   with a light color are anomalies.
+   */
 }
 
-
+/*
+The most widely used kernel is based on the Gaussian distribution and is known as the
+Radial Basis Kernel. It is implemented in the radial_base_kernel class. Typically, we represent 
+datasets in the dlib library as a C++ vector of separate samples.
+So, before ... See line 159:
+*/
 void OneClassSvm(const Matrix& normal,
                 const Matrix& test,
                 const std::string& file_name) {
-                 // line 118 
+             
 
      typedef dlib::matrix<double, 0, 1> sample_type;//runtime_sized_column_vector
      typedef radial_basis_kernel<sample_type> kernel_type;  
      svm_one_class_trainer<kernel_type> trainer;
      trainer.set_nu(0.5);                    // control smoothness of the solution
+     /*
+     https://zone.ni.com/reference/en-XX/help/377059A-01/lvaml/aml_initialize_anomaly_detection_model_one_class_svm/
+     nu specifies the nu parameter for the one-class SVM model.
+      The nu parameter is both a lower bound for the number of samples that are support vectors 
+      and an upper bound for the number of samples that are on the wrong side of the hyperplane.
+       The default is 0.1. The nu parameter must be in the range [0,1].
+      For example, if nu is 0.05, the training samples that are wrongly classified are not allowed to take up
+       more than 5 percent of all training samples.
+       Also, at least 5 percent of the training samples are support vectors.
+     */
      trainer.set_kernel(kernel_type(0.5));      // kernel bandwidth
      std::vector<sample_type> samples;
-     
+     /*
+     See line 138...
+     using this trainer object, we have to convert a matrix dataset into a vector:
+     */
      for (long r = 0; r < normal.nr(); ++r) {
           auto row = rowm(normal, r);
           samples.push_back(row);
      }
+
+     /*
+     The result of the training process is a decision function object of the decision_function<kernel_type>
+     class that we can use for single sample classfication. Objects of this type can be used as a regular function.
+     The result of a decision function is the distance from the normal class boundary, so the most distant samples
+     */
      decision_function<kernel_type> df = trainer.train(samples);
      Clusters clusters;
      double threshold = -2.0;
@@ -173,6 +218,14 @@ void OneClassSvm(const Matrix& normal,
     detect(normal);
     detect(test);
     PlotClusters(clusters, "One Class SVM", file_name);
+    /*
+    Conclusion: the result of the training process is a decision function object of the
+    decision_function<kernel_type> class that we can use for single sample classfication.
+    Objects of this type can be used as a regular function. The result of a decision function is 
+    the distance from the normal class boundary, so the most distant samples can be classified as
+    anomalies. The following diagram shows an example of how the OCSVM algorithm from the dlib works.
+    Note that the red dots correspond to anomalies.
+    */
 }
 
 
@@ -186,7 +239,7 @@ void IsolationForest(const Matrix& normal,
             auto row = dlib::rowm(samples, r);
             double x = row(0, 0);
             double y = row(0, 1);
-            dataset.push_back({x, y});
+            dataset.push_back({x, y});//dataset std::vector<std::array<double, 2>>
         }
     };
 
