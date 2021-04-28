@@ -1,0 +1,18 @@
+curse of dimenionnality
+As a result, reducing dimensionality can effectively solve problems regarding
+classification, visualization, and compressing high-dimensional data.
+It amkes sense to apply dimensionality reduction only when particular data is redundant.
+Otherwise, ... -> losing important information
+
+It makes sense to reduce the number of features when the information that can be used to solve 
+the problem at hand qualitatitively is contained in a specific subset of features.
+1: Non-informative features are a source of additional noise and affect the accuracy of the model
+parameter's estimation.
+2: dataset with a large number of features can contain groups of correlted variables.
+
+
+notes:
+1: The methods -> mainly unsupervised -> because we don't know which features or variables can be excluded from
+the original dataset without losing the most crucial information
+2: Dimensionality reduction methods:
+(i): linear approaches (ii): non-linear approaches
