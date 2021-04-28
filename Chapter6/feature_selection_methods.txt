@@ -1,0 +1,32 @@
+(I): Missing value ratio:
+This method is based on the idea that a feature that misses many
+values should be eliminated from a dataset because it doesn't contain valuable
+information and can distort the model's performance results. So, if we have some criteria
+for identifying missing values, we can calculate their ratio to typical values and set a threshold that 
+we can use to eliminate features with a high missing value ratio.
+
+(II): Low variance filter:
+This method is used to remove features with low variance because such features don't contain enough information to
+improve model performance. To apply this method, we need to calculate the variance for each feature, sort them in ascending
+order by this value, and leave only those with the highest variance values.
+
+(III): High correlation filter:
+This method is based on the idea that if two features habe a high correlation, then they carry similar information. Also, highly correlated features
+can significantly reduce the performance of some ML models, such as linear and logistic regression. Therefore, the primary goal of this method is
+to leave only the features that have a high correlation with target values and don't have much correlation between each other.
+
+
+(IV): random forest:
+This method can be used for feature selection effectively (although it wasn't initially designed for this kind of task). After
+we've built the forest, we can estimate what features are most important by estimating the impurity factor in the tree's nodes. This factor
+shows the measure of split distinctness in the tree's nodes. This factor shows the measure of split distinctness in the tree's nodes, and it demonstrates how
+well the current feature (a random tree only uses one feature in a node to split input data) splits data into two distinct buckets. Then, this estimation can be
+averaged across all the trees in the forest. Features that split data better than others can be selected as the most important ones.
+
+
+(V): Backward feature elimination and forward feature selection:
+These are iterative methods that are used for feature seletion. In backward feature elimination, after we've trained the model 
+with a full feature set and estimated its performance, we remove its features one by one and train the model with a reduced feature set.
+Then, we compare the model's performances and decide how much performance is improved by removing feature changes - in other words, 
+we're deciding how important each feature is. In forward feature selection, the training process goes in the opposite direction. We start with
+one feature and then add more of them. These methods are very computationally expensive and can only be used on small datasets.
