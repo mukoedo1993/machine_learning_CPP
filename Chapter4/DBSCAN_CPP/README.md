@@ -7,6 +7,7 @@ Extra References:
 
 
 ###
+```
 #Ubuntu terminal:
 rm -r build
 mkdir build && cd build && cmake ..; cmake --build . --config Release
@@ -15,4 +16,5 @@ mkdir build && cd build && cmake ..; cmake --build . --config Release
 #Run:
 ./dbscan_cluster ../data #LINE 7
 # Then, just follow the instructions.
-# When it is finished, you could recycle the code by running line 8 code again.
+# When it is finished, you could recycle the code by running line 7 code again.
+```
