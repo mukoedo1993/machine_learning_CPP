@@ -4,7 +4,7 @@ some extra refrences here.
 
 Extra References:
 1: https://github.com/james-yoo/DBSCAN
-
+(LICENSE file is included in this directory.)
 
 ###
 ```
