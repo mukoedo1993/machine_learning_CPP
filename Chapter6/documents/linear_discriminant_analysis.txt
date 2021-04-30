@@ -1,0 +1,6 @@
+Linear Discriminant Analysis (LDA)
+It is a classification algorithm, but during training it learns the most discriminative
+axes between the classes, and these axes can then be used to define a hyperplane onto which
+to project the data. The benefit of this approach is that the projection will keep classes 
+as far as possible, so LDA is a good technique to reduce dimensionaliy before running another
+classfication algorithm such as SVM classifier.
