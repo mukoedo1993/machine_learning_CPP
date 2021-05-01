@@ -331,6 +331,10 @@ void IsolationForest(const Matrix& normal,
                 auto dataset_combi = CombineDatasets(dataset_multi, dataset_uni);
                 OneClassSvm(dataset_combi.first, dataset_combi.second,
                             "../../results/dlib-ocsvm_two.png");
+
+                IsolationForest(dataset_combi.first, dataset_combi.second,
+                "dlib-iforest-two.png");
+                
             } catch ( const std::exception& err) {
                 std::cerr << err.what();
             }
