@@ -1,3 +1,8 @@
+Target: 
+To show the anomalies using three methods: multivariate Gaussian, One-Class SVM and
+isolation-forest.
+We will plot results in the result directory.
+```
 ###
 #Ubuntu terminal:
 cd dlib
@@ -8,3 +13,4 @@ mkdir build && mkdir ../results && cd build && cmake ..; cmake --build . --confi
 ./dlib_anomaly ../../data #LINE 7
 # Then, just follow the instructions.
 # When it is finished, you could recycle the code by running line 7 command  again.
+```
