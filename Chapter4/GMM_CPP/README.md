@@ -14,5 +14,7 @@ C++ implemens GMM (Gaussian mixture model)
 
 Chinese Details:http://www.cnblogs.com/luxiaoxun/archive/2013/05/10/3071672.htm
 
-
+Also See:
+===
+https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm#Gaussian_mixture
 
