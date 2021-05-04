@@ -1,0 +1,15 @@
+   template <
+        typename value_type,
+        typename alloc
+        >
+    const matrix_exp mat (
+        const std::vector<value_type,alloc>& vector
+    );
+    /*!
+        ensures
+            - returns a matrix R such that:
+                - is_col_vector(R) == true 
+                - R.size() == vector.size()
+                - for all valid r:
+                  R(r) == vector[r]
+    !*/
