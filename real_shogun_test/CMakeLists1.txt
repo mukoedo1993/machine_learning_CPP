@@ -1,0 +1,38 @@
+#git submodule add https://github.com/mpark/variant.git 3rdparty/variant
+cmake_minimum_required(VERSION 3.10)
+project(tst1)
+find_package (Eigen3 3.3 REQUIRED NO_MODULE REQUIRED)
+find_package(Boost 1.71.0 COMPONENTS system filesystem serialization REQUIRED)
+find_package(spdlog REQUIRED)
+set(CMAKE_CXX_FLAGS "-std=c++17 -msse3 -fopenmp -lstdc++fs -fpermissive -lcblas -lpthread -lboost_serialization -lboost_system")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG -lcblas -lboost_serialization -lboost_system")
+set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -lcblas -lboost_serialization -lboost_system")
+
+
+set(Boost_USE_MULTITHREADED ON)
+
+
+
+#include_directories($HOME/projects/opencv/build/include )
+
+
+link_directories(/home/zcw/anaconda3/envs/quast-env/lib)
+include_directories(/home/zcw/anaconda3/envs/quast-env/include)
+
+include_directories(/usr/local/include ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUDE_DIR})
+
+if (CURL_FOUND)
+    include_directories(${CURL_INCLUDE_DIRS})
+    add_definitions(-DHAVE_CURL)
+endif()
+
+#cmake -DSPDLOG_BUILD_TESTS=OFF -DSPDLOG_BUILD_TESTS_HO=OFF.; cmake --build . --config Release
+
+add_executable(tst1 shogun_test.cc)
+
+target_link_libraries(tst1 stdc++fs)
+target_link_libraries(tst1 stdc++)
+target_link_libraries(tst1 cblas)
+target_link_libraries(tst1 spdlog)
+target_link_libraries(tst1 Eigen3::Eigen)
+target_link_libraries(tst1 /home/zcw/anaconda3/envs/quast-env/lib/libshogun.so ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES} ${OpenCV_LIBS})
