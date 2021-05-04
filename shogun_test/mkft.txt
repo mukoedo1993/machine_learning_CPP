@@ -1,0 +1,4 @@
+mkdir build
+cd build/
+cmake -DSHOGUN_PATH=$LIBS_DIR -DPLOTCPP_PATH=$LIBS_DIR/sources/plotcpp/ ..
+cmake --build . --target all
