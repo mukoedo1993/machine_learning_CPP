@@ -18,7 +18,7 @@ const std::vector<std::string> colors {"black", "red", "blue", "green",
 
 
 using DataType = double;
-using Matrix = matrix<DataType>;
+using Matrix = dlib::matrix<DataType>;
 using Coords = std::vector<DataType>;
 using PointCoords = std::pair<Coords, Coords>;
 using Clusters = std::unordered_map<size_t, PointCoords>;
@@ -165,6 +165,41 @@ void PlotClusters(const Clusters& clusters,
 
 
     void PCACompression(const std::string& image_file, long target_dim) {
-        /*LINE 120! OF*/
-        //https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter06/dlib/dlib-dr.cc
+       
+        //http://dlib.net/dlib/array2d/array2d_kernel.h.html
+        //see array2d_document.txt
+        array2d<dlib::rgb_pixel> img;
+        load_image(img, image_file);// destination source
+
+        array2d<unsigned char> img_gray;
+        assign_image(img_gray, img);// destination source
+        save_png(img_gray, "original.png");
+
+        array2d<DataType> tmp;
+        assign_image(tmp, img_gray);// destination source
+        Matrix img_mat = dlib::mat(tmp);
+        img_mat /= 255.;    // scale
+
+
+        std::cout << "Original data size " << img_mat.size() << std::endl;
+
+
+        //take patches 8x8
+        std::vector<Matrix> data;
+        int patch_size = 8;
+
+        for (long r = 0; r < img_mat.nr(); r+=patch_size) {
+          for (long c = 0; c < img_mat.nc(); c += patch_size) {
+            Matrix sm = dlib::subm(img_mat, r, c, patch_size, patch_size);
+            data.emplace_back(dlib::reshape_to_column_vector(sm));
+          }
+        }
+
+        // normalize data
+        Matrix data_mat = mat(data);
+        Matrix m = mean(data_mat);
+        Matrix sd = reciprocal(sqrt(variance(data_mat)));
+        
+        /*line 151*/
+        // //https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter06/dlib/dlib-dr.cc
     }
