@@ -114,17 +114,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named shogun-dr
+# Target rules for targets named linreg_shogun
 
 # Build rule for target.
-shogun-dr: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 shogun-dr
-.PHONY : shogun-dr
+linreg_shogun: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 linreg_shogun
+.PHONY : linreg_shogun
 
 # fast build rule for target.
-shogun-dr/fast:
-	$(MAKE) -f CMakeFiles/shogun-dr.dir/build.make CMakeFiles/shogun-dr.dir/build
-.PHONY : shogun-dr/fast
+linreg_shogun/fast:
+	$(MAKE) -f CMakeFiles/linreg_shogun.dir/build.make CMakeFiles/linreg_shogun.dir/build
+.PHONY : linreg_shogun/fast
 
 shogun_test.o: shogun_test.cpp.o
 
@@ -132,7 +132,7 @@ shogun_test.o: shogun_test.cpp.o
 
 # target to build an object file
 shogun_test.cpp.o:
-	$(MAKE) -f CMakeFiles/shogun-dr.dir/build.make CMakeFiles/shogun-dr.dir/shogun_test.cpp.o
+	$(MAKE) -f CMakeFiles/linreg_shogun.dir/build.make CMakeFiles/linreg_shogun.dir/shogun_test.cpp.o
 .PHONY : shogun_test.cpp.o
 
 shogun_test.i: shogun_test.cpp.i
@@ -141,7 +141,7 @@ shogun_test.i: shogun_test.cpp.i
 
 # target to preprocess a source file
 shogun_test.cpp.i:
-	$(MAKE) -f CMakeFiles/shogun-dr.dir/build.make CMakeFiles/shogun-dr.dir/shogun_test.cpp.i
+	$(MAKE) -f CMakeFiles/linreg_shogun.dir/build.make CMakeFiles/linreg_shogun.dir/shogun_test.cpp.i
 .PHONY : shogun_test.cpp.i
 
 shogun_test.s: shogun_test.cpp.s
@@ -150,7 +150,7 @@ shogun_test.s: shogun_test.cpp.s
 
 # target to generate assembly for a file
 shogun_test.cpp.s:
-	$(MAKE) -f CMakeFiles/shogun-dr.dir/build.make CMakeFiles/shogun-dr.dir/shogun_test.cpp.s
+	$(MAKE) -f CMakeFiles/linreg_shogun.dir/build.make CMakeFiles/linreg_shogun.dir/shogun_test.cpp.s
 .PHONY : shogun_test.cpp.s
 
 # Help Target
@@ -161,7 +161,7 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... shogun-dr"
+	@echo "... linreg_shogun"
 	@echo "... shogun_test.o"
 	@echo "... shogun_test.i"
 	@echo "... shogun_test.s"

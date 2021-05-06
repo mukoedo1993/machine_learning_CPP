@@ -1,0 +1,11 @@
+typename mem_mmanager = default_memory_manager;
+typedef typename EXP::mem_manager_type mem_manager_type;
+
+default_memory_manager
+
+
+This is a memory manager object which simply calls new and delete directly (i.e. it doesn't really do anything).
+It is the default memory manager used by most of the objects in dlib.
+
+
+http://dlib.net/dlib/memory_manager_stateless/memory_manager_stateless_kernel_1.h.html

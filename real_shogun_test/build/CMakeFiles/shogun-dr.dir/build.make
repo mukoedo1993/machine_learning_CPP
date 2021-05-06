@@ -82,6 +82,10 @@ shogun__dr_EXTERNAL_OBJECTS =
 
 shogun-dr: CMakeFiles/shogun-dr.dir/shogun_test.cpp.o
 shogun-dr: CMakeFiles/shogun-dr.dir/build.make
+shogun-dr: /home/zcw/anaconda3/envs/quast-env/lib/libshogun.so
+shogun-dr: /home/zcw/anaconda3/pkgs/shogun-cpp-6.1.3-blas_openblash9eb233f_1002/lib/libshogun.so
+shogun-dr: /home/zcw/anaconda3/envs/quast-env/lib/libshogun.so
+shogun-dr: /home/zcw/anaconda3/pkgs/shogun-cpp-6.1.3-blas_openblash9eb233f_1002/lib/libshogun.so
 shogun-dr: CMakeFiles/shogun-dr.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/zcw/machine_learning_CPP/real_shogun_test/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable shogun-dr"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/shogun-dr.dir/link.txt --verbose=$(VERBOSE)

@@ -19,6 +19,9 @@ SUFFIXES =
 .SUFFIXES: .hpux_make_needs_suffix_list
 
 
+# Produce verbose output by default.
+VERBOSE = 1
+
 # Suppress display of executed commands.
 $(VERBOSE).SILENT:
 
@@ -53,7 +56,7 @@ CMAKE_BINARY_DIR = /home/zcw/machine_learning_CPP/real_shogun_test
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/tst1.dir/all
+all: CMakeFiles/linreg_shogun.dir/all
 
 .PHONY : all
 
@@ -63,36 +66,36 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/tst1.dir/clean
+clean: CMakeFiles/linreg_shogun.dir/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/tst1.dir
+# Target rules for target CMakeFiles/linreg_shogun.dir
 
 # All Build rule for target.
-CMakeFiles/tst1.dir/all:
-	$(MAKE) -f CMakeFiles/tst1.dir/build.make CMakeFiles/tst1.dir/depend
-	$(MAKE) -f CMakeFiles/tst1.dir/build.make CMakeFiles/tst1.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zcw/machine_learning_CPP/real_shogun_test/CMakeFiles --progress-num=1,2 "Built target tst1"
-.PHONY : CMakeFiles/tst1.dir/all
+CMakeFiles/linreg_shogun.dir/all:
+	$(MAKE) -f CMakeFiles/linreg_shogun.dir/build.make CMakeFiles/linreg_shogun.dir/depend
+	$(MAKE) -f CMakeFiles/linreg_shogun.dir/build.make CMakeFiles/linreg_shogun.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zcw/machine_learning_CPP/real_shogun_test/CMakeFiles --progress-num=1,2 "Built target linreg_shogun"
+.PHONY : CMakeFiles/linreg_shogun.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/tst1.dir/rule: cmake_check_build_system
+CMakeFiles/linreg_shogun.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/zcw/machine_learning_CPP/real_shogun_test/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tst1.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/linreg_shogun.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/zcw/machine_learning_CPP/real_shogun_test/CMakeFiles 0
-.PHONY : CMakeFiles/tst1.dir/rule
+.PHONY : CMakeFiles/linreg_shogun.dir/rule
 
 # Convenience name for target.
-tst1: CMakeFiles/tst1.dir/rule
+linreg_shogun: CMakeFiles/linreg_shogun.dir/rule
 
-.PHONY : tst1
+.PHONY : linreg_shogun
 
 # clean rule for target.
-CMakeFiles/tst1.dir/clean:
-	$(MAKE) -f CMakeFiles/tst1.dir/build.make CMakeFiles/tst1.dir/clean
-.PHONY : CMakeFiles/tst1.dir/clean
+CMakeFiles/linreg_shogun.dir/clean:
+	$(MAKE) -f CMakeFiles/linreg_shogun.dir/build.make CMakeFiles/linreg_shogun.dir/clean
+.PHONY : CMakeFiles/linreg_shogun.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

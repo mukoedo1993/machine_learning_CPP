@@ -56,7 +56,7 @@ CMAKE_BINARY_DIR = /home/zcw/machine_learning_CPP/real_shogun_test/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/shogun-dr.dir/all
+all: CMakeFiles/linreg_shogun.dir/all
 
 .PHONY : all
 
@@ -66,36 +66,36 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/shogun-dr.dir/clean
+clean: CMakeFiles/linreg_shogun.dir/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/shogun-dr.dir
+# Target rules for target CMakeFiles/linreg_shogun.dir
 
 # All Build rule for target.
-CMakeFiles/shogun-dr.dir/all:
-	$(MAKE) -f CMakeFiles/shogun-dr.dir/build.make CMakeFiles/shogun-dr.dir/depend
-	$(MAKE) -f CMakeFiles/shogun-dr.dir/build.make CMakeFiles/shogun-dr.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zcw/machine_learning_CPP/real_shogun_test/build/CMakeFiles --progress-num=1,2 "Built target shogun-dr"
-.PHONY : CMakeFiles/shogun-dr.dir/all
+CMakeFiles/linreg_shogun.dir/all:
+	$(MAKE) -f CMakeFiles/linreg_shogun.dir/build.make CMakeFiles/linreg_shogun.dir/depend
+	$(MAKE) -f CMakeFiles/linreg_shogun.dir/build.make CMakeFiles/linreg_shogun.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zcw/machine_learning_CPP/real_shogun_test/build/CMakeFiles --progress-num=1,2 "Built target linreg_shogun"
+.PHONY : CMakeFiles/linreg_shogun.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/shogun-dr.dir/rule: cmake_check_build_system
+CMakeFiles/linreg_shogun.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/zcw/machine_learning_CPP/real_shogun_test/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/shogun-dr.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/linreg_shogun.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/zcw/machine_learning_CPP/real_shogun_test/build/CMakeFiles 0
-.PHONY : CMakeFiles/shogun-dr.dir/rule
+.PHONY : CMakeFiles/linreg_shogun.dir/rule
 
 # Convenience name for target.
-shogun-dr: CMakeFiles/shogun-dr.dir/rule
+linreg_shogun: CMakeFiles/linreg_shogun.dir/rule
 
-.PHONY : shogun-dr
+.PHONY : linreg_shogun
 
 # clean rule for target.
-CMakeFiles/shogun-dr.dir/clean:
-	$(MAKE) -f CMakeFiles/shogun-dr.dir/build.make CMakeFiles/shogun-dr.dir/clean
-.PHONY : CMakeFiles/shogun-dr.dir/clean
+CMakeFiles/linreg_shogun.dir/clean:
+	$(MAKE) -f CMakeFiles/linreg_shogun.dir/build.make CMakeFiles/linreg_shogun.dir/clean
+.PHONY : CMakeFiles/linreg_shogun.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

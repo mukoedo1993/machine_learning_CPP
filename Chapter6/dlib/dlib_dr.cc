@@ -200,6 +200,16 @@ void PlotClusters(const Clusters& clusters,
         Matrix m = mean(data_mat);
         Matrix sd = reciprocal(sqrt(variance(data_mat)));
         
-        /*line 151*/
+        matrix<decltype(data_mat)::type, 0, 1, decltype(data_mat)::mem_manager_type>
+          x(data_mat);
+        for ( long r = 0; r < x.size(); ++r)
+          x(r) = pointwise_multiply(x(r) - m, sd);
+
+        // perform PCA
+        Matrix temp, eigen, pca;
+        // Compute the svd of the covariance matrix
+        dlib::svd(covariance(x), temp, eigen, pca);
+        Matrix eigenvalues = diag(eigen);
         // //https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter06/dlib/dlib-dr.cc
+        //line 160
     }

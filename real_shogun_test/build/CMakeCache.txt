@@ -157,7 +157,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=shogun-dr
+CMAKE_PROJECT_NAME:STATIC=shogun-samples
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -224,6 +224,33 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 //The directory containing a CMake configuration file for Eigen3.
 Eigen3_DIR:PATH=/usr/lib/cmake/eigen3
 
+//HDF5 C Wrapper compiler.  Used only to detect HDF5 compile flags.
+HDF5_C_COMPILER_EXECUTABLE:FILEPATH=/home/zcw/anaconda3/bin/h5cc
+
+//Path to a library.
+HDF5_C_LIBRARY_dl:FILEPATH=/usr/lib/x86_64-linux-gnu/libdl.so
+
+//Path to a library.
+HDF5_C_LIBRARY_hdf5:FILEPATH=/home/zcw/anaconda3/lib/libhdf5.so
+
+//Path to a library.
+HDF5_C_LIBRARY_m:FILEPATH=/usr/lib/x86_64-linux-gnu/libm.so
+
+//Path to a library.
+HDF5_C_LIBRARY_pthread:FILEPATH=/usr/lib/x86_64-linux-gnu/libpthread.so
+
+//Path to a library.
+HDF5_C_LIBRARY_rt:FILEPATH=/usr/lib/x86_64-linux-gnu/librt.so
+
+//Path to a library.
+HDF5_C_LIBRARY_z:FILEPATH=/home/zcw/anaconda3/lib/libz.so
+
+//HDF5 file differencing tool.
+HDF5_DIFF_EXECUTABLE:FILEPATH=/home/zcw/anaconda3/bin/h5diff
+
+//The directory containing a CMake configuration file for HDF5.
+HDF5_DIR:PATH=HDF5_DIR-NOTFOUND
+
 ///home/zcw/anaconda3/envs/quast-env/include
 SHOGUN_PATH:PATH=/home/zcw/anaconda3/envs/quast-env/include
 
@@ -244,6 +271,12 @@ shogun-dr_BINARY_DIR:STATIC=/home/zcw/machine_learning_CPP/real_shogun_test/buil
 
 //Value Computed by CMake
 shogun-dr_SOURCE_DIR:STATIC=/home/zcw/machine_learning_CPP/real_shogun_test
+
+//Value Computed by CMake
+shogun-samples_BINARY_DIR:STATIC=/home/zcw/machine_learning_CPP/real_shogun_test/build
+
+//Value Computed by CMake
+shogun-samples_SOURCE_DIR:STATIC=/home/zcw/machine_learning_CPP/real_shogun_test
 
 //The directory containing a CMake configuration file for spdlog.
 spdlog_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/spdlog
@@ -416,8 +449,18 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Boost
 FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[/usr/lib/x86_64-linux-gnu/cmake/Boost-1.71.0/BoostConfig.cmake][cfound components: system filesystem serialization ][v1.71.0(1.71.0)]
+//Details about finding HDF5
+FIND_PACKAGE_MESSAGE_DETAILS_HDF5:INTERNAL=[/home/zcw/anaconda3/lib/libhdf5.so;/usr/lib/x86_64-linux-gnu/librt.so;/usr/lib/x86_64-linux-gnu/libpthread.so;/home/zcw/anaconda3/lib/libz.so;/usr/lib/x86_64-linux-gnu/libdl.so;/usr/lib/x86_64-linux-gnu/libm.so][c ][v1.10.4()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
+//ADVANCED property for variable: HDF5_C_COMPILER_EXECUTABLE
+HDF5_C_COMPILER_EXECUTABLE-ADVANCED:INTERNAL=1
+//Result of TRY_COMPILE
+HDF5_C_COMPILER_NO_INTERROGATE:INTERNAL=FALSE
+//ADVANCED property for variable: HDF5_DIFF_EXECUTABLE
+HDF5_DIFF_EXECUTABLE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: HDF5_DIR
+HDF5_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: boost_filesystem_DIR
 boost_filesystem_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: boost_headers_DIR
