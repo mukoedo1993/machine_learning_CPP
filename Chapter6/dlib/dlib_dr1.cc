@@ -235,6 +235,36 @@ void PlotClusters(const Clusters& clusters,
             - if DLIB_USE_LAPACK is #defined then the xGESVD routine
               from LAPACK is used to compute the SVD.
         */
+
+  
+    /*!
+      const matrix covariance (
+        const matrix_exp& m
+    );
+        requires
+            - matrix_exp::type == a dlib::matrix object
+            - is_col_vector(m) == true
+            - m.size() > 1
+            - for all valid i, j:
+                - is_col_vector(m(i)) == true 
+                - m(i).size() > 0
+                - m(i).size() == m(j).size() 
+                - i.e. m contains only column vectors and all the column vectors
+                  have the same non-zero length
+        ensures
+            - returns the unbiased sample covariance matrix for the set of samples
+              in m.  
+              (i.e. 1.0/(m.nr()-1)*(sum of all (m(i) - mean(m))*trans(m(i) - mean(m))))
+            - the returned matrix will contain elements of type matrix_exp::type::type.
+            - the returned matrix will have m(0).nr() rows and columns.
+    !*/
+
+// ----------------------------------------------------------------------------------------
+
+
+
+
+
         Matrix eigenvalues = diag(eigen);
 
         rsort_columns(pca, eigenvalues);
