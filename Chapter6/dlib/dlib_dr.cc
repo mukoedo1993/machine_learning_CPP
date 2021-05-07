@@ -209,7 +209,136 @@ void PlotClusters(const Clusters& clusters,
         Matrix temp, eigen, pca;
         // Compute the svd of the covariance matrix
         dlib::svd(covariance(x), temp, eigen, pca);
+
         Matrix eigenvalues = diag(eigen);
-        // //https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter06/dlib/dlib-dr.cc
-        //line 160
+        /*
+          void svd (
+        const matrix_exp& m,
+        matrix<matrix_exp::type>& u,
+        matrix<matrix_exp::type>& w,
+        matrix<matrix_exp::type>& v
+    );
+        ensures
+            - computes the singular value decomposition of m
+            - m == #u*#w*trans(#v)
+            - trans(#u)*#u == identity matrix
+            - trans(#v)*#v == identity matrix
+            - diag(#w) == the singular values of the matrix m in no 
+              particular order.  All non-diagonal elements of #w are
+              set to 0.
+            - #u.nr() == m.nr()
+            - #u.nc() == m.nc()
+            - #w.nr() == m.nc()
+            - #w.nc() == m.nc()
+            - #v.nr() == m.nc()
+            - #v.nc() == m.nc()
+            - if DLIB_USE_LAPACK is #defined then the xGESVD routine
+              from LAPACK is used to compute the SVD.
+        */
+
+
+        rsort_columns(pca, eigenvalues);
+
+
+        // leave only required number of principal components
+        pca = trans(colm(pca, range(0, target_dim)));
+
+
+        // dimensionality reduction
+        std::vector<Matrix> new_data;
+        new_data.reserve(data.size());
+        for (size_t i = 0; i < data.size(); ++i) {
+          new_data.emplace_back(pca * data[i]);
+          new_size += static_cast<size_t>(new_data.back().size());
+        }
+
+
+        std::cout << "New data size " <<new_size + static_cast<size_t>(pca.size())
+                  << std::endl;
+
+        // unpack data
+        auto pca_matrix_t = dlib::trnas(pca);
+        Matrix isd = dlib::reciprocal(sd);
+        for (size_t i = 0; i < new_data.size(); ++i) {
+          Matrix sample = pca_matrix_t * new_data[i];
+          new_data[i] = dlib::pointwise_multiply(sample, isd) + m;
+        }
+
+
+        size_t i = 0;
+        for ( long r = 0; r < img_mat.nr(); r += patch_size) {
+          for (long c = 0; c < img_mat.nc(); c += patch_size) {
+            auto sm = dlib::reshape(new_data[i], patch_size, patch_size);
+                /*!
+                  const matrix_exp reshape (
+        const matrix_exp& m,
+        long rows,
+        long cols
+    );
+        requires
+            - m.size() == rows*cols
+            - rows > 0
+            - cols > 0
+        ensures
+            - returns a matrix M such that: 
+                - M.nr() == rows
+                - M.nc() == cols
+                - M.size() == m.size()
+                - for all valid r and c:
+                    - let IDX = r*cols + c
+                    - M(r,c) == m(IDX/m.nc(), IDX%m.nc())
+
+            - i.e. The matrix m is reshaped into a new matrix of rows by cols
+              dimension.  Additionally, the elements of m are laid into M in row major 
+              order.
+    !*/
+
+
+
+
+            dlib::set_subm(img_mat, r, c, patch_size, patch_size) = sm;
+            ++i;
+          }
+        }
+
+        img_mat *= 255.0;
+        assign_image(img_gray, img_mat);
+        equalize_histogram(img_gray);
+        save_png(img_gray, "../results/compressed.png");
+
+       
+    }
+
+
+    int main(int argc, char** argv) {
+      if (argc > 1) {
+        try {
+          auto data_dir = fs::path(argv[1]);
+          auto data_file_path = data_dir / data_file_name;
+          auto labeles_file_path = data_dir / labels_file_name;
+          auto photo_file_path = data_dir / photo_file_name;
+          if (fs::exists(data_file_path) && fs::exists(labels_file_path) &&
+              fs::exists(photo_file_path)) {
+                matrix<DataType> data;
+                std::vector<Matrix> vdata;
+                {
+                  std::ifstream file(data_file_path);
+                  file >> data;
+                  vdata.reserve(static_cast<size_t>(data.nr()));
+                  for (long row = 0; row < data.nr(); ++row) {
+                    vdata.emplace_back(dlib::reshape_to_column_vector(
+                         dlib::subm_clipped(data, row, 0, 1, data.nc())));
+                  }
+                }
+                matrix<DataType> labels;
+                std::vector<unsigned long> vlabels;
+                {
+                  //line 225
+                  // // //https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter06/dlib/dlib-dr.cc
+                }
+              }
+        } 
+      }  else {
+          std::cerr << "Please provide path to the dataset folder\n";
+        }
     }
