@@ -260,15 +260,8 @@ void PlotClusters(const Clusters& clusters,
     !*/
 
 // ----------------------------------------------------------------------------------------
-
-
-
-
-
         Matrix eigenvalues = diag(eigen);
-
-        rsort_columns(pca, eigenvalues);
-      
+        rsort_columns(pca, eigenvalues);      
     /*!
      template <typename T>
     void rsort_columns (
