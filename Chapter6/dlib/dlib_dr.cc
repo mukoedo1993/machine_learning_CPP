@@ -333,12 +333,28 @@ void PlotClusters(const Clusters& clusters,
                 matrix<DataType> labels;
                 std::vector<unsigned long> vlabels;
                 {
-                  //line 225
-                  // // //https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter06/dlib/dlib-dr.cc
+                  std::ifstream file(labels_file_path);
+                  file >> labels;
+                  vlabels.resize(static_cast<size_t>(labels.nr()));
+                  for (long r = 0; r < labels.nr(); ++r) {
+                    vlabels[static_cast<size_t>(r)] =
+                    static_cast<unsigned long>(labels(r, 0));
+                  }
                 }
+
+                PCACompression(photo_file_path, 10);
+                // int target_dim = 2;
+                // LDAReduction(data, vlabels, target_dim);
+                // PCAReduction(vdata, vlabels, target_dim);
+                // SammonReduction(vdata, vlabels, target_dim);
               }
-        } 
+
+        } catch (const std::exception& err) {
+          std::cerr << err.what();
+        }
       }  else {
           std::cerr << "Please provide path to the dataset folder\n";
         }
+
+        return 0;
     }
