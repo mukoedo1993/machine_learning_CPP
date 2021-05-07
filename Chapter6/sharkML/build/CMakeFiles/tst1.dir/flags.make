@@ -6,5 +6,5 @@ CXX_FLAGS = -std=c++17 -msse3 -fopenmp -lstdc++fs -fpermissive -lcblas -lpthread
 
 CXX_DEFINES = -DBOOST_ALL_NO_LIB -DBOOST_FILESYSTEM_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_SYSTEM_DYN_LINK
 
-CXX_INCLUDES = -I"/home/zcw/machine_learning_CPP/shogun_test/\$$HOME/projects/opencv/build/include" -I/home/zcw/C++_MUKOEDO_LIB/Shark_clone/Shark/include 
+CXX_INCLUDES = -I"/home/zcw/machine_learning_CPP/Chapter6/sharkML/\$$HOME/projects/opencv/build/include" -I/home/zcw/C++_MUKOEDO_LIB/Shark_clone/Shark/include 
 

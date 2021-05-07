@@ -1,4 +1,4 @@
-# Install script for directory: /home/zcw/machine_learning_CPP/shogun_test
+# Install script for directory: /home/zcw/machine_learning_CPP/Chapter6/sharkML
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/zcw/machine_learning_CPP/shogun_test/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/zcw/machine_learning_CPP/Chapter6/sharkML/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

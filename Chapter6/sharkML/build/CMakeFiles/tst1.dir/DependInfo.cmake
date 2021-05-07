@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/zcw/machine_learning_CPP/shogun_test/tst1.cpp" "/home/zcw/machine_learning_CPP/shogun_test/build/CMakeFiles/tst1.dir/tst1.cpp.o"
+  "/home/zcw/machine_learning_CPP/Chapter6/sharkML/tst1.cpp" "/home/zcw/machine_learning_CPP/Chapter6/sharkML/build/CMakeFiles/tst1.dir/tst1.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
