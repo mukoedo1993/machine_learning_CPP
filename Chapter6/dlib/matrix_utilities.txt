@@ -1,0 +1,39 @@
+
+http://dlib.net/dlib/matrix/matrix_utilities_abstract.h.html
+// ----------------------------------------------------------------------------------------
+
+    const matrix_exp::type mean (
+        const matrix_exp& m
+    );
+    /*!
+        ensures
+            - returns the mean of all elements in m. 
+              (i.e. returns sum(m)/(m.nr()*m.nc()))
+    !*/
+
+// ----------------------------------------------------------------------------------------
+
+    const matrix_exp::type variance (
+        const matrix_exp& m
+    );
+    /*!
+        ensures
+            - returns the unbiased sample variance of all elements in m 
+              (i.e. 1.0/(m.nr()*m.nc() - 1)*(sum of all pow(m(i,j) - mean(m),2)))
+    !*/
+
+    template <
+        typename value_type,
+        typename alloc
+        >
+    const matrix_exp mat (
+        const std::vector<value_type,alloc>& vector
+    );
+    /*!
+        ensures
+            - returns a matrix R such that:
+                - is_col_vector(R) == true 
+                - R.size() == vector.size()
+                - for all valid r:
+                  R(r) == vector[r]
+    !*/

@@ -1,0 +1,16 @@
+    const matrix_exp reshape_to_column_vector (
+        const matrix_exp& m
+    );
+    /*!
+        ensures
+            - returns a matrix M such that: 
+                - is_col_vector(M) == true
+                - M.size() == m.size()
+                - for all valid r and c:
+                    - m(r,c) == M(r*m.nc() + c)
+
+            - i.e. The matrix m is reshaped into a column vector.  Note that
+              the elements are pulled out in row major order.
+    !*/
+
+// ----------------------------------------------------------------------------------------
