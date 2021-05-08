@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/zcw/machine_learning_CPP/Chapter1/sharkML/linreg_shark.cc
+shark/Algorithms/Trainers/LinearRegression.h
+-
+shark/Models/LinearModel.h
+-
+shark/ObjectiveFunctions/Loss/SquaredLoss.h
+-
+

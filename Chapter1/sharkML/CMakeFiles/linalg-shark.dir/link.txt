@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++17 -msse3 -fopenmp -lstdc++fs -fpermissive -lcblas -lpthread -lboost_serialization -lboost_system   CMakeFiles/linalg-shark.dir/linalg_shark.cc.o  -o linalg-shark  -lshark -lcblas 
