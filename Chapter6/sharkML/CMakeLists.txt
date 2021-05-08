@@ -13,7 +13,6 @@ if (CURL_FOUND)
     include_directories(${CURL_INCLUDE_DIRS})
     add_definitions(-DHAVE_CURL)
 endif()
-#cmake ..; cmake --build . --config Release
 add_executable(tst1 tst1.cpp)
 
 target_link_libraries(tst1 stdc++fs)
