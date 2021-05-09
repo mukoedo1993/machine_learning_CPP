@@ -163,7 +163,16 @@ void PlotClusters(const Clusters& clusters,
 
 
 
-
+/*
+PCA is one of the most popular dimensionality reduction algorithms and it has a couple
+of implementations in the dlib lib. There is the dlib::vector_normalizer_pca type, for which
+objects can be used to perform PCA on user data. This implementation also normalizes the data.
+In some cases, the automatic normalization is useful because we always have to perform PCA on normalized data.
+An object of this type should be parameterized with the input data sample type. After we've instantiated an object
+of this parameterized with the input data sample type. After we've instantiated an object of this type, we use the 
+train() method to fit the model to our data. The train() method takes std::vector as samples and the eps value as parameters.
+The eps value controls how many dimensions should be preserved after the PCA has been transformed.
+*/
     void PCACompression(const std::string& image_file, long target_dim) {
        
         //http://dlib.net/dlib/array2d/array2d_kernel.h.html
