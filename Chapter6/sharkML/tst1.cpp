@@ -64,9 +64,15 @@ void PCAReduction(const UnlabeledData<RealVector>& data,
                   const UnlabeledData<RealVector>& labels,
                   size_t target_dim)
 {
+  /*
+  The PCA algorithm in the shark-ML lib. are implemented in the PCA class.
+  */
   PCA pca(data);
   LinearModel<> encoder;
+  //Objects of PCA class should be configured with the encoder function.
   pca.encoder(encoder, target_dim);
+  //void 	encoder (LinearModel<> &model, std::size_t m=0)
+  //the 1st parameeter is a reference to the linearmodel class.
 
 
   auto new_data = encoder(data);
@@ -89,14 +95,26 @@ void PCAReduction(const UnlabeledData<RealVector>& data,
 void LDAReduction(const UnlabeledData<RealVector>& data,
                   const UnlabeledData<RealVector>& labels,
                   size_t target_dim) {
+  /*
+  The LDA algorithms in the Shark-ML lib. are implemented in the LDA class.
+  First, we have to train the algorithm with the train() method, which takes
+  two parameters the first one is a reference to the object of the LinearClassifier class,
+  while the second is the dataset reference. Notice that the LDA algorithm uses objects of 
+  LinearClassifier because, in the Shark-ML library, LDA is used mostly for classfication.
+  */
   LinearClassifier<> encoder;
   LDA lda;
 
-
+  
   LabeledData<RealVector, unsigned int> dataset(
     labels.numberOfElements(), InputLabelPair<RealVector, unsigned int>(
                                     RealVector(data.element(0).size()), 0));
-
+    /*
+    Also, because this is a supervised algorithm, we should provide labels for the data.
+    We can do this by initializing the LabeledData<RealVector, unsigned int> class object. In 
+    the following example, we can see how to combine UnlabeledData<RealVector> datasets with the 
+    labeled one. 
+    */
     for (size_t i = 0; i < labels.numberOfElements(); ++i) {
       // labels should start from 0
       dataset.element(i).label = 
@@ -104,7 +122,18 @@ void LDAReduction(const UnlabeledData<RealVector>& data,
       dataset.element(i).input = data.element(i);
     }
     lda.train(encoder, dataset);
+    /*
+    After the object of the LinearCLassifier class has been trained, we can use it
+    for data classfication as the function object. Its call result is a new labeled dataset.
+    For dimensioanlity reduction, we have to use the decision function for data transformation.
 
+    This function can be retrived using the decisionFunction() method of the LinearClassifier class.
+    The decision function object can be used to transform the input data into a new prediction that can
+    be obtained with the LDA. After we have the new labels and projected data, we can use them to obtain
+    dimensionality reduced data. In the following example, we only used one label, which corresponds to
+    the one dimension of the projection so that we can visualize the result. This means we're performing
+    dimensionality reduction for the only feature(component).
+    */
     // project data
     auto new_labels = encoder(data);
     auto dc = encoder.decisionFunction();
