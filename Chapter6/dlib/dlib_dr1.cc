@@ -62,6 +62,14 @@ void PlotClusters(const Clusters& clusters,
     void SammonReduction(const std::vector<Matrix>& data,
                          const std::vector<unsigned long>& labels,
                          long target_dim) {
+       /*
+       In the dlib library, sammon mapping is implemented with the dlib::sammon_projection tyep.
+       We need to create an instance of this type and then use it as a functional object. Functional object
+       call arguments are the data that we need to transform and the number of dimensions of the new feature space.
+       The input data should be in the form of the std::vector of the single samples of the dlib::matrix type. All
+       samples should have the same number of dimensions. The result of using this functional object is a new vector
+       of samples with a reduced number of dimensions:
+       */
        dlib::sammon_projection sp;
        auto new_data = sp(data, target_dim);
 
@@ -87,6 +95,10 @@ void PlotClusters(const Clusters& clusters,
            pca.train(data, target_dim / data[0].nr());
            std::vector<Matrix> new_data;
            new_data.reserve(data.size());
+           //After the algorithm has been trained. we use the object to 
+           //transform individual samples. Take a look at the first loop in
+           // the code and notice how the pca(data[i]) call performs this
+           // transformation.
           for (size_t i = 0; i < data.size(); ++i) {
                new_data.emplace_back(pca(data[i]));
           }
@@ -107,6 +119,16 @@ void PlotClusters(const Clusters& clusters,
     void LDAReduction(const Matrix& data,
                      const std::vector<unsigned long>& labels,
                      unsigned long target_dim) {
+        //Prelude:
+        /*
+        The dlib library also has an implementation of the linear discriminant analysis algorithm,
+        which can be used for dimensionality reduction. It's a supervised algorithm, so it needs labeled
+        data. This algorithm is implemented with the compute_lda_transform() function, which takes four parameters.
+        The first one is the input/output parameter -- as input, it is used to pass input training data (in matrix form)
+        and as output, it receives the LDA transformation matrix. The second parameter is the output for the mean values.
+        The 3rd parameter is the labels for the input data, while the 4th one is the desired number dimension reduction
+        with the dlib lib. ...
+        */
          dlib::matrix<DataType, 0, 1> mean;
          Matrix transform = data;
          dlib::compute_lda_transform(transform, mean, labels, target_dim);
@@ -149,6 +171,10 @@ void PlotClusters(const Clusters& clusters,
 
         Clusters clusters;
         for (long r = 0; r < data.nr(); ++r) {
+          /*
+          To perform an actual LDA transform after the algorithm has been trained, we multiply our samples
+          with the LDA matrix. In our case, we also transposed them.
+          */
             Matrix row = transform * dlib::trans(dlib::rowm(data, r)) - mean;
             double x = row(0, 0);
             double y = row(1, 0);
@@ -173,8 +199,20 @@ of this parameterized with the input data sample type. After we've instantiated 
 train() method to fit the model to our data. The train() method takes std::vector as samples and the eps value as parameters.
 The eps value controls how many dimensions should be preserved after the PCA has been transformed.
 */
+
+
+
     void PCACompression(const std::string& image_file, long target_dim) {
-       
+       /*
+       Prelude: 
+       We can use dimensionality reduction algorithms for a slightly different task --
+       data compression with information loss. This can be easily demonstrated when applying
+       the PCA algorithm to images. Let's implement PCA from scratch with the dlib library using
+       SVD decomposition. We can't use an existing implementation because it performs normalization
+       in a way we can't fully control.
+       */
+
+
         //http://dlib.net/dlib/array2d/array2d_kernel.h.html
         //see array2d_document.txt
         array2d<dlib::rgb_pixel> img;
@@ -197,6 +235,13 @@ The eps value controls how many dimensions should be preserved after the PCA has
         std::vector<Matrix> data;
         int patch_size = 8;
 
+
+        /*
+        After we've loaded the RGB image, we convert it into grayscale and transform its values into floating
+        points. The next step is to transform the image matrix into samples that we can use for PCA training.
+        THis can be done by splitting the image into rectangular patches that are 8x8 in size with the
+        dlib::subm() function and then flattening them with the dlib::reshape_to_column_vector() function:
+        */
         for (long r = 0; r < img_mat.nr(); r += patch_size) {
           for (long c = 0; c < img_mat.nc(); c += patch_size) {
             Matrix sm = dlib::subm(img_mat, r, c, patch_size, patch_size);
@@ -215,6 +260,15 @@ The eps value controls how many dimensions should be preserved after the PCA has
         for ( long r = 0; r < x.size(); ++r){
           x(r) = pointwise_multiply(x(r) - m, sd);
         }
+
+
+        /*
+        After we've prepared the data samples, we calculate the covariance matrix with the
+        dlib::covariance() function and perform SVD with the dlib::svd() function. The SVD 
+        results are the eigenvalues matrix and the eigenvectors matrix. We sorted the eigenvectors
+        according to the eigenvalues and left only a small number (in our case, 10 of them) of eigenvectors
+        correspondent to the biggest eigenvalues.
+        */
         // perform PCA
         Matrix temp, eigen, pca;
         // Compute the svd of the covariance matrix
@@ -299,6 +353,11 @@ The eps value controls how many dimensions should be preserved after the PCA has
 
 
         // dimensionality reduction
+        /*
+        Our PCA transformation matrix is called pca. We used it to reduce the
+        dimensions of each of our samples with simple matrix multiplication. 
+        Look at the following cycle and notice the pca * data[i] operation:
+        */
         std::vector<Matrix> new_data;
         new_data.reserve(data.size());
         size_t new_size = 0;
@@ -312,6 +371,13 @@ The eps value controls how many dimensions should be preserved after the PCA has
                   << std::endl;
 
         // unpack data
+        /*
+        Our data has been compressed and we can see its new size in the console output. Now,
+        we can restore the original dimension of the data to be able to see the image. To do this,
+        we need to use the transposed PCA matrix to multiply the reduced samples. Also, we need to
+        denormalize the restored sample to get actual pixel values. This can be done by multiplying the
+        std deviation and adding the mean we got from the previous steps: 
+        */
         auto pca_matrix_t = dlib::trans(pca);
         Matrix isd = dlib::reciprocal(sd);
         for (size_t i = 0; i < new_data.size(); ++i) {
@@ -319,7 +385,8 @@ The eps value controls how many dimensions should be preserved after the PCA has
           new_data[i] = dlib::pointwise_multiply(sample, isd) + m;
         }
 
-
+        // After we've restored the pixel values, we reshape them and place them in their original
+        // location in the image:
         size_t i = 0;
         for ( long r = 0; r < img_mat.nr(); r += patch_size) {
           for (long c = 0; c < img_mat.nc(); c += patch_size) {
