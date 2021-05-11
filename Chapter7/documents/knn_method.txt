@@ -1,0 +1,32 @@
+In general, to classify an object, you must perform the following operations
+sequentially:
+1: Calculate the distance from the object to other objects in the training dataset.
+2: Select the k of training objects, with the minimal distance to the object that is classified.
+
+
+If we take the number of nearest neighbors k = 1, then the algorithm loses the ability to generalize
+(that is, to produce a correct result for data not previously)
+distance fcns' requirements:
+string variables
+
+weighted voting
+unweighted voting
+
+kNN has laziness feature.
+It means that the calculations begin only at the moment of the classification.
+
+Disadvantages:
+https://stats.stackexchange.com/questions/219655/k-nn-computational-complexity
+It's very very slow...
+Low accuracy when we don't have enough samples...
+
+
+
+Advantages:
+The positive features include the fact that the algorithm is resistant to abnormal outliers, since
+the probability of such a record falling into the number of KNN is small. If this happens, then
+the impact on the vote (uniquely weighted) with k > 2 is also likely to be insignificant, and therefore, 
+the impact on the classification is also small. The program implementation of the algorithm is relatively
+simple, and the algorithm result is easily interpreted. Experts in applicable fields, therefore, understand 
+the logic of the algorithm, based on finding similar objects. The ability to modify the algorithm by using
+the most appropriate combination functions and metrics allows you to adjust the algorithm for a specific task.
