@@ -101,6 +101,23 @@ void LRClassification(const ClassificationDataset& train,
      OneVersusOneClassifier<RealVector> ovo;
      const unsigned int pairs = num_classes * (num_classes - 1) / 2;
      std::vector<LinearClassifier<RealVector>> lr(pairs);
-     // line 96
+     for (std::size_t n = 0, cls1 = 1; cls1 < num_classes; cls1++) {
+         std::vector<OneVersusOneClassifier<RealVector>::binary_classifier_type*>
+              ovo_classifiers;
+     for (std::size_t cls2 = 0; cls2 < cls1; cls2++, n++) {
+         // get the binary subproblem
+         ClassificationDataset binary_cls_data = 
+              binarySubProblem(train, cls2, cls1);
+        
+         // train the binary machine
+         LogisticRegression<RealVector> trainer;
+         trainer.train(lr[n], binary_cls_data);
+         ovo_classifiers.push_back(&lr[n]);
+     }
+     ovo.addClass(ovo_classifiers);
+  }
+  // compute errors
+  ZeroOneLoss<unsigned int> loss;
+     // line 114
      // https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter07/sharkml/sharkml-classify.cc
 }
