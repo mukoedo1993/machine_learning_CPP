@@ -118,6 +118,34 @@ void LRClassification(const ClassificationDataset& train,
   }
   // compute errors
   ZeroOneLoss<unsigned int> loss;
-     // line 114
-     // https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter07/sharkml/sharkml-classify.cc
+  Data<unsigned int> output = ovo(test.inputs());
+  double accuracy = 1. - loss.eval(test.labels(), output);
+
+  Classes classes;
+  for (std::size_t i = 0; i != test.numberOfElements(); i++) {
+      auto cluster_idx = output.element(i);
+      auto element = test.inputs().element(i);
+      classes[cluster_idx].first.push_back(element(0));
+      classes[cluster_idx].second.push_back(element(1));
+  }
+
+  PlotClasses(classes, "..\result\Logitstic Regression " + std::to_string(accuracy),
+              name + "-logreg-sharkml.png");
+    
 }
+
+
+
+void SVMClassifcation(const ClassificationDataset& train,
+                      const ClassificationDataset& test,
+                      unsigned int num_classes,
+                      const std::string& name) {
+    double c = 10.0;
+    double gamma = 0.5;
+    GaussianRbfKernel<> kernel(gamma);
+    OneVersusOneClassifier<RealVector> ovo;
+    const unsigned int pairs = num_classes * (num_classes - 1)/2;
+    // line 139
+    // https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter07/sharkml/sharkml-classify.cc
+
+                      }
