@@ -144,8 +144,81 @@ void SVMClassifcation(const ClassificationDataset& train,
     double gamma = 0.5;
     GaussianRbfKernel<> kernel(gamma);
     OneVersusOneClassifier<RealVector> ovo;
-    const unsigned int pairs = num_classes * (num_classes - 1)/2;
+    const unsigned int pairs = num_classes * (num_classes - 1) / 2;
+    std::vector<KernelClassifier<RealVector> > svm(pairs);
+    for (std::size_t n = 0, cls1 = 1; cls1 < num_classes; cls1++) {
+        std::vector<OneVersusOneClassifier<RealVector>::binary_classifier_type*>
+            ovo_classifers;
+        for (std::size_t cls2 = 0; cls2 < cls1; cls2++, n++) {
+            // get the binary subproblem
+            ClassificationDataset binary_cls_data = 
+                binarySubproblem(train, cls2, cls1);
+
+            // train the binary machine
+            CSvmTrainer<RealVector> trainer(&kernel, c, false);
+            trainer.train(svm[n], binary_cls_data);
+            ovo_classifiers.push_back(&svm[n]);
+        }
+        ovo.addClass(ovo_classifiers);
+    }
+
+    // compute errors
+    ZeroOneLoss<unsigned int> loss;
+    Data<unsigned int> output = ovo(test.inputs());
+    double accuracy = 1. - loss.eval(test.labels(), output);
+
+    Classes classes;
+    for (std::size_t i = 0; i != test.numberOfElements(); i++) {
+        auto cluster_idx = output.element(i);
+        auto element = test.inputs().element(i);
+        classes[cluster_idx].first.push_back(element(0));
+        classes[cluster_idx].second.push_back(element(1));
+    }
+
+    PlotClasses(classes, "SVM " + std::to_string(accuracy),
+                name + "-svm-sharkml.png");
     // line 139
     // https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter07/sharkml/sharkml-classify.cc
 
-                      }
+}
+
+
+
+int main(int argc, char** argv) {
+    if (argc > 1) {
+        auto base_dir = fs::path(argv[1]);
+        for (const auto& dataset : data_names) {
+            const auto dataset_name = base_dir / dataset;
+            if (fs::exists(dataset_name)) {
+                ClassificationDataset data;
+                importCSV(data, dataset_name, LabelPosition::LAST_COLUMN);
+                data = selectInputFeatures(
+                    data, std::vector<int>{1, 2});      // exclude index column
+            }
+
+            const std::size_t num_samples = data.numberOfElements();
+            const std::size_t num_features = dataDimension(data.inputs());
+            const std::size_t num_classes = numberOfClasses(data.inputs());
+
+
+            std::cout << dataset << "\n"
+                      << "Num samples: " << num_features
+                      << " num clusters: " << num_classes << std::endl;
+            
+            // split data set in the training and testing parts
+            ClassificationDataset test_data = splitAtElement(data, 1200);
+
+            // create data set for multiclass problem
+            repartitionByClass(data);
+
+            SVMClassification(data, test_data, num_classes, dataset);
+            LRClassification(data, test_data, num_classes, dataset);
+            KNNClassification(data, test_data, num_classes, dataset);
+        } else {
+            std::cerr << "Dataset file " << dataset_name << " missed\n";
+        }
+    }
+ else {
+     std::cerr << "Please provide path to the datasets folder\n";
+}
+}
