@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(sharkml_classify)
 
-set(SHARK_PATH "/home/zcw/C++_MUKOEDO_LIB/Shark_clone/Shark/build" CACHE PATH "path to SharkML install dir")
+set(SHARK_PATH "/home/zcw/C++_MUKOEDO_LIB/Shark_clone/Shark/build" CACHE PATH "/home/zcw/C++_MUKOEDO_LIB/Shark_clone/Shark/build")
 
 if(NOT SHARK_PATH)
   message(FATAL_ERROR "Missing SharkML install path, please specify SHARK_PATH")
