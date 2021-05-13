@@ -179,9 +179,6 @@ void SVMClassifcation(const ClassificationDataset& train,
 
     PlotClasses(classes, "SVM " + std::to_string(accuracy),
                "../results/" + name + "-svm-sharkml.png");
-    // line 139
-    // https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter07/sharkml/sharkml-classify.cc
-
 }
 
 
