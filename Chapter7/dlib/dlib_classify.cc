@@ -79,7 +79,34 @@ DataType accuracy = 0;
 for(size_t i = 0; i != test_samples.size(); i++) {
     auto vec = test_samples[i];
     auto class_idx = static_cast<size_t>(df(vec));
-    //line 76
+    if (static_cast<size_t>(test_labels[i]) == class_idx)
+     ++accuracy;
+    classes[class_idx].first.push_back(vec(0, 0));
+    classes[class_idx].second.push_back(vec(1, 0));
     //https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter07/dlib/dlib-classify.cc
+  }
+
+  accuracy /= test_samples.size();
+
+  PlotClasses(classes, "Kernel Ridge Regression " + std::to_string(accuracy),
+              "../results/" + name + "-krr-dlib.png");
 }
-}
+
+
+void SVMClassification(const Samples& samples,
+                       const Labels& labels,
+                       const Samples& test_samples,
+                       const Labels& test_labels,
+                       const std::string& name) {
+      using OVOtrainer = one_vs_one_trainer<any_trainer<SampleType>>;
+      using KernelType = radial_basis_kernel<SampleType>;
+
+
+      svm_nu_trainer<KernelType> svm_trainer;
+      svm_trainer.set_kernel(KernelType(0.1));
+
+      OVOtrainer trainer;
+      // line 100
+      //https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter07/dlib/dlib-classify.cc
+}                        
+                       
