@@ -29,3 +29,7 @@ After popen(), both the parent and the child process shall be capable of executi
 Pipe streams are byte-oriented.
 
 https://pubs.opengroup.org/onlinepubs/009695399/functions/popen.html
+
+Glossary:
+Child process:
+A child process in computing is a process created by another process (the parent process). 
