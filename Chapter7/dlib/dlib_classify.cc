@@ -115,10 +115,81 @@ void SVMClassification(const Samples& samples,
       for (size_t i = 0; i !=test_samples.size(); i++) {
           auto vec = test_samples[i];
           auto class_idx = static_cast<size_t>(df(vec));
-          // line 109
+          
+          if (static_cast<size_t>(test_labels[i]) == class_idx)
+           ++accuracy;
+        classes[class_idx].first.push_back(vec(0, 0));
+        classes[class_idx].second.push_back(vec(1, 0));
           // https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter07/dlib/dlib-classify.cc
       }
+
+      accuracy /= test_samples.size();
+
+      PlotClasses(classes, "SVM " + std::to_string(accuracy),
+                  "../reuslts/" + name + "-svm-dlib.png");
       
 
-}                        
+}    
+
+
+int main(int argc, char** argv) {
+    if (argc > 1) {
+    auto base_dir = fs::path(argv[1]);
+    for (auto& dataset : data_names) {
+        auto dataset_name = base_dir / dataset;
+        if (fs::exists(dataset_name)) {
+            std::ifstream file(dataset_name);
+            matrix<DataType> data;
+            file >> data;
+
+            auto inputs = dlib::subm(data, 0, 1, data.nr(), 2);
+            auto outputs = dlib::subm(data, 0, 3, data.nr(), 1);
+
+            auto num_samples = inputs.nr();
+            auto num_features = inputs.nc();
+            std::size_t num_clusters =
+                std::set<double>(outputs.cbegin(),outputs.cend()).size();
+            
+            std::out << dataset << "\n"
+                     << "Num samples: " << num_samples
+                     << " num features: " << num_features
+                     << " num clusters: " << num_clusters << std::endl;
+
+            // split data set to the train and test parts
+            long test_num = 300;
+            Samples test_samples;
+            Labels test_labels;
+            {
+                for (long row = 0; row < test_num; ++row) {
+                    test_samples.emplace_back(dlib::reshape_to_column_vector(
+                        dlib::subm_clipped(inputs, row, 0, 1, data.nc())));
+
+                    test_labels.emplace_back(outputs(row, 0));
+                }
+            }
+
+            std::vector<SampleType> samples;
+            Labels labels;
+            {
+                for (long row = test_num; row < inputs.nr(); ++row) {
+                    samples.emplace_back(dlib::reshape_to_column_vector(
+                        dlib::subm_clipped(inputs, row, 0, 1, data.nc())));
+                    labels.emplace_back(outputs(row, 0));
+                }
+            }
+
+            // SVMClassification(samples, labels, test_samples, test_labels, dataset);
+            KRRClassification(samples, labels, test_samples, test_labels, dataset);
+        } else {
+            std::cerr << "Dataset file " << dataset_name << " missed\n";
+        }
+    }
+
+    } else {
+      std::cerr << "Please provide path to the dataset folder\n"; 
+    }
+
+
+    return 0;
+}
                        
