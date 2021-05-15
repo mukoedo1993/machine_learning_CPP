@@ -1,5 +1,5 @@
 #include <dlib/matrix.h>
-#include <dlib/svm_thread.h>
+#include <dlib/svm_threaded.h>
 #include <plotcpp_clone/plotcpp/plot.h>
 
 #include <experimental/filesystem>
@@ -148,9 +148,9 @@ int main(int argc, char** argv) {
             auto num_samples = inputs.nr();
             auto num_features = inputs.nc();
             std::size_t num_clusters =
-                std::set<double>(outputs.cbegin(),outputs.cend()).size();
+                std::set<double>(outputs.begin(),outputs.end()).size();
             
-            std::out << dataset << "\n"
+            std::cout << dataset << "\n"
                      << "Num samples: " << num_samples
                      << " num features: " << num_features
                      << " num clusters: " << num_clusters << std::endl;
