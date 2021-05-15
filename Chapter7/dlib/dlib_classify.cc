@@ -106,7 +106,19 @@ void SVMClassification(const Samples& samples,
       svm_trainer.set_kernel(KernelType(0.1));
 
       OVOtrainer trainer;
-      // line 100
-      //https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter07/dlib/dlib-classify.cc
+      trainer.set_trainer(svm_trainer);
+
+      one_vs_one_decision_function<OVOtrainer> df = trainer.train(samples, labels);
+
+      Classes classes;
+      DataType accuracy = 0;
+      for (size_t i = 0; i !=test_samples.size(); i++) {
+          auto vec = test_samples[i];
+          auto class_idx = static_cast<size_t>(df(vec));
+          // line 109
+          // https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter07/dlib/dlib-classify.cc
+      }
+      
+
 }                        
                        
