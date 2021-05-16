@@ -121,6 +121,12 @@ instances to perform the final classification.
 The ovo_classifiers object contains the pointers to binary classifiers. These classifiers are configured in such a way that
 each of them classifies a single class(cls1) as positive, and all other classes are treated as negative ( cls2 ).
 5: We then used the ovo_classifiers object to populate the ovo object, using the addClass method.
+
+Another important factor is how we separate the data needed for training a single binary classifier.
+The shark-ML library has a particular function for this task called binarySubProblem, which takes the object of the 
+ClassificationDataset type and splits it in a way that is suitable for binary classification, even if the original dataset
+is a multi-class one. The second and the third argunments of this function are ther zero class label index and the one class label
+index respectively.
 */
 void LRClassification(const ClassificationDataset& train,
                       const ClassificationDataset& test,
@@ -133,6 +139,13 @@ void LRClassification(const ClassificationDataset& train,
      for (std::size_t n = 0, cls1 = 1; cls1 < num_classes; cls1++) {
          std::vector<OneVersusOneClassifier<RealVector>::binary_classifier_type*>
               ovo_classifiers;
+              /*
+              tricky part:
+              OneVersusOneClassifier<RealVector>::binary_classifier_type is an alias of 
+              AbstractModel<RealVector,unsigned int, RealVector> here.
+              But, LinearClassifier<RealVector> is a derived class of AbstractModel.
+              Here, it is a base-to-derived pointer.
+              */
      for (std::size_t cls2 = 0; cls2 < cls1; cls2++, n++) {
          // get the binary subproblem
          ClassificationDataset binary_cls_data = 
@@ -146,6 +159,10 @@ void LRClassification(const ClassificationDataset& train,
      ovo.addClass(ovo_classifiers);
   }
   // compute errors
+  /*
+  After we trained all binary classifiers and configured the OneVersusOneClassifier object, we used it for
+  model evaluation on a test set. This object
+  */
   ZeroOneLoss<unsigned int> loss;
   Data<unsigned int> output = ovo(test.inputs());
   double accuracy = 1. - loss.eval(test.labels(), output);
