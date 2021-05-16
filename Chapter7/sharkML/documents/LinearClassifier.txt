@@ -1,0 +1,14 @@
+https://en.wikipedia.org/wiki/Linear_classifier
+
+
+Detailed Description
+template<class VectorType = RealVector>
+class shark::LinearClassifier< VectorType >
+Basic linear classifier.
+
+The LinearClassifier class is a multi class classifier model suited for linear discriminant analysis. For c classes 0,…,c−1 the model computes
+
+argmaxiwTix+bi
+Thus is it a linear model with arg max computation. The internal linear model can be queried using decisionFunction().
+
+Definition at line 335 of file LinearModel.h.

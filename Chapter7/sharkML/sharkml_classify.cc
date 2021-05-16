@@ -1,3 +1,11 @@
+/*
+The shark-ml library has a more low-level approach to
+the multi-class classification problem. Logistic regression and SVM classifiers are implemented
+as binary classifiers. The user therefore has to explicitly train N(N-1)/2 classifiers and configure the 
+object of the OneVersusOneClassifier class to combine them in a multi-class classifer. The kNN algorithm is
+a multi-class classifier by nature.
+*/
+
 
 #include <plotcpp_clone/plotcpp/plot.h>
 
@@ -94,7 +102,26 @@ void KNNClassification(const ClassificationDataset& train,
                 "../results/ " + name + "-knn-sharkml.png");
 }
 
-
+/*
+The following example shows how to implement the multi-class classification with 
+Shark-ML and the logistic regression algorithm. The following code snippet introduces
+a function declaration for this kind of task:
+*/
+/*
+Steps:
+1: Firstly, we defined the ovo object of the OneVersusOneClassifier class, which encapsulates
+the single multi-class classifier.
+2: Then, we initialized all binary classifiers for the one-versus-one strategy and placed them 
+in the lr container object of the
+std::vector<LinearClassifier<RealVector>> type.
+3: We then trained the set of binary classifiers with the trainer object of the LogisticRegression type
+and put them into the lr container.
+4: We then ran the training with nested cycles over all classes. Notice that the lr container holds the 
+instances to perform the final classification.
+The ovo_classifiers object contains the pointers to binary classifiers. These classifiers are configured in such a way that
+each of them classifies a single class(cls1) as positive, and all other classes are treated as negative ( cls2 ).
+5: We then used the ovo_classifiers object to populate the ovo object, using the addClass method.
+*/
 void LRClassification(const ClassificationDataset& train,
                       const ClassificationDataset& test,
                       unsigned int num_classes,

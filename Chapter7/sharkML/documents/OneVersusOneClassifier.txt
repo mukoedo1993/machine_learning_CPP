@@ -1,0 +1,29 @@
+template<class InputType, class VectorType = RealVector>
+class shark::OneVersusOneClassifier< InputType, VectorType >
+One-versus-one Classifier.
+
+The one-versus-one classifier combines a number of binary classifiers to form a multi-class ensemble classifier.
+ In the one-versus-one model, there exists one binary classifier for each pair of classes.
+  The predictions of all binary machines are combined with a simple voting scheme.
+The classifier can be extended to handle more classes on the fly, without a need for re-training the existing binary models.
+
+ OneVersusOneClassifier()
+template<class InputType, class VectorType = RealVector>
+shark::OneVersusOneClassifier< InputType, VectorType >::OneVersusOneClassifier	(		)	
+inline
+Constructor.
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------
+addClass()
+template<class InputType, class VectorType = RealVector>
+void shark::OneVersusOneClassifier< InputType, VectorType >::addClass	(	std::vector< binary_classifier_type *> const & 	binmodels	)	
+inline
+Add binary classifiers for one more class to the model.
+
+The parameter binmodels holds a vector of n binary classifiers, where n is the current number of classes.
+ The i-th model is this list is supposed to output a value of 1 for class n and a value of 0 for
+  class i when faced with the binary classification problem of separating class i from class n.
+   Afterwards the model can predict the n+1 classes {0, ..., n}.
