@@ -1,0 +1,44 @@
+part 1:
+linearClassifier inherits from Classifier.
+
+Classifier inherits from AbstractModel.
+
+
+part 2:
+..................................................................................................
+template <class InputVectorType = RealVector>
+class LogisticRegression:  public AbstractWeightedTrainer<LinearClassifier<InputVectorType> >, public IParameterizable<>
+{
+...
+     typedef AbstractWeightedTrainer<LinearClassifier<InputVectorType> > base_type;
+...
+   typedef typename base_type::ModelType ModelType;
+...
+    /// \brief Train a linear model with logistic regression.// FUNCTION TRAIN
+    void train(ModelType& model, DatasetType const& dataset);
+/// \brief Train a linear model with logistic regression using weights.
+    void train(ModelType& model, WeightedDatasetType const& dataset);
+...
+};
+
+ template <class Model, class LabelTypeT = typename Model::OutputType>
+ class AbstractWeightedTrainer : public AbstractTrainer<Model,LabelTypeT>
+ {...
+ private:
+   typedef AbstractTrainer<Model,LabelTypeT> base_type;
+ public:
+typedef typename base_type::ModelType ModelType;
+...
+ };
+
+
+  template <class Model, class LabelTypeT = typename Model::OutputType>
+    class AbstractTrainer: public INameable, public ISerializable
+    {...
+    public:
+        typedef Model ModelType;
+        ...
+   };
+..................................................................................................
+Conclusion: FUNCTION TRAIN'S 1st parameter is LinearClassifer<InputVectorType = RealVector>.
+In sharkml_classify.cc, we have RealVector here above.
