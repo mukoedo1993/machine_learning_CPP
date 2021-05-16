@@ -159,9 +159,9 @@ void LRClassification(const ClassificationDataset& train,
      ovo.addClass(ovo_classifiers);
   }
   // compute errors
-  /*
+  /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   After we trained all binary classifiers and configured the OneVersusOneClassifier object, we used it for
-  model evaluation on a test set. This object
+  model evaluation on a test set. This object can be used as functor to classify... (PAGE 248 line 3!!!!!)
   */
   ZeroOneLoss<unsigned int> loss;
   Data<unsigned int> output = ovo(test.inputs());
@@ -208,7 +208,8 @@ void SVMClassifcation(const ClassificationDataset& train,
         ovo.addClass(ovo_classifiers);
     }
 
-    // compute errors
+    // compute errors//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     ZeroOneLoss<unsigned int> loss;
     Data<unsigned int> output = ovo(test.inputs());
     double accuracy = 1. - loss.eval(test.labels(), output);

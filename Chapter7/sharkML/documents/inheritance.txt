@@ -42,3 +42,31 @@ typedef typename base_type::ModelType ModelType;
 ..................................................................................................
 Conclusion: FUNCTION TRAIN'S 1st parameter is LinearClassifer<InputVectorType = RealVector>.
 In sharkml_classify.cc, we have RealVector here above.
+
+
+
+..................................................................................................
+part 3:
+ template <class InputType, class VectorType = RealVector>
+   class OneVersusOneClassifier : public AbstractModel<InputType, unsigned int, VectorType>
+   {
+    public:
+    ...
+        typedef AbstractModel<InputType, unsigned int, VectorType> binary_classifier_type;
+    ...
+   };
+
+template<class VectorType = RealVector>
+class LinearClassifier : public Classifier<LinearModel<VectorType> >
+    {
+ public:...
+  };
+
+  template<class Model>
+    class Classifier : public AbstractModel<
+        typename Model::InputType,
+        unsigned int,
+        typename Model::ParameterVectorType
+    >{
+        ...
+    };
