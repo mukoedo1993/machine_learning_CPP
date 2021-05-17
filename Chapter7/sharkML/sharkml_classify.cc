@@ -74,15 +74,23 @@ void PlotClasses(const Classes& classes,
      plt.Flush();
 }
 
+
+
+
 /*
-The KNN classification algorithm in the Shark-ML library
-
+The KNN classification algorithm in the Shark-ML library is implemented in the NearestNeighborModel class.
+An object of this class can be initialized with different nearest neighbor algorithms. The two main types are the
+brute-force option and the space partitioning trees option. In this sample, we will use the TreeNearestNeighbors algorithm, 
+because it has better performance for medium-sized datasets. The following code block shows the use of the KNN algorithm
+with the Shark-ML library:
 */
-
 void KNNClassification(const ClassificationDataset& train,
                        const ClassificationDataset& test,
                        unsigned int num_classes,
                        const std::string& name) {
+     /*!
+     
+     */
      KDTree<RealVector> tree(train.inputs());
      TreeNearestNeighbors<RealVector, unsigned int> nn_alg(train, &tree);
      const unsigned int k = 5;

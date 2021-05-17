@@ -1,0 +1,224 @@
+template <class InputT>
+   71 class KDTree : public BinaryTree<InputT>
+   72 {
+   73     typedef KDTree<InputT> self_type;
+   74     typedef BinaryTree<InputT> base_type;
+   75 public:
+   76 
+   77     /// Construct the tree from data.
+   78     /// It is assumed that the container exceeds
+   79     /// the lifetime of the KDTree (which holds
+   80     /// only references to the points), and that
+   81     /// the memory locations of the points remain
+   82     /// unchanged.
+   83     KDTree(Data<InputT> const& dataset, TreeConstruction tc = TreeConstruction())
+   84     : base_type(dataset.numberOfElements())
+   85     , m_cutDim(0xffffffff){
+   86         typedef DataView<Data<RealVector> const> PointSet;
+   87         PointSet points(dataset);
+   88         //create a list to the iterator elements as temporary storage
+   89         std::vector<typename boost::range_iterator<PointSet>::type> elements(m_size);
+   90         boost::iota(elements,boost::begin(points));
+   91 
+   92         buildTree(tc,elements);
+   93 
+   94         //after the creation of the trees, the iterators in the array are sorted in the order, 
+   95         //they are referenced by the nodes.so we can create the indexList using the indizes of the iterators
+   96         for(std::size_t i = 0; i != m_size; ++i){
+   97             mp_indexList[i] = elements[i].index();
+   98         }
+   99     }
+  100 
+  101 
+  102     /// lower bound on the box-shaped
+  103     /// space represented by this cell
+  104     double lower(std::size_t dim) const{
+  105         self_type* parent = static_cast<self_type*>(mep_parent);
+  106         if (parent == NULL) return -1e100;
+  107 
+  108         if (parent->m_cutDim == dim && parent->mp_right == this)
+  109             return parent->threshold();
+  110         else
+  111             return parent->lower(dim);
+  112     }
+  113 
+  114     /// upper bound on the box-shaped
+  115     /// space represented by this cell
+  116     double upper(std::size_t dim) const{
+  117         self_type* parent = static_cast<self_type*>(mep_parent);
+  118         if (parent == NULL) return +1e100;
+  119 
+  120         if (parent->m_cutDim == dim && parent->mp_left == this) 
+  121             return parent->threshold();
+  122         else 
+  123             return parent->upper(dim);
+  124     }
+  125 
+  126     /// \par
+  127     /// Compute the squared Euclidean distance of
+  128     /// this cell to the given reference point, or
+  129     /// alternatively a lower bound on this value.
+  130     ///
+  131     /// \par
+  132     /// In the case of the kd-tree the computation
+  133     /// is exact, however, only a lower bound is
+  134     /// required in general, and other space
+  135     /// partitioning trees used in the future may
+  136     /// only be able to provide a lower bound, at
+  137     /// least with reasonable computational efforts.
+  138     double squaredDistanceLowerBound(InputT const& reference) const
+  139     {
+  140         double ret = 0.0;
+  141         for (std::size_t d = 0; d != reference.size(); d++)
+  142         {
+  143             double v = reference(d);
+  144             double l = lower(d);
+  145             double u = upper(d);
+  146             if (v < l){
+  147                 ret += sqr(l-v);
+  148             }
+  149             else if (v > u){
+  150                 ret += sqr(v-u);
+  151             }
+  152         }
+  153         return ret;
+  154     }
+  155 
+  156 #if 0
+  157     // debug code, please ignore
+  158     void print(unsigned int ident = 0) const
+  159     {
+  160         if (this->isLeaf())
+  161         {
+  162             for (unsigned int j=0; j<m_size; j++)
+  163             {
+  164                 for (unsigned int i=0; i<ident; i++) printf("  ");
+  165                 printf("index: %d\n", (int)this->index(j));
+  166             }
+  167         }
+  168         else
+  169         {
+  170             for (unsigned int i=0; i<ident; i++) printf("  ");
+  171             printf("x[%d] < %g\n", (int)m_cutDim, this->threshold());
+  172             for (unsigned int i=0; i<ident; i++) printf("  ");
+  173             printf("[%d]\n", (int)mp_left->size());
+  174             ((self_type*)mp_left)->print(ident + 1);
+  175             for (unsigned int i=0; i<ident; i++) printf("  ");
+  176             printf("[%d]\n", (int)mp_right->size());
+  177             ((self_type*)mp_right)->print(ident + 1);
+  178         }
+  179     }
+  180 #endif
+  181 
+  182 protected:
+  183     using base_type::mep_parent;
+  184     using base_type::mp_left;
+  185     using base_type::mp_right;
+  186     using base_type::mp_indexList;
+  187     using base_type::m_size;
+  188     using base_type::m_nodes;
+  189 
+  190     /// (internal) construction of a non-root node
+  191     KDTree(KDTree* parent, std::size_t* list, std::size_t size)
+  192     : base_type(parent, list, size)
+  193     , m_cutDim(0xffffffff)
+  194     { }
+  195 
+  196     /// (internal) construction method:
+  197     /// median-cuts of the dimension with widest spread
+  198     template<class Range>
+  199     void buildTree(TreeConstruction tc, Range& points){
+  200         typedef typename boost::range_iterator<Range>::type iterator;
+  201 
+  202         iterator begin = boost::begin(points);
+  203         iterator end = boost::end(points);
+  204 
+  205         if (tc.maxDepth() == 0 || m_size <= tc.maxBucketSize()){
+  206             m_nodes = 1; 
+  207             return; 
+  208         }
+  209 
+  210         m_cutDim = calculateCuttingDimension(points);
+  211         if (m_cutDim == (*begin)->size()){
+  212             m_nodes = 1; 
+  213             return; 
+  214         }
+  215 
+  216         // calculate the distance of the boundary for every point in the list
+  217         std::vector<double> distance(m_size);
+  218         iterator point = begin;
+  219         for(std::size_t i = 0; i != m_size; ++i,++point){
+  220             distance[i] = (**point)[m_cutDim];
+  221         }
+  222 
+  223         // split the list into sub-cells
+  224         iterator split = this->splitList(distance,points);
+  225         std::size_t leftSize = split-begin;
+  226 
+  227         // create sub-nodes
+  228         mp_left = new KDTree(this, mp_indexList, leftSize);
+  229         mp_right = new KDTree(this, mp_indexList + leftSize, m_size - leftSize);
+  230 
+  231         // recurse
+  232         boost::iterator_range<iterator> left(begin,split);
+  233         boost::iterator_range<iterator> right(split,end);
+  234         ((KDTree*)mp_left)->buildTree(tc.nextDepthLevel(), left);
+  235         ((KDTree*)mp_right)->buildTree(tc.nextDepthLevel(), right);
+  236         m_nodes = 1 + mp_left->nodes() + mp_right->nodes();
+  237     }
+  238 
+  239     ///\brief Calculate the dimension which should be cut by this node
+  240     ///
+  241     ///The KD-Tree calculates the Axis-Aligned-Bounding-Box surrounding the points
+  242     ///and splits the longest dimension
+  243     template<class Range>
+  244     std::size_t calculateCuttingDimension(Range const& points)const{
+  245         typedef typename boost::range_iterator<Range const>::type iterator;
+  246 
+  247         iterator begin = boost::begin(points);
+  248         // iterator end = boost::end(points);
+  249 
+  250         // calculate bounding box of the data
+  251         InputT L = **begin;
+  252         InputT U = **begin;
+  253         std::size_t dim = L.size();
+  254         iterator point = begin;
+  255         ++point;
+  256         for (std::size_t i=1; i != m_size; ++i,++point){
+  257             for (std::size_t d = 0; d != dim; d++){
+  258                 double v = (**point)[d];
+  259                 if (v < L[d]) L[d] = v;
+  260                 if (v > U[d]) U[d] = v;
+  261             }
+  262         }
+  263 
+  264         // find the longest edge of the bounding box
+  265         std::size_t cutDim = 0;
+  266         double extent = U[0] - L[0];
+  267         for (std::size_t d = 1; d != dim; d++)
+  268         {
+  269             double e = U[d] - L[d];
+  270             if (e > extent)
+  271             {
+  272                 extent = e;
+  273                 cutDim = d;
+  274             }
+  275         }
+  276         if(extent == 0)
+  277             return dim;
+  278         return cutDim;
+  279     }
+  280 
+  281     /// Function describing the separating hyperplane
+  282     /// as its zero set. It is guaranteed that the
+  283     /// gradient has norm one, thus the absolute value
+  284     /// of the function indicates distance from the
+  285     /// hyperplane.
+  286     double funct(InputT const& reference) const{
+  287         return reference[m_cutDim];
+  288     }
+  289 
+  290     /// split/cut dimension of this node
+  291     std::size_t m_cutDim;
+  292 };
+  293 

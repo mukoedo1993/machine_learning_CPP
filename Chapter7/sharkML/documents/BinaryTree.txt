@@ -1,0 +1,247 @@
+ ///
+  121 /// \brief Super class of binary space-partitioning trees.
+  122 ///
+  123 /// \par
+  124 /// This class represents a generic node in a binary
+  125 /// space-partitioning tree. At each junction the
+  126 /// space cell represented by the parent node is
+  127 /// split into sub-cells by thresholding a real-valued
+  128 /// function. Different sub-classes implement different
+  129 /// such functions. The absolute value of the function
+  130 /// minus the threshold m_threshold must represent the
+  131 /// distance to the separating hyper-surface in the
+  132 /// underlying metric. This allows for linear separation,
+  133 /// but also for kernel-induced feature spaces and other
+  134 /// embeddings.
+  135 /// \ingroup space_trees
+  136 template <class InputT>
+  137 class BinaryTree
+  138 {
+  139 public:
+  140     typedef InputT value_type;
+  141 
+  142     /// \brief Root node constructor: build the tree from data.
+  143     ///
+  144     /// Please refer the specific sub-classes such as KDTree
+  145     /// for examples of how the binary tree is built.
+  146     ///
+  147     BinaryTree(std::size_t size)
+  148     : mep_parent(NULL)
+  149     , mp_left(NULL)
+  150     , mp_right(NULL)
+  151     , mp_indexList(NULL)
+  152     , m_size(size)
+  153     , m_nodes(0)
+  154     , m_threshold(0.0)
+  155     {
+  156         SHARK_ASSERT(m_size > 0);
+  157 
+  158         // prepare list of index/pointer pairs to be shared among the whole tree
+  159         mp_indexList = new std::size_t[m_size];
+  160         std::iota(mp_indexList,mp_indexList+m_size,0);
+  161     }
+  162 
+  163     /// Destroy the tree and its internal data structures
+  164     virtual ~BinaryTree()
+  165     {
+  166         if (mp_left != NULL) delete mp_left;
+  167         if (mp_right != NULL) delete mp_right;
+  168         if (mep_parent == NULL) delete [] mp_indexList;
+  169     }
+  170 
+  171 
+  172     // binary tree structure
+  173 
+  174     /// parent node
+  175     BinaryTree* parent()
+  176     { return mep_parent; }
+  177     /// parent node
+  178     const BinaryTree* parent() const
+  179     { return mep_parent; }
+  180 
+  181     /// Does this node have children?
+  182     /// Opposite of isLeaf()
+  183     bool hasChildren() const
+  184     { return (mp_left != NULL); }
+  185 
+  186     /// Is this a leaf node?
+  187     /// Opposite of hasChildren()
+  188     bool isLeaf() const
+  189     { return (mp_left == NULL); }
+  190 
+  191     /// "left" sub-node of the binary tree
+  192     BinaryTree* left()
+  193     { return mp_left; }
+  194     /// "left" sub-node of the binary tree
+  195     const BinaryTree* left() const
+  196     { return mp_left; }
+  197 
+  198     /// "right" sub-node of the binary tree
+  199     BinaryTree* right()
+  200     { return mp_right; }
+  201     /// "right" sub-node of the binary tree
+  202     const BinaryTree* right() const
+  203     { return mp_right; }
+  204 
+  205     /// number of points inside the space represented by this node
+  206     std::size_t size() const
+  207     { return m_size; }
+  208 
+  209     /// number of sub-nodes in this tree (including the node itself)
+  210     std::size_t nodes() const
+  211     { return m_nodes; }
+  212 
+  213     std::size_t index(std::size_t point)const{
+  214         return mp_indexList[point];
+  215     }
+  216 
+  217 
+  218     // partition represented by this node
+  219 
+  220     /// \brief Function describing the separation of space.
+  221     ///
+  222     /// \par
+  223     /// This function is shifted by subtracting the
+  224     /// threshold from the virtual function "funct" (which
+  225     /// acts as a "decision" function to split space into
+  226     /// sub-cells).
+  227     /// The result of this function describes "signed"
+  228     /// distance to the separation boundary, and the two
+  229     /// cells are thresholded at zero. We obtain the two
+  230     /// cells:<br/>
+  231     /// left ("negative") cell: {x | distance(x) < 0}<br/>
+  232     /// right ("positive") cell {x | distance(x) >= 0}
+  233     double distanceFromPlane(value_type const& point) const{
+  234         return funct(point) - m_threshold;
+  235     }
+  236 
+  237     /// \brief Separation threshold.
+  238     double threshold() const{
+  239         return m_threshold;
+  240     }
+  241 
+  242     /// return true if the reference point belongs to the
+  243     /// "left" sub-node, or to the "negative" sub-cell.
+  244     bool isLeft(value_type const& point) const
+  245     { return (funct(point) < m_threshold); }
+  246 
+  247     /// return true if the reference point belongs to the
+  248     /// "right" sub-node, or to the "positive" sub-cell.
+  249     bool isRight(value_type const& point) const
+  250     { return (funct(point) >= m_threshold); }
+  251 
+  252     /// \brief If the tree uses a kernel metric, returns a pointer to the kernel object, else NULL.
+  253     virtual AbstractKernelFunction<value_type> const* kernel()const{
+  254         //default is no kernel metric
+  255         return NULL;
+  256     }
+  257 
+  258 
+  259     /// \brief Compute lower bound on the squared distance to the space cell.
+  260     ///
+  261     /// \par
+  262     /// For efficient use of the triangle inequality
+  263     /// the space cell represented by each node needs
+  264     /// to provide (a lower bound on) the distance of
+  265     /// a query point to the space cell represented by
+  266     /// this node. Search is fast if this bound is
+  267     /// tight.
+  268     virtual double squaredDistanceLowerBound(value_type const& point) const = 0;
+  269 
+  270 protected:
+  271     /// \brief Sub-node constructor
+  272     ///
+  273     /// \par
+  274     /// Initialize a sub-node
+  275     BinaryTree(BinaryTree* parent, std::size_t* list, std::size_t size)
+  276     : mep_parent(parent)
+  277     , mp_left(NULL)
+  278     , mp_right(NULL)
+  279     , mp_indexList(list)
+  280     , m_size(size)
+  281     , m_nodes(0)
+  282     {}
+  283 
+  284 
+  285     /// \brief Function describing the separation of space.
+  286     ///
+  287     /// \par
+  288     /// This is the primary interface for customizing
+  289     /// sub-classes.
+  290     ///
+  291     /// \par
+  292     /// This function splits the space represented by the
+  293     /// node by thresholding at m_threshold. The "negative"
+  294     /// cell, represented in the "left" sub-node, represents
+  295     /// the space {x | funct(x) < threshold}. The
+  296     /// "positive" cell, represented by the "right"
+  297     /// sub-node, represents {x | funct(x) >= threshold}.
+  298     /// The function needs to be normalized such that
+  299     /// |f(x) - f(y)| is the distance between
+  300     /// {z | f(z) = f(x)} and {z | f(z) = f(y)}, w.r.t.
+  301     /// the distance function also used by the virtual
+  302     /// function squaredDistanceLowerBound. The exact
+  303     /// distance function does not matter as long as
+  304     /// the same distance function is used in both cases.
+  305     virtual double funct(value_type const& point) const = 0;
+  306 
+  307     /// \brief Split the data in the point list and calculate the treshold accordingly
+  308     ///
+  309     /// The method computes the optimal threshold given the distance of every element of
+  310     /// the set and partitions the point range accordingly
+  311     /// @param values the value of every point returned by funct(point)
+  312     /// @param points the points themselves
+  313     /// @returns returns the position were the point list was split
+  314     template<class Range1, class Range2>
+  315     typename Range2::iterator splitList (Range1& values, Range2& points){
+  316         std::vector<KeyValuePair<typename Range1::value_type, typename Range2::value_type> > range(values.size());
+  317         for(std::size_t i = 0; i != range.size(); ++i){
+  318             range[i].key = values[i]; 
+  319             range[i].value = points[i]; 
+  320         }
+  321         
+  322 
+  323         auto pos = partitionEqually(range);
+  324         for(std::size_t i = 0; i != range.size(); ++i){
+  325             values[i] = range[i].key;
+  326             points[i] = range[i].value;
+  327         }
+  328         
+  329         if (pos == range.end()) {
+  330             // partitioning failed, all values are equal :(
+  331             m_threshold = values[0];
+  332             return points.begin();
+  333         }
+  334 
+  335         // We don't want the threshold to be the value of an element but always in between two of them.
+  336         // This ensures that no point of the training set lies on the boundary. This leeds to more stable
+  337         // results. So we use the mean of the found splitpoint and the nearest point on the other side
+  338         // of the boundary.
+  339         double maximum = std::max_element(range.begin(), pos)->key;
+  340         m_threshold = 0.5*(maximum + pos->key);
+  341 
+  342         return points.begin() + (pos - range.begin());
+  343     }
+  344 
+  345     /// parent node
+  346     BinaryTree* mep_parent;
+  347 
+  348     /// "left" child node
+  349     BinaryTree* mp_left;
+  350 
+  351     /// "right" child node
+  352     BinaryTree* mp_right;
+  353 
+  354     /// list of indices to points in the dataset
+  355     std::size_t* mp_indexList;
+  356 
+  357     /// number of points in this node
+  358     std::size_t m_size;
+  359 
+  360     /// number of nodes in the sub-tree represented by this node
+  361     std::size_t m_nodes;
+  362 
+  363     /// threshold for the separating function
+  364     double m_threshold;
+  365 
+  366 };
