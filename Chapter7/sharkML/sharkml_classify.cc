@@ -12,6 +12,7 @@ a multi-class classifier by nature.
 
 #define SHARK_CV_VERBOSE_1
 #include <shark/Algorithms/KMeans.h>
+#include <fstream>
 #include <shark/Algorithms/NearestNeighbors/TreeNearestNeighbors.h>
 #include <shark/Algorithms/Trainers/CSvmTrainer.h>
 #include <shark/Algorithms/Trainers/LogisticRegression.h>
@@ -91,13 +92,19 @@ void KNNClassification(const ClassificationDataset& train,
      /*!
      //https://en.wikipedia.org/wiki/K-d_tree
      The first step was the creation of object of the KDTree type, which defined the KD-Tree
-     space partitoning of our training samples. Then, we initialized
+     space partitoning of our training samples. Then, we initialized the object of TreeNearestNeighbors
+     class, which takes the instances of previously created tree partitioning and the training dataset. We also 
+     predefined the k parameter of the kNN algorithm and initialized the object of the NearestNeighborModel class
+     with the algorithm instance and k parameter.
      !*/
      KDTree<RealVector> tree(train.inputs());
      TreeNearestNeighbors<RealVector, unsigned int> nn_alg(train, &tree);
      const unsigned int k = 5;
      NearestNeighborModel<RealVector, unsigned int> knn(&nn_alg, k);
 
+    /*
+    The model doesn't have 
+    */
     // compute errors
     ZeroOneLoss<unsigned int> loss;
     Data<unsigned int> predictions = knn(test.inputs());
@@ -113,6 +120,11 @@ void KNNClassification(const ClassificationDataset& train,
 
     PlotClasses(classes, "kNN " + std::to_string(accuracy),
                 "../results/ " + name + "-knn-sharkml.png");
+
+    std::ofstream ofs("../serializations/chap7_sharkml_knn.model");
+    boost::archive::polymorphic_text_oarchive oa(ofs);
+    knn.write(oa);
+    ofs.close();
 }
 
 /*
