@@ -74,7 +74,10 @@ void PlotClasses(const Classes& classes,
      plt.Flush();
 }
 
+/*
+The KNN classification algorithm in the Shark-ML library
 
+*/
 
 void KNNClassification(const ClassificationDataset& train,
                        const ClassificationDataset& test,
@@ -191,17 +194,28 @@ It made some errors in the Dataset 0 and Dataset 1 datasets.
 !*/
 
 
-
+/*
+To implement the SVM multi-class classification with the Shark-ML library, we should
+use the same approach as we used before for the logistic regression approach. The main 
+difference is the type of binary classifiers. In this case, it is the KernelClassifier class,
+and the trainer for it is the CSvmTrainer class.
+*/
 void SVMClassifcation(const ClassificationDataset& train,
                       const ClassificationDataset& test,
                       unsigned int num_classes,
                       const std::string& name) {
     double c = 10.0;
     double gamma = 0.5;
+
+    // a kernel object: 
     GaussianRbfKernel<> kernel(gamma);
     OneVersusOneClassifier<RealVector> ovo;
     const unsigned int pairs = num_classes * (num_classes - 1) / 2;
     std::vector<KernelClassifier<RealVector> > svm(pairs);
+    /*!
+    Here, KernelClassifier<RealVector> is a derived class of AbstractModel, like linear regression
+    function above.
+    */
     for (std::size_t n = 0, cls1 = 1; cls1 < num_classes; cls1++) {
         std::vector<OneVersusOneClassifier<RealVector>::binary_classifier_type*>
             ovo_classifiers;
@@ -218,7 +232,7 @@ void SVMClassifcation(const ClassificationDataset& train,
         ovo.addClass(ovo_classifiers);
     }
 
-    // compute errors//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // compute errors//
 
     ZeroOneLoss<unsigned int> loss;
     Data<unsigned int> output = ovo(test.inputs());

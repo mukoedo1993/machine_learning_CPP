@@ -1,0 +1,14 @@
+class GaussianRbfKernel : public AbstractKernelFunction<InputType>
+   52 {
+   53 private:
+   54     typedef AbstractKernelFunction<InputType> base_type;
+   55     
+   56     struct InternalState: public State{
+   57         RealMatrix norm2;
+   58         RealMatrix expNorm;
+   59         
+   60         void resize(std::size_t sizeX1, std::size_t sizeX2){
+   61             norm2.resize(sizeX1, sizeX2);
+   62             expNorm.resize(sizeX1, sizeX2);
+   63         }
+   64     };

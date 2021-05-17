@@ -1,0 +1,38 @@
+1076 template<class I>
+ 1077 LabeledData<I,unsigned int> binarySubProblem(
+ 1078     LabeledData<I,unsigned int>const& data,
+ 1079     unsigned int zeroClass,
+ 1080     unsigned int oneClass
+ 1081 ){
+ 1082     std::vector<std::size_t> indexSet;
+ 1083     std::size_t smaller = std::min(zeroClass,oneClass);
+ 1084     std::size_t bigger = std::max(zeroClass,oneClass);
+ 1085     std::size_t numBatches = data.numberOfBatches();
+ 1086 
+ 1087     //find first class
+ 1088     std::size_t start= 0;
+ 1089     for(;start != numBatches && getBatchElement(data.batch(start),0).label != smaller;++start);
+ 1090     SHARK_RUNTIME_CHECK(start != numBatches, "First class does not exist");
+ 1091 
+ 1092     //copy batch indices of first class
+ 1093     for(;start != numBatches && getBatchElement(data.batch(start),0).label == smaller; ++start)
+ 1094         indexSet.push_back(start);
+ 1095 
+ 1096     //find second class
+ 1097 
+ 1098     for(;start != numBatches && getBatchElement(data.batch(start),0).label != bigger;++start);
+ 1099     SHARK_RUNTIME_CHECK(start != numBatches, "Second class does not exist");
+ 1100 
+ 1101     //copy batch indices of second class
+ 1102     for(;start != numBatches && getBatchElement(data.batch(start),0).label == bigger; ++start)
+ 1103         indexSet.push_back(start);
+ 1104 
+ 1105     return transformLabels(data.indexedSubset(indexSet), [=](unsigned int label){return (unsigned int)(label == oneClass);});
+ 1106 }
+
+....................................................................................................................................
+
+    ///\brief Fill in the subset defined by the list of indices.
+  773     LabeledData indexedSubset(IndexSet const& indices) const{
+  774         return LabeledData(m_data.indexedSubset(indices),m_label.indexedSubset(indices));
+  775     }
