@@ -1,0 +1,30 @@
+   43 /// \brief Interface for Nearest Neighbor queries.
+   44 ///
+   45 /// Defines the abstract interface for query of nearest neighbors. This is used to generalize over the different algorithms
+   46 /// to query for nearest neighbors.
+   47 template<class InputType,class LabelType>
+   48 class AbstractNearestNeighbors{
+   49 public:
+   50     typedef KeyValuePair<double,LabelType> DistancePair;
+   51     typedef typename Batch<InputType>::type BatchInputType;
+   52 
+   53     ///\brief Returns the k-nearest neighbors of a batch of points and returns them as linearized array.
+   54     ///
+   55     ///Given a batch of size n, a array with nxk values is returned where each entry is a key-value pair of distance and label.
+   56     ///the first k entries are the neighbors of point 1, the next k of point 2 and so on.
+   57     virtual std::vector<DistancePair> getNeighbors(BatchInputType const& batch, std::size_t k) const = 0;
+   58 
+   59     /// \brief Returns the expected shape of the inputs
+   60     Shape const& inputShape() const{
+   61         return m_inputShape;
+   62     }
+   63     
+   64     ///\brief returns a const reference to the dataset used by the algorithm
+   65     virtual LabeledData<InputType,LabelType>const& dataset()const = 0;
+   66 
+   67     virtual ~AbstractNearestNeighbors() {}
+   68 protected:
+   69     Shape m_inputShape;
+   70 };
+   71 
+   72     

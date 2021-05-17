@@ -89,8 +89,10 @@ void KNNClassification(const ClassificationDataset& train,
                        unsigned int num_classes,
                        const std::string& name) {
      /*!
-     
-     */
+     //https://en.wikipedia.org/wiki/K-d_tree
+     The first step was the creation of object of the KDTree type, which defined the KD-Tree
+     space partitoning of our training samples. Then, we initialized
+     !*/
      KDTree<RealVector> tree(train.inputs());
      TreeNearestNeighbors<RealVector, unsigned int> nn_alg(train, &tree);
      const unsigned int k = 5;

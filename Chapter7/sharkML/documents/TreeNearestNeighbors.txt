@@ -1,0 +1,51 @@
+///\brief Nearest Neighbors implementation using binary trees
+  405 ///
+  406 /// Returns the labels and distances of the k nearest neighbors of a point.
+  407 template<class InputType, class LabelType>
+  408 class TreeNearestNeighbors:public AbstractNearestNeighbors<InputType,LabelType>
+  409 {
+  410 private:
+  411     typedef AbstractNearestNeighbors<InputType,LabelType> base_type;
+  412 
+  413 public:
+  414     typedef LabeledData<InputType, LabelType> Dataset;
+  415     typedef BinaryTree<InputType> Tree;
+  416     typedef typename base_type::DistancePair DistancePair;
+  417     typedef typename Batch<InputType>::type BatchInputType;
+  418 
+  419     TreeNearestNeighbors(Dataset const& dataset, Tree const* tree)
+  420     : m_dataset(dataset)
+  421     , m_inputs(dataset.inputs())
+  422     , m_labels(dataset.labels())
+  423     , mep_tree(tree)
+  424     {
+  425         this->m_inputShape = dataset.inputShape();
+  426     }
+  427 
+  428     ///\brief returns the k nearest neighbors of the point
+  429     std::vector<DistancePair> getNeighbors(BatchInputType const& patterns, std::size_t k)const{
+  430         std::size_t numPoints = batchSize(patterns);
+  431         std::vector<DistancePair> results(k*numPoints);
+  432         for(std::size_t p = 0; p != numPoints; ++p){
+  433             IterativeNNQuery<DataView<Data<InputType> const> > query(mep_tree, m_inputs, row(patterns, p));
+  434             //find the neighbors using the queries
+  435             for(std::size_t i = 0; i != k; ++i){
+  436                 typename IterativeNNQuery<DataView<Data<InputType> const> >::result_type result = query.next();
+  437                 results[i+p*k].key=result.first;
+  438                 results[i+p*k].value= m_labels[result.second]; 
+  439             }
+  440         }
+  441         return results;
+  442     }
+  443 
+  444     LabeledData<InputType,LabelType>const& dataset()const {
+  445         return m_dataset;
+  446     }
+  447 
+  448 private:
+  449     Dataset const& m_dataset;
+  450     DataView<Data<InputType> const> m_inputs;
+  451     DataView<Data<LabelType> const> m_labels;
+  452     Tree const* mep_tree;
+  453     
+  454 };
