@@ -1,0 +1,653 @@
+template <class Type>
+class Data : public ISerializable
+{
+protected:
+	typedef detail::SharedContainer<Type> Container;
+
+	Container m_data;///< data
+	Shape m_shape;///< shape of a datapoint
+public:
+	/// \brief Defines the default batch size of the Container.
+	///
+	/// Zero means: unlimited
+	BOOST_STATIC_CONSTANT(std::size_t, DefaultBatchSize = 256);
+
+	typedef typename Container::BatchType batch_type;
+	typedef batch_type& batch_reference;
+	typedef batch_type const& const_batch_reference;
+
+	typedef Type element_type;
+	typedef typename Batch<element_type>::reference element_reference;
+	typedef typename Batch<element_type>::const_reference const_element_reference;
+
+	typedef std::vector<std::size_t> IndexSet;
+
+	/// \brief Two containers compare equal if they share the same data.
+	template <class T> bool operator == (const Data<T>& rhs) {
+		return (m_data == rhs.m_data);
+	}
+
+	/// \brief Two containers compare unequal if they don't share the same data.
+	template <class T> bool operator != (const Data<T>& rhs) {
+		return (! (*this == rhs));
+	}
+
+	template <class InputT, class LabelT> friend class LabeledData;
+
+	// RANGES
+	typedef boost::iterator_range< detail::DataElementIterator<Data<Type> > > element_range;
+	typedef boost::iterator_range< detail::DataElementIterator<Data<Type> const> > const_element_range;
+	typedef detail::BatchRange<Data<Type> > batch_range;
+	typedef detail::BatchRange<Data<Type> const> const_batch_range;
+
+
+	///\brief Returns the range of elements.
+	///
+	///It is compatible to boost::range and STL and can be used whenever an algorithm requires
+	///element access via begin()/end() in which case data.elements() provides the correct interface
+	const_element_range elements()const{
+		return const_element_range(
+			detail::DataElementIterator<Data<Type> const>(this,0,0,0),
+			detail::DataElementIterator<Data<Type> const>(this,numberOfBatches(),0,numberOfElements())
+		);
+	}
+	///\brief Returns therange of elements.
+	///
+	///It is compatible to boost::range and STL and can be used whenever an algorithm requires
+	///element access via begin()/end() in which case data.elements() provides the correct interface
+	element_range elements(){
+		return element_range(
+			detail::DataElementIterator<Data<Type> >(this,0,0,0),
+			detail::DataElementIterator<Data<Type> >(this,numberOfBatches(),0,numberOfElements())
+		);
+	}
+
+	///\brief Returns the range of batches.
+	///
+	///It is compatible to boost::range and STL and can be used whenever an algorithm requires
+	///element access via begin()/end() in which case data.elements() provides the correct interface
+	const_batch_range batches()const{
+		return const_batch_range(this);
+	}
+	///\brief Returns the range of batches.
+	///
+	///It is compatible to boost::range and STL and can be used whenever an algorithm requires
+	///element access via begin()/end() in which case data.elements() provides the correct interface
+	batch_range batches(){
+		return batch_range(this);
+	}
+
+	///\brief Returns the number of batches of the set.
+	std::size_t numberOfBatches() const{
+		return m_data.size();
+	}
+	///\brief Returns the total number of elements.
+	std::size_t numberOfElements() const{
+		return m_data.numberOfElements();
+	}
+	
+	
+	///\brief Returns the shape of the elements in the dataset.
+	Shape const& shape() const{
+		return m_shape;
+	}
+	
+	///\brief Returns the shape of the elements in the dataset.
+	Shape& shape(){
+		return m_shape;
+	}
+
+	///\brief Check whether the set is empty.
+	bool empty() const{
+		return m_data.empty();
+	}
+
+	// ELEMENT ACCESS
+	element_reference element(std::size_t i){
+		return *(detail::DataElementIterator<Data<Type> >(this,0,0,0)+i);
+	}
+	const_element_reference element(std::size_t i) const{
+		return *(detail::DataElementIterator<Data<Type> const>(this,0,0,0)+i);
+	}
+
+	// BATCH ACCESS
+	batch_reference batch(std::size_t i){
+		return *(m_data.begin()+i);
+	}
+	const_batch_reference batch(std::size_t i) const{
+		return *(m_data.begin()+i);
+	}
+
+	// CONSTRUCTORS
+
+	///\brief Constructor which constructs an empty set
+	Data(){ }
+
+	///\brief Construct a dataset with empty batches.
+	explicit Data(std::size_t numBatches) : m_data( numBatches )
+	{ }
+
+	///\brief Construction with size and a single element
+	///
+	/// Optionally the desired batch Size can be set
+	///
+	///@param size the new size of the container
+	///@param element the blueprint element from which to create the Container
+	///@param batchSize the size of the batches. if this is 0, the size is unlimited
+	explicit Data(std::size_t size, element_type const& element, std::size_t batchSize = DefaultBatchSize)
+	: m_data(size,element,batchSize)
+	{ }
+
+	// MISC
+
+	void read(InArchive& archive){
+		archive >> m_data;
+		archive >> m_shape;
+	}
+
+	void write(OutArchive& archive) const{
+		archive << m_data;
+		archive << m_shape;
+	}
+	///\brief This method makes the vector independent of all siblings and parents.
+	virtual void makeIndependent(){
+		m_data.makeIndependent();
+	}
+
+
+	// METHODS TO ALTER BATCH STRUCTURE
+
+	void splitBatch(std::size_t batch, std::size_t elementIndex){
+		m_data.splitBatch(m_data.begin()+batch,elementIndex);
+	}
+
+	///\brief Splits the container into two independent parts. The front part remains in the container, the back part is returned.
+	///
+	///Order of elements remain unchanged. The SharedVector is not allowed to be shared for
+	///this to work.
+	Data splice(std::size_t batch){
+		Data right;
+		right.m_data = m_data.splice(m_data.begin()+batch);
+		right.m_shape = m_shape;
+		return right;
+	}
+
+	/// \brief Appends the contents of another data object to the end
+	///
+	/// The batches are not copied but now referenced from both datasets. Thus changing the appended
+	/// dataset might change this one as well.
+	void append(Data const& other){
+		m_data.append(other.m_data);
+	}
+	
+	void push_back(const_batch_reference batch){
+		m_data.push_back(batch);
+	}
+
+	///\brief Reorders the batch structure in the container to that indicated by the batchSizes vector
+	///
+	///After the operation the container will contain batchSizes.size() batchs with the i-th batch having size batchSize[i].
+	///However the sum of all batch sizes must be equal to the current number of elements
+	template<class Range>
+	void repartition(Range const& batchSizes){
+		m_data.repartition(batchSizes);
+	}
+	
+	/// \brief Creates a vector with the batch sizes of every batch.
+	///
+	/// This method can be used together with repartition to ensure
+	/// that two datasets have the same batch structure.
+	std::vector<std::size_t> getPartitioning()const{
+		return m_data.getPartitioning();
+	}
+	
+	
+	/// \brief Reorders elements across batches
+	///
+	/// Takes a vector of indices so that the ith element is moved to index[i].
+	/// This will create a temporary copy of the dataset and thus requires a double amount of memory compared to the original dataset
+	/// during construction.
+	template<class Range>
+	void reorderElements(Range const& indices){
+		Data dataCopy(numberOfBatches());
+		dataCopy.shape() = shape();
+		
+		std::vector<Type> batch_elements;
+		auto indexPos = indices.begin();
+		auto elemBegin = elements().begin();
+		for(std::size_t b = 0; b != numberOfBatches(); ++b){
+			std::size_t numElements = batchSize(batch(b));
+			batch_elements.clear();
+			for(std::size_t i = 0; i != numElements; ++i,++indexPos){
+				batch_elements.push_back(*(elemBegin+*indexPos));
+			}
+			dataCopy.batch(b) = createBatch<Type>(batch_elements);
+		}
+		*this = dataCopy;
+	}
+
+	// SUBSETS
+
+	///\brief Fill in the subset defined by the list of indices as well as its complement.
+	void indexedSubset(IndexSet const& indices, Data& subset, Data& complement) const{
+		IndexSet comp;
+		detail::complement(indices,m_data.size(),comp);
+		subset.m_data=Container(m_data,indices);
+		complement.m_data=Container(m_data,comp);
+	}
+	
+	Data indexedSubset(IndexSet const& indices) const{
+		Data subset;
+		subset.m_data = Container(m_data,indices);
+		subset.m_shape = m_shape;
+		return subset;
+	}
+
+	friend void swap(Data& a, Data& b){
+		swap(a.m_data,b.m_data);
+		std::swap(a.m_shape,b.m_shape);
+	}
+};
+
+/**
+ * \ingroup shark_globals
+ * @{
+ */
+
+/// Outstream of elements.
+template<class T>
+std::ostream &operator << (std::ostream &stream, const Data<T>& d) {
+	for(auto elem:d.elements())
+		stream << elem << "\n";
+	return stream;
+}
+/** @} */
+
+/// \brief Data set for unsupervised learning.
+///
+/// The UnlabeledData class is basically a standard Data container
+/// with the special interpretation of its data point being
+/// "inputs" to a learning algorithm.
+template <class InputT>
+class UnlabeledData : public Data<InputT>
+{
+public:
+	typedef InputT element_type;
+	typedef Data<element_type> base_type;
+	typedef element_type InputType;
+	typedef detail::SharedContainer<InputT> InputContainer;
+
+protected:
+	using base_type::m_data;
+public:
+
+	///\brief Constructor.
+	UnlabeledData()
+	{ }
+
+	///\brief Construction from data.
+	UnlabeledData(Data<InputT> const& points)
+	: base_type(points)
+	{ }
+
+	///\brief Construction with size and a single element
+	///
+	/// Optionally the desired batch Size can be set
+	///
+	///@param size the new size of the container
+	///@param element the blueprint element from which to create the Container
+	///@param batchSize the size of the batches. if this is 0, the size is unlimited
+	UnlabeledData(std::size_t size, element_type const& element, std::size_t batchSize = base_type::DefaultBatchSize)
+	: base_type(size,element,batchSize)
+	{ }
+
+	///\brief Create an empty set with just the correct number of batches.
+	///
+	/// The user must initialize the dataset after that by himself.
+	UnlabeledData(std::size_t numBatches)
+	: base_type(numBatches)
+	{ }
+
+	///\brief Construct a dataset with different batch sizes. it is a copy of the other dataset
+	UnlabeledData(UnlabeledData const& container, std::vector<std::size_t> batchSizes)
+		:base_type(container,batchSizes){}
+
+	/// \brief we allow assignment from Data.
+	UnlabeledData operator=(Data<InputT> const& data){
+		static_cast<Data<InputT>& >(*this) = data;
+		return *this;
+	}
+
+	///\brief Access to the base_type class as "inputs".
+	///
+	/// Added for consistency with the LabeledData::labels() method.
+	UnlabeledData& inputs(){
+		return *this;
+	}
+
+	///\brief Access to the base_type class as "inputs".
+	///
+	/// Added for consistency with the LabeledData::labels() method.
+	UnlabeledData const& inputs() const{
+		return *this;
+	}
+
+	///\brief Splits the container in two independent parts. The left part remains in the container, the right is stored as return type
+	///
+	///Order of elements remain unchanged. The SharedVector is not allowed to be shared for
+	///this to work.
+	UnlabeledData splice(std::size_t batch){
+		UnlabeledData right;
+		right.m_data = m_data.splice(m_data.begin()+batch);
+		right.m_shape = this->m_shape;
+		return right;
+	}
+
+	///\brief shuffles all elements in the entire dataset (that is, also across the batches)
+	void shuffle(){
+		std::vector<std::size_t> indices(this->numberOfElements());
+		std::iota(indices.begin(),indices.end(),0);
+		std::shuffle(indices.begin(),indices.end(), random::globalRng);
+		this->reorderElements(indices);
+	}
+};
+
+///
+/// \brief Data set for supervised learning.
+///
+/// The LabeledData class extends UnlabeledData for the
+/// representation of inputs. In addition it holds and
+/// provides access to the corresponding labels.
+///
+/// LabeledData tries to mimic the underlying data as pairs of input and label data.
+/// this means that when accessing a batch by calling batch(i) or choosing one of the iterators
+/// one access the input batch by batch(i).input and the labels by batch(i).label
+///
+///this also holds true for single element access using operator(). Be aware, that direct access to an element is
+///a linear time operation. So it is not advisable to iterate over the elements, but instead iterate over the batches.
+template <class InputT, class LabelT>
+class LabeledData : public ISerializable
+{
+public:
+	typedef InputT InputType;
+	typedef LabelT LabelType;
+	typedef UnlabeledData<InputT> InputContainer;
+	typedef Data<LabelT> LabelContainer;
+	typedef typename InputContainer::IndexSet IndexSet;
+
+	static const std::size_t DefaultBatchSize = InputContainer::DefaultBatchSize;
+
+	// TYPEDEFS FOR PAIRS
+	typedef InputLabelBatch<
+		typename Batch<InputType>::type,
+		typename Batch<LabelType>::type
+	> batch_type;
+
+	typedef InputLabelPair<InputType,LabelType> element_type;
+
+	// TYPEDEFS FOR REFERENCES
+	typedef InputLabelBatch<
+		typename Batch<InputType>::type&,
+		typename Batch<LabelType>::type&
+	> batch_reference;
+	typedef InputLabelBatch<
+		typename Batch<InputType>::type const&,
+		typename Batch<LabelType>::type const&
+	> const_batch_reference;
+	
+	typedef typename batch_reference::reference element_reference;
+	typedef typename const_batch_reference::const_reference const_element_reference;
+
+	typedef boost::iterator_range< detail::DataElementIterator<LabeledData<InputType,LabelType> > > element_range;
+	typedef boost::iterator_range< detail::DataElementIterator<LabeledData<InputType,LabelType> const> > const_element_range;
+	typedef detail::BatchRange<LabeledData<InputType,LabelType> > batch_range;
+	typedef detail::BatchRange<LabeledData<InputType,LabelType> const> const_batch_range;
+
+
+	///\brief Returns the range of elements.
+	///
+	///It is compatible to boost::range and STL and can be used whenever an algorithm requires
+	///element access via begin()/end() in which case data.elements() provides the correct interface
+	const_element_range elements()const{
+		return const_element_range(
+			detail::DataElementIterator<LabeledData<InputType,LabelType> const>(this,0,0,0),
+			detail::DataElementIterator<LabeledData<InputType,LabelType> const>(this,numberOfBatches(),0,numberOfElements())
+		);
+	}
+	///\brief Returns therange of elements.
+	///
+	///It is compatible to boost::range and STL and can be used whenever an algorithm requires
+	///element access via begin()/end() in which case data.elements() provides the correct interface
+	element_range elements(){
+		return element_range(
+			detail::DataElementIterator<LabeledData<InputType,LabelType> >(this,0,0,0),
+			detail::DataElementIterator<LabeledData<InputType,LabelType> >(this,numberOfBatches(),0,numberOfElements())
+		);
+	}
+	
+	///\brief Returns the range of batches.
+	///
+	///It is compatible to boost::range and STL and can be used whenever an algorithm requires
+	///element access via begin()/end() in which case data.elements() provides the correct interface
+	const_batch_range batches()const{
+		return const_batch_range(this);
+	}
+	///\brief Returns the range of batches.
+	///
+	///It is compatible to boost::range and STL and can be used whenever an algorithm requires
+	///element access via begin()/end() in which case data.elements() provides the correct interface
+	batch_range batches(){
+		return batch_range(this);
+	}
+
+	///\brief Returns the number of batches of the set.
+	std::size_t numberOfBatches() const{
+		return m_data.numberOfBatches();
+	}
+	///\brief Returns the total number of elements.
+	std::size_t numberOfElements() const{
+		return m_data.numberOfElements();
+	}
+
+	///\brief Check whether the set is empty.
+	bool empty() const{
+		return m_data.empty();
+	}
+
+	///\brief Access to inputs as a separate container.
+	InputContainer const& inputs() const{
+		return m_data;
+	}
+	///\brief Access to inputs as a separate container.
+	InputContainer& inputs(){
+		return m_data;
+	}
+
+	///\brief Access to labels as a separate container.
+	LabelContainer const& labels() const{
+		return m_label;
+	}
+	///\brief Access to labels as a separate container.
+	LabelContainer& labels(){
+		return m_label;
+	}
+
+	// CONSTRUCTORS
+
+	///\brief Empty data set.
+	LabeledData()
+	{}
+
+	///\brief Create an empty set with just the correct number of batches.
+	///
+	/// The user must initialize the dataset after that by himself.
+	LabeledData(std::size_t numBatches)
+	: m_data(numBatches),m_label(numBatches)
+	{}
+
+	///
+	/// Optionally the desired batch Size can be set
+	///
+	///@param size the new size of the container
+	///@param element the blueprint element from which to create the Container
+	///@param batchSize the size of the batches. if this is 0, the size is unlimited
+	LabeledData(std::size_t size, element_type const& element, std::size_t batchSize = DefaultBatchSize)
+	: m_data(size,element.input,batchSize),
+	  m_label(size,element.label,batchSize)
+	{}
+
+	///\brief Construction from data.
+	///
+	/// Beware that when calling this constructor the organization of batches must be equal in both
+	/// containers. This Constructor will not split the data!
+	LabeledData(Data<InputType> const& inputs, Data<LabelType> const& labels)
+	: m_data(inputs), m_label(labels)
+	{
+		SHARK_RUNTIME_CHECK(inputs.numberOfElements() == labels.numberOfElements(), "number of inputs and number of labels must agree");
+#ifndef DNDEBUG
+		for(std::size_t i  = 0; i != inputs.numberOfBatches(); ++i){
+			SIZE_CHECK(Batch<InputType>::size(inputs.batch(i))==Batch<LabelType>::size(labels.batch(i)));
+		}
+#endif
+	}
+	// ELEMENT ACCESS
+	element_reference element(std::size_t i){
+		return *(detail::DataElementIterator<LabeledData<InputType,LabelType> >(this,0,0,0)+i);
+	}
+	const_element_reference element(std::size_t i) const{
+		return *(detail::DataElementIterator<LabeledData<InputType,LabelType> const>(this,0,0,0)+i);
+	}
+
+	// BATCH ACCESS
+	batch_reference batch(std::size_t i){
+		return batch_reference(m_data.batch(i),m_label.batch(i));
+	}
+	const_batch_reference batch(std::size_t i) const{
+		return const_batch_reference(m_data.batch(i),m_label.batch(i));
+	}
+	
+	///\brief Returns the Shape of the inputs.
+	Shape const& inputShape() const{
+		return m_data.shape();
+	}
+	
+	///\brief Returns the Shape of the inputs.
+	Shape& inputShape(){
+		return m_data.shape();
+	}
+	
+	///\brief Returns the Shape of the labels.
+	Shape const& labelShape() const{
+		return m_label.shape();
+	}
+	
+	///\brief Returns the Shape of the labels.
+	Shape& labelShape(){
+		return m_label.shape();
+	}
+
+	// MISC
+
+	/// from ISerializable
+	void read(InArchive& archive){
+		archive & m_data;
+		archive & m_label;
+	}
+
+	/// from ISerializable
+	void write(OutArchive& archive) const{
+		archive & m_data;
+		archive & m_label;
+	}
+
+	///\brief This method makes the vector independent of all siblings and parents.
+	virtual void makeIndependent(){
+		m_label.makeIndependent();
+		m_data.makeIndependent();
+	}
+
+	void splitBatch(std::size_t batch, std::size_t elementIndex){
+		m_data.splitBatch(batch,elementIndex);
+		m_label.splitBatch(batch,elementIndex);
+	}
+
+	///\brief Splits the container into two independent parts. The left part remains in the container, the right is stored as return type
+	///
+	///Order of elements remain unchanged. The SharedVector is not allowed to be shared for
+	///this to work.
+	LabeledData splice(std::size_t batch){
+		return LabeledData(m_data.splice(batch),m_label.splice(batch));
+	}
+
+	/// \brief Appends the contents of another data object to the end
+	///
+	/// The batches are not copied but now referenced from both datasets. Thus changing the appended
+	/// dataset might change this one as well.
+	void append(LabeledData const& other){
+		m_data.append(other.m_data);
+		m_label.append(other.m_label);
+	}
+	
+	void push_back(
+		typename Batch<InputType>::type const& inputs, 
+		typename Batch<LabelType>::type const& labels
+	){
+		m_data.push_back(inputs);
+		m_label.push_back(labels);
+	}
+	
+	void push_back(
+		const_batch_reference batch
+	){
+		push_back(batch.input,batch.label);
+	}
+
+
+	///\brief Reorders the batch structure in the container to that indicated by the batchSizes vector
+	///
+	///After the operation the container will contain batchSizes.size() batches with the i-th batch having size batchSize[i].
+	///However the sum of all batch sizes must be equal to the current number of elements
+	template<class Range>
+	void repartition(Range const& batchSizes){
+		m_data.repartition(batchSizes);
+		m_label.repartition(batchSizes);
+	}
+	
+	/// \brief Creates a vector with the batch sizes of every batch.
+	///
+	/// This method can be used together with repartition to ensure
+	/// that two datasets have the same batch structure.
+	std::vector<std::size_t> getPartitioning()const{
+		return m_data.getPartitioning();
+	}
+
+	friend void swap(LabeledData& a, LabeledData& b){
+		swap(a.m_data,b.m_data);
+		swap(a.m_label,b.m_label);
+	}
+	
+	template<class Range>
+	void reorderElements(Range const& indices){
+		m_data.reorderElements(indices);
+		m_label.reorderElements(indices);
+	}
+	
+	///\brief shuffles all elements in the entire dataset (that is, also across the batches)
+	void shuffle(){
+		std::vector<std::size_t> indices(numberOfElements());
+		std::iota(indices.begin(),indices.end(),0);
+		std::shuffle(indices.begin(),indices.end(), random::globalRng);
+		reorderElements(indices);
+	}
+
+
+	// SUBSETS
+
+	///\brief Fill in the subset defined by the list of indices.
+	LabeledData indexedSubset(IndexSet const& indices) const{
+		return LabeledData(m_data.indexedSubset(indices),m_label.indexedSubset(indices));
+	}
+protected:
+	InputContainer m_data;               /// point data
+	LabelContainer m_label;		/// label data
+};

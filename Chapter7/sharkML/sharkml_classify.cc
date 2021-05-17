@@ -159,10 +159,12 @@ void LRClassification(const ClassificationDataset& train,
      ovo.addClass(ovo_classifiers);
   }
   // compute errors
-  /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   After we trained all binary classifiers and configured the OneVersusOneClassifier object, we used it for
-  model evaluation on a test set. This object can be used as functor to classify... (PAGE 248 line 3!!!!!)
-  */
+  model evaluation on a test set. This object can be used as functor to classify the set of test examples, but they need to
+  have the UnlabeledData type. In our example, the test dataset has the ClassificationDataset type, so it is labeled. We used
+  the inputs() method to retrieve unlabeled samples from it. The result of the classification has the Data<unsigned int>type.
+  !!!!!!!!!!!*/
   ZeroOneLoss<unsigned int> loss;
   Data<unsigned int> output = ovo(test.inputs());
   double accuracy = 1. - loss.eval(test.labels(), output);
