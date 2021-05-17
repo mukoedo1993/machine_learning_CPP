@@ -96,6 +96,12 @@ void KNNClassification(const ClassificationDataset& train,
      class, which takes the instances of previously created tree partitioning and the training dataset. We also 
      predefined the k parameter of the kNN algorithm and initialized the object of the NearestNeighborModel class
      with the algorithm instance and k parameter.
+
+     This model doesn't have a particular training method because the KNN algorithm uses all the data for evaluation.
+     The building of a KD-Tree can, therefore, be interpreted as the training step in this case, because the tree doesn't 
+     change the evaluation data. So, after we initialized the object that implements the KNN algorithm, we can use it as a 
+     functor to classify the set of test samples. This API technique is the same for all classification models in the Shark-ML
+     library. For the accuracy evaluation metric, we also used the object of ZeroOneLoss type.
      !*/
      KDTree<RealVector> tree(train.inputs());
      TreeNearestNeighbors<RealVector, unsigned int> nn_alg(train, &tree);
