@@ -5,7 +5,10 @@
 #include <experimental/filesystem>
 #include <iostream>
 #include <map>
-
+/*
+The dlib library doesn't have many classification algorithms. There are two that are most applicable:
+KRR and SVM.
+*/
 using namespace dlib;
 namespace fs = std::experimental::filesystem;
 
@@ -66,6 +69,9 @@ void KRRClassification(const Samples& samples,
 using OVOtrainer = one_vs_one_trainer<any_trainer<SampleType>>;
 using KernelType = radial_basis_kernel<SampleType>;
 
+/*
+
+*/
 krr_trainer<KernelType> krr_trainer;
 krr_trainer.set_kernel(KernelType(0.1));
 
