@@ -166,7 +166,11 @@ void LRClassification(const ClassificationDataset& train,
   the inputs() method to retrieve unlabeled samples from it. The result of the classification has the Data<unsigned int>type.
   !!!!!!!!!!!*/
   ZeroOneLoss<unsigned int> loss;
-  Data<unsigned int> output = ovo(test.inputs());
+  /*
+  For an evaluation metric, we used the object of the ZeroOneLoss type, which returns the value opposite to the accuracy,
+  therefore we inverted it for our purposes.
+  */
+  Data<unsigned int> output = ovo(test.inputs());//operator(): Model evaluation as an operator for a whole dataset. This is a convenience function
   double accuracy = 1. - loss.eval(test.labels(), output);
 
   Classes classes;
@@ -181,6 +185,10 @@ void LRClassification(const ClassificationDataset& train,
              "../results/"  + name + "-logreg-sharkml.png");
     
 }
+//Comment:
+/*!
+It made some errors in the Dataset 0 and Dataset 1 datasets.
+!*/
 
 
 
