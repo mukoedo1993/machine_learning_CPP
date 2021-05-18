@@ -1,0 +1,9 @@
+1: Content-based recommender system are based on data collected from specific products. They recommend
+objects to a user that are similar to ones the user has previously acquired or shown interest in.
+
+2: Collaborative filtering recommender systems filter out objects that a user might like based on the
+reaction history of other similar users of these systems. They usu. consider the user's previous reactions,
+too.
+
+mlpack
+eigen libs required here.
