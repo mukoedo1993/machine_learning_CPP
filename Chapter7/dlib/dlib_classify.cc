@@ -70,26 +70,36 @@ using OVOtrainer = one_vs_one_trainer<any_trainer<SampleType>>;
 using KernelType = radial_basis_kernel<SampleType>;
 
 /*
-
-*/
+Firstly, we initialized the object of krr_trainer class, and then we configured it with the instance
+of a kernel object. In this example, we used the radial_basis_kernel type for the kernel object, in order to deal with
+samples that can't be linearly separated. After we obtained the binary classifier object, we initialized the instance of the
+one_vs_one_trainer class and added this classifier to its stack with the set_trainer() method.*/
 krr_trainer<KernelType> krr_trainer;
 krr_trainer.set_kernel(KernelType(0.1));
 
 OVOtrainer trainer;
 trainer.set_trainer(krr_trainer);
 
+//The train() method returns a decision function -- namely, the object that behaves as a functor, which then 
+// takes a single sample and returns a classification label for it. This decision function is an object of the
+// one_vs_one_decision_function type. The following piece of code:
 one_vs_one_decision_function<OVOtrainer> df = trainer.train(samples, labels);
 
 Classes classes;
 DataType accuracy = 0;
 for(size_t i = 0; i != test_samples.size(); i++) {
+//
     auto vec = test_samples[i];
     auto class_idx = static_cast<size_t>(df(vec));
     if (static_cast<size_t>(test_labels[i]) == class_idx)
      ++accuracy;
     classes[class_idx].first.push_back(vec(0, 0));
     classes[class_idx].second.push_back(vec(1, 0));
-    //https://github.com/PacktPublishing/Hands-On-Machine-Learning-with-CPP/blob/master/Chapter07/dlib/dlib-classify.cc
+    /*!
+    There is no explicit implementation for the accuracy metric in the dlib library, so, in this example, 
+    accuracy is calculated directly as a ration of correctly classified test samples aganst the total No. of
+    test samples.
+    !*/
   }
 
   accuracy /= test_samples.size();
@@ -98,7 +108,13 @@ for(size_t i = 0; i != test_samples.size(); i++) {
               "../results/" + name + "-krr-dlib.png");
 }
 
-
+/*
+Comparing SVM to KRR:
+This sample shows that the dlib library also has a unified API for using different 
+algorithms, and the main difference from the previous example is the object of binary
+classifier. For the SVM classification, we used an object of the svm_nu_trainer type,
+which was also configured with the kernel object of the radial_basis_kernel type.
+*/
 void SVMClassification(const Samples& samples,
                        const Labels& labels,
                        const Samples& test_samples,
