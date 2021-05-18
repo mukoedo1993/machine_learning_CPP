@@ -1,1 +1,0 @@
-/usr/bin/c++  -std=c++17 -msse3 -fopenmp -Wall -Wextra  -rdynamic CMakeFiles/linalg_eigen.dir/algorithm_eigen.cpp.o  -o linalg_eigen 

@@ -1,1 +1,0 @@
-/usr/bin/c++  -std=c++17 -msse3 -fopenmp -Wall -Wextra  -rdynamic CMakeFiles/linreg_eigen.dir/algorithm_regres.cpp.o  -o linreg_eigen 
