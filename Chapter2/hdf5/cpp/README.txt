@@ -5,7 +5,7 @@ Read a json file, and access to the part of information we need only.
 
 On Ubuntu:
 Run:
-cd build
+mkdir build && cd build
 cmake .
 make
 ./json_sample ../resources/review.json

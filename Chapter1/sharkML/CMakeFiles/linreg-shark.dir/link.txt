@@ -1,1 +1,0 @@
-/usr/bin/c++  -std=c++17 -msse3 -fopenmp -lstdc++fs -fpermissive -lcblas -lpthread -lboost_serialization -lboost_system   CMakeFiles/linreg-shark.dir/linreg_shark.cc.o  -o linreg-shark  -lshark -lcblas /usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0 /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.71.0 

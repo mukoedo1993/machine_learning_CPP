@@ -4,7 +4,7 @@ Read a json file with rapidjson lib. and process it with the Eigen lib. SAX(Simp
 2:How-to-do:
 Run these statements on your ubuntu terminal:
 
-cd build
+mkdir build && cd build
 cmake .
 make
 ./json_sample ../resources/review.json ./json_sample ../resources/review.json

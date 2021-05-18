@@ -1,4 +1,4 @@
-rm -r build && rm -r ../results
+rm -r ../results
 mkdir build && mkdir ../results && cd build && cmake ..; cmake --build . --config Release
 #Wait for a few minutes for the make command to finish.
 #Run:
